@@ -1,0 +1,109 @@
+# Visual Studio generated files
+.vscode/
+*.code-workspace
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (Mono Auto Generated)
+mono_crash.*
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Visual Studio 2019
+.vs/ 
+.vscode/
+.sln*
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# Others
+ipch/
+*.aps
+*.pch
+*.pdb
+*.obj
+*.exe
+*.dll
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.old
+*.sln.docstates
+*.userosscache
+*.userprefs
+*.tlog
+*.tmp
+*.VSPSCC
+*.vssscc
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# TFS specific files
+$tf/
+
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
+
+# NCrunch
+_NCrunch_*
+.*crunch*.local.xml
+
+# Build directories
+build/
+dist/
+
+# Crash Reports
+crashlog/
+
+# InstallShield output folder
+[Oo]utput/
+[Pp]atch/

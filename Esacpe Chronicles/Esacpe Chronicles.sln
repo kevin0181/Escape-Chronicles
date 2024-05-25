@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Esacpe Chronicles", "Esacpe Chronicles\Esacpe Chronicles.vcxproj", "{E70D7D6B-12D5-40C8-B28F-959619F255FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E70D7D6B-12D5-40C8-B28F-959619F255FE}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{E70D7D6B-12D5-40C8-B28F-959619F255FE}.Debug|ARM64.Build.0 = Debug|ARM64
+		{E70D7D6B-12D5-40C8-B28F-959619F255FE}.Debug|x64.ActiveCfg = Debug|x64
+		{E70D7D6B-12D5-40C8-B28F-959619F255FE}.Debug|x64.Build.0 = Debug|x64
+		{E70D7D6B-12D5-40C8-B28F-959619F255FE}.Debug|x86.ActiveCfg = Debug|Win32
+		{E70D7D6B-12D5-40C8-B28F-959619F255FE}.Debug|x86.Build.0 = Debug|Win32
+		{E70D7D6B-12D5-40C8-B28F-959619F255FE}.Release|ARM64.ActiveCfg = Release|ARM64
+		{E70D7D6B-12D5-40C8-B28F-959619F255FE}.Release|ARM64.Build.0 = Release|ARM64
+		{E70D7D6B-12D5-40C8-B28F-959619F255FE}.Release|x64.ActiveCfg = Release|x64
+		{E70D7D6B-12D5-40C8-B28F-959619F255FE}.Release|x64.Build.0 = Release|x64
+		{E70D7D6B-12D5-40C8-B28F-959619F255FE}.Release|x86.ActiveCfg = Release|Win32
+		{E70D7D6B-12D5-40C8-B28F-959619F255FE}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9324DE87-C1E5-48D8-A445-8FD3D2304621}
+	EndGlobalSection
+EndGlobal
