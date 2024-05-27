@@ -1,4 +1,11 @@
 #include <Windows.h>
+#include <string>
+#include<atlimage.h>
+
+// ------------------
+
+#include "Stage.h"
+#include "StageManager.h"
 
 using namespace std;
 
@@ -53,17 +60,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     HBITMAP hBitmap;
     HBITMAP hOldBitmap;
 
+    static StageManager stageManager;
+
     switch (uMsg) {
     case WM_CREATE:
+        stageManager.setBackground_img(L"초기 인트로 이미지");
         break;
     case WM_PAINT: {
         hDC = BeginPaint(hWnd, &ps);
         mDC = CreateCompatibleDC(hDC);
+        GetClientRect(hWnd, &rect);
         hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
         hOldBitmap = static_cast<HBITMAP>(SelectObject(mDC, hBitmap));
-        GetClientRect(hWnd, &rect);
 
-        FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(WHITE_BRUSH)));
+        FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
 
         BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
