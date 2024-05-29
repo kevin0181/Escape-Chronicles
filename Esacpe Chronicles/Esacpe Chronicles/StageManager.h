@@ -9,7 +9,7 @@ private:
 public:
 
 	LPCTSTR img_path[3] = {
-		L"img/background/darkened_pixel_art_image.png", // background stage 1
+		L"img/background/stage1_background_img.png", // background stage 1
 		L"",
 		L""
 	};
