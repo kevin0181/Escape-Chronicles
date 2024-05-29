@@ -7,6 +7,13 @@ private:
 	Stage current_stage;
 	CImage background_img;
 public:
+
+	LPCTSTR img_path[3] = {
+		L"img/background/darkened_pixel_art_image.png", // background stage 1
+		L"",
+		L""
+	};
+
 	StageManager() :current_stage(Stage::MAIN) {};
 
 	void setCurrent_stage(Stage stage); // 스테이지 변경
