@@ -78,7 +78,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
         FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
 
-        stageManager.DrawBackground_img(mDC, rect);
+        stageManager.DrawBackground_img(mDC, rect, 2);
       
        //slime.print(mDC,0,{0,0,40,50}, 0, 0);
        
