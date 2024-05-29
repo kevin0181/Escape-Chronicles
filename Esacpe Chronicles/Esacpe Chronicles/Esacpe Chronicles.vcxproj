@@ -190,6 +190,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StageManager.h" />
+    <ClCompile Include="Slime.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="Slime.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

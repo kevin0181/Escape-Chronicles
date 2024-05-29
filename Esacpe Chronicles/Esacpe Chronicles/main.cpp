@@ -6,6 +6,8 @@
 
 #include "Stage.h"
 #include "StageManager.h"
+#include "Monster.h"
+#include "Slime.h"
 
 using namespace std;
 
@@ -52,9 +54,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
     return static_cast<int>(Message.wParam);
 }
 
+
+
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
-    static RECT rect; // ÇöÀç Ã¢ Å©±â
+    static RECT rect; // ï¿½ï¿½ï¿½ï¿½ Ã¢ Å©ï¿½ï¿½
 
     PAINTSTRUCT ps;
     HDC hDC, mDC;
@@ -66,6 +71,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
     case WM_CREATE:
         stageManager.setBackground_img(stageManager.img_path[0]);
+    switch (uMsg) {
+    case WM_CREATE:
         break;
     case WM_PAINT: {
         hDC = BeginPaint(hWnd, &ps);
@@ -79,6 +86,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         stageManager.DrawBackground_img(mDC, rect);
 
         BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
+      
+        FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(WHITE_BRUSH)));
+        
+       slime.print(mDC,0,{0,0,40,50}, 0, 0);
+       
+       BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
         SelectObject(mDC, hOldBitmap);
         DeleteObject(hBitmap);
@@ -86,6 +99,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         EndPaint(hWnd, &ps);
         break;
     }
+    case WM_TIMER:
+        if (wParam == 1) {
+          
+        }
+        break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
