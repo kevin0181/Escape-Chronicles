@@ -59,7 +59,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
-    static RECT rect; // ���� â ũ��
+    static RECT rect;
 
     PAINTSTRUCT ps;
     HDC hDC, mDC;
@@ -84,14 +84,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
 
         stageManager.DrawBackground_img(mDC, rect);
-
-        BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
-      
-        FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(WHITE_BRUSH)));
         
-       slime.print(mDC,0,{0,0,40,50}, 0, 0);
+        //slime.print(mDC,0,{0,0,40,50}, 0, 0);
        
-       BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
+        BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
         SelectObject(mDC, hOldBitmap);
         DeleteObject(hBitmap);
