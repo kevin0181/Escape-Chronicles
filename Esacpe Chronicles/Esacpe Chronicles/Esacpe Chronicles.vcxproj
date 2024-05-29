@@ -182,6 +182,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="StageManager.cpp" />
   </ItemGroup>
@@ -189,6 +190,7 @@
     <None Include="Stage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Block.h" />
     <ClInclude Include="StageManager.h" />
     <ClCompile Include="Slime.cpp" />
   </ItemGroup>
