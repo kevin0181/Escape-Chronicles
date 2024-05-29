@@ -9,6 +9,7 @@ void StageManager::setBackground_img(LPCTSTR path) {
     // 기존 이미지를 파괴하고 새로운 이미지로 교체
     destroyImg();
     background_img.Load(path);
+    rect = { 0,0,background_img.GetWidth(),background_img.GetHeight() };
 }
 
 void StageManager::DrawBackground_img(HDC& mDC, RECT rect, int w) {

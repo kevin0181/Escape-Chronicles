@@ -8,6 +8,7 @@
 #include "StageManager.h"
 #include "Monster.h"
 #include "Slime.h"
+#include "Block.h"
 
 using namespace std;
 
