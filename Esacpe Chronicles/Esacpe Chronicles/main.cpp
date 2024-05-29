@@ -1,4 +1,6 @@
 #include <Windows.h>
+#include "Monster.h"
+#include "Slime.h"
 
 using namespace std;
 
@@ -45,6 +47,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
     return static_cast<int>(Message.wParam);
 }
 
+
+
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     static RECT rect;
 
@@ -53,19 +58,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     HBITMAP hBitmap;
     HBITMAP hOldBitmap;
 
+    
+ 
     switch (uMsg) {
     case WM_CREATE:
+        
         break;
     case WM_PAINT: {
         hDC = BeginPaint(hWnd, &ps);
         mDC = CreateCompatibleDC(hDC);
+        GetClientRect(hWnd, &rect);
         hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
         hOldBitmap = static_cast<HBITMAP>(SelectObject(mDC, hBitmap));
-        GetClientRect(hWnd, &rect);
 
         FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(WHITE_BRUSH)));
-
-        BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
+        
+       slime.print(mDC,0,{0,0,40,50}, 0, 0);
+        
+       
+       BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
         SelectObject(mDC, hOldBitmap);
         DeleteObject(hBitmap);
@@ -73,6 +84,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         EndPaint(hWnd, &ps);
         break;
     }
+    case WM_TIMER:
+        if (wParam == 1) {
+          
+        }
+        break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
