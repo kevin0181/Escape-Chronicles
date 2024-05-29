@@ -183,6 +183,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="StageManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Stage.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="StageManager.h" />
     <ClCompile Include="Slime.cpp" />
   </ItemGroup>
   <ItemGroup>
