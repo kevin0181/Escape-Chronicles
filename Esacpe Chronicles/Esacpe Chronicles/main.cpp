@@ -53,7 +53,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-    static RECT rect;
+
+    static RECT rect; // 현재 창 크기
 
     PAINTSTRUCT ps;
     HDC hDC, mDC;
@@ -64,7 +65,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
     switch (uMsg) {
     case WM_CREATE:
-        stageManager.setBackground_img(L"초기 인트로 이미지");
+        stageManager.setBackground_img(stageManager.img_path[0]);
         break;
     case WM_PAINT: {
         hDC = BeginPaint(hWnd, &ps);
@@ -74,6 +75,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         hOldBitmap = static_cast<HBITMAP>(SelectObject(mDC, hBitmap));
 
         FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
+
+        stageManager.DrawBackground_img(mDC, rect);
 
         BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
