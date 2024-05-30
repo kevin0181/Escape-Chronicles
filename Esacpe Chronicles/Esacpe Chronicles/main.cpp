@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <string>
-#include<atlimage.h>
+#include <atlimage.h>
+#include <vector>
 
 // ------------------
 
@@ -65,11 +66,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     HBITMAP hOldBitmap;
 
     static StageManager stageManager;
+    static vector<Block> blocks;
 
     switch (uMsg) {
     case WM_CREATE:
+    {
         stageManager.setBackground_img(stageManager.img_path[0]);
+        Block k;
+        blocks.push_back(k);
         break;
+    }
     case WM_PAINT: {
         hDC = BeginPaint(hWnd, &ps);
         mDC = CreateCompatibleDC(hDC);
@@ -80,6 +86,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
 
         stageManager.DrawBackground_img(mDC, rect, 2);
+        blocks[0].print(mDC);
       
        //slime.print(mDC,0,{0,0,40,50}, 0, 0);
        
