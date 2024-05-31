@@ -4,54 +4,76 @@
 #include "Slime.h"
 using namespace std;
 
+Slime::Slime() : Monster() {
+	hp = 0; // 나중에 확정되면 바꾸기
+	imageNum = 0;
+	rect = { 500, 300, 700, 420 };
+	left = true;
+	bool_attack = true;
+}
 
+RECT Slime::getRect() const {
+	return rect;
+}
 
 void Slime::insert() {
-	const wchar_t* imagePath[9] = { L"Slime_0",
-	L"Slime_1",
-	L"Slime_2",
-	L"Slime_3",
-	L"Slime_4",
-	L"Slime_5",
-	L"Slime_6",
-	L"Slime_7",
-	L"Slime_8"
-	};
-	
-	img[0].Load(L"Slime_0");
-	HRESULT result[9];
+	if (!slime_img.IsNull()) {
+		slime_img.Destroy();
+	}
 
-	for (int i = 0; i < 9; ++i) {
-		result[i] = img[i].Load(imagePath[i]);
-		if (FAILED(result)) {
-			return;
+	if (hp != 0) {
+		if (bool_attack) { 
+			// 공격할 때
+			slime_img.Load(slime_attack_img_path[imageNum]);
 		}
+		else {
+			// 걍 움직일 떄
+			slime_img.Load(slime_img_path[imageNum]);
+		}
+	}
+	else {
+		// 죽었을 떄
+		slime_img.Load(slime_die_img_path[imageNum]);
 	}
 }
 
-void Slime::print(HDC& mDC, int imagenum,RECT rect, int x, int y) {
-	int width = 100;
-	int Height = 100;
-	img[imagenum].Draw(mDC, x, y, rect.right - rect.left, rect.bottom - rect.top, 0, 0, width, Height);
+void Slime::print(HDC& mDC) {
+	if (!slime_img.IsNull()) {
+		slime_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, slime_img.GetWidth(), slime_img.GetHeight());
+		//slime_img.StretchBlt(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, slime_img.GetWidth(), slime_img.GetHeight(),SRCCOPY);
+
+	}
 }
 
-void Slime::move(RECT rect, bool left) {
+void Slime::move(RECT Rect) {
 	if (left) {
 		rect.left -= 2;
 		rect.right -= 2;
-		if (rect.left <= 0) {// 왼쪽 끝에 도달하면 방향 변경
+		if (rect.left <= Rect.left) {// 왼쪽 끝에 도달하면 방향 변경
 			left = true;
 		}
 	}
 	else {
 		rect.left += 2;
 		rect.right += 2;
-		if (rect.right >= 1536) { // 오른쪽 끝에 도달하면 방향 변경
+		if (rect.right >= Rect.right) { // 오른쪽 끝에 도달하면 방향 변경
 			left = false;
 		}
 	}
+
+	++imageNum;
+	if (imageNum == 9) {
+		imageNum = 0;
+	}
+
+	insert();
 }
 
 void Slime::attack() {
+	bool_attack = true;
+}
+
+void Slime::die() {
+
 
 }

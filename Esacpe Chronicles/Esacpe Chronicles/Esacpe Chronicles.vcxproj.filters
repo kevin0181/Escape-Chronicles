@@ -5,12 +5,14 @@
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StageManager.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="Block.h" />
+    <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Stage.h" />
