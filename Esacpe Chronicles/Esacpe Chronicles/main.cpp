@@ -55,6 +55,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
     return static_cast<int>(Message.wParam);
 }
 
+Slime slime;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
     static RECT rect; // 화면 전체 크기
@@ -69,6 +71,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
     case WM_CREATE:
         stageManager.setBackground_img(stageManager.img_path[0]);
+        slime.insert();
+        SetTimer(hWnd, 1, 200, FALSE);
         break;
     case WM_PAINT: {
         hDC = BeginPaint(hWnd, &ps);
@@ -81,7 +85,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
         stageManager.DrawBackground_img(mDC, rect, 2);
       
-       //slime.print(mDC,0,{0,0,40,50}, 0, 0);
+      slime.print(mDC);
        
         BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
@@ -91,6 +95,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         EndPaint(hWnd, &ps);
         break;
     }
+    case WM_TIMER:
+        if (wParam == 1) {
+            slime.move(rect);
+        }
+        InvalidateRect(hWnd, NULL, false);
+        break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

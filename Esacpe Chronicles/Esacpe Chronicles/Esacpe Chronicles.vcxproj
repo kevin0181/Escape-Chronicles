@@ -185,6 +185,7 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="StageManager.cpp" />
+    <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Stage.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="StageManager.h" />
     <ClCompile Include="Slime.cpp" />
+    <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Monster.h" />
