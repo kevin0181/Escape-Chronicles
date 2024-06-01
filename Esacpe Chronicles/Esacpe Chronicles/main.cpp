@@ -9,6 +9,9 @@
 #include "StageManager.h"
 #include "Monster.h"
 #include "Slime.h"
+#include "Zombie1.h"
+#include "Zombie2.h"
+#include "Zombie3.h"
 #include "Block.h"
 
 using namespace std;
@@ -56,7 +59,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
     return static_cast<int>(Message.wParam);
 }
 
-Slime slime;
+//Slime slime;
+//Zombie1 zombie1;
+Zombie2 zombie2;
+Zombie3 zombie3;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
@@ -73,10 +79,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
     case WM_CREATE:
     {
-        stageManager.setBackground_img(stageManager.img_path[0]);
+
+        stageManager.setBackground_img(stageManager.img_path[2]);
         Block k;
         blocks.push_back(k);
-        slime.insert();
+      //  slime.insert();
+      //  zombie1.insert();
+        zombie2.insert();
+        zombie3.insert();
         SetTimer(hWnd, 1, 200, FALSE);
         break;
     }
@@ -92,7 +102,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         stageManager.DrawBackground_img(mDC, rect, 2);
         // blocks[0].print(mDC);
 
-        slime.print(mDC);
+      //  slime.print(mDC);
+      //  zombie1.print(mDC);
+        zombie2.print(mDC);
+        zombie3.print(mDC);
 
         BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
@@ -104,7 +117,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     }
     case WM_TIMER:
         if (wParam == 1) {
-            slime.move(rect);
+           // slime.move(rect);
+           // zombie1.move(rect);
+            zombie2.move(rect);
+            zombie3.move(rect);
         }
         InvalidateRect(hWnd, NULL, false);
         break;

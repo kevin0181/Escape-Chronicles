@@ -5,11 +5,12 @@
 using namespace std;
 
 Slime::Slime() : Monster() {
-	hp = 0; // 나중에 확정되면 바꾸기
+	hp = 500; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	rect = { 500, 300, 700, 420 };
+	rect = { 10, 300, 210, 420 };
+
 	left = true;
-	bool_attack = true;
+	bool_attack = false;
 }
 
 RECT Slime::getRect() const {
@@ -38,42 +39,44 @@ void Slime::insert() {
 }
 
 void Slime::print(HDC& mDC) {
-	if (!slime_img.IsNull()) {
+	if (!slime_img.IsNull() && (hp != 0 || imageNum != 9)) {
 		slime_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, slime_img.GetWidth(), slime_img.GetHeight());
-		//slime_img.StretchBlt(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, slime_img.GetWidth(), slime_img.GetHeight(),SRCCOPY);
 
 	}
 }
 
 void Slime::move(RECT Rect) {
-	if (left) {
-		rect.left -= 2;
-		rect.right -= 2;
-		if (rect.left <= Rect.left) {// 왼쪽 끝에 도달하면 방향 변경
-			left = true;
-		}
+	if (hp != 0) {
+		++imageNum;
 	}
-	else {
-		rect.left += 2;
-		rect.right += 2;
-		if (rect.right >= Rect.right) { // 오른쪽 끝에 도달하면 방향 변경
-			left = false;
+
+	if(hp!=0&&!bool_attack){
+		if (left) {
+			rect.left -= 2;
+			rect.right -= 2;
+			if (CheckBlockCollision(Rect, { 0,0,0,0 }, left, rect)) // 화면 끝 도달 시 방향 변경
+				left = false;
+		}
+		else {
+			rect.left += 2;
+			rect.right += 2;
+			if (CheckBlockCollision(Rect, { 0,0,0,0 }, left, rect))
+				left = true;
 		}
 	}
 
-	++imageNum;
 	if (imageNum == 9) {
 		imageNum = 0;
+		if (hp == 0) {
+			slime_img.Destroy();
+		}
 	}
 
-	insert();
+	if(hp!=0){
+		insert();
+	}
 }
 
-void Slime::attack() {
-	bool_attack = true;
-}
-
-void Slime::die() {
-
-
+void Slime::attack(bool status) {
+	bool_attack = status;
 }
