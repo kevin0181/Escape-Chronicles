@@ -184,8 +184,11 @@
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Monster.cpp" />
     <ClCompile Include="StageManager.cpp" />
-    <ClCompile Include="Zombie.cpp" />
+    <ClCompile Include="Zombie1.cpp" />
+    <ClCompile Include="Zombie2.cpp" />
+    <ClCompile Include="Zombie3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Stage.h" />
@@ -194,7 +197,9 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="StageManager.h" />
     <ClCompile Include="Slime.cpp" />
-    <ClInclude Include="Zombie.h" />
+    <ClInclude Include="Zombie1.h" />
+    <ClInclude Include="Zombie2.h" />
+    <ClInclude Include="Zombie3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Monster.h" />

@@ -55,8 +55,7 @@ public:
 	void insert() override; // 움직일 때(사진 바꿀 때)도 쓴다
 	void print(HDC& mDC) override; 
 	void move(RECT Rect) override; // rect를 움직이고 insert를 호출해 사진도 바꿔줌
-	void attack();
-	void die();
+	void attack(bool status) override;
 };
 
 
