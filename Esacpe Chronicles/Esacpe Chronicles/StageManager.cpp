@@ -16,6 +16,7 @@ void StageManager::DrawBackground_img(HDC& mDC, RECT rect, int w) {
     // 현재 배경 이미지를 주어진 HDC에 그리기
     if (!background_img.IsNull()) {
         background_img.Draw(mDC, 0, 0, background_img.GetWidth() * w, rect.bottom, 0, 0, background_img.GetWidth(), background_img.GetHeight()); //이미지 전체 화면
+        blocks_stage1[0].print(mDC); //블럭 그리기
     }
     else {
         throw std::runtime_error("Background image is not loaded.");
