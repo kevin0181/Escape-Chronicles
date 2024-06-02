@@ -14,6 +14,7 @@ public:
     // Default constructor
     Block() : cImage(std::make_unique<CImage>()) {
         rect = { 0, 0, 70, 70 };
+        OffsetRect(&rect, 0, 980);
         HRESULT hr = cImage->Load(path_stage1);
         if (FAILED(hr)) {
             // Load failed
@@ -39,14 +40,5 @@ public:
     // Deleted copy constructor and copy assignment operator to avoid copying
     Block(const Block&) = delete;
     Block& operator=(const Block&) = delete;
-
-    void print(HDC& mDC) const {
-        if (!cImage->IsNull()) {
-            cImage->Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
-        }
-        else {
-            // Invalid image
-            MessageBox(NULL, L"유효하지 않은 블록 이미지", L"오류", MB_OK);
-        }
-    }
+    void print(HDC& mDC, int i, int h) const;
 };

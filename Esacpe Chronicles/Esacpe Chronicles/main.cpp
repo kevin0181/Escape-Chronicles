@@ -14,6 +14,8 @@
 #include "Zombie3.h"
 #include "Block.h"
 
+#define BLOCK_SIZE 70
+
 using namespace std;
 
 HINSTANCE g_hInst;
@@ -78,8 +80,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
     case WM_CREATE:
     {
-
-        stageManager.setBackground_img(stageManager.img_path[2]);
+        
+        stageManager.setBackground_img(stageManager.img_path[0]);
      
         slime.insert();
         zombie1.insert();
@@ -88,6 +90,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         SetTimer(hWnd, 1, 200, FALSE);
         break;
     }
+    case WM_SIZE:
+        stageManager.setBlock();
+        break;
     case WM_PAINT: {
         hDC = BeginPaint(hWnd, &ps);
         mDC = CreateCompatibleDC(hDC);
