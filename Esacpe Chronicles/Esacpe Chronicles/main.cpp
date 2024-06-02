@@ -59,8 +59,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
     return static_cast<int>(Message.wParam);
 }
 
-//Slime slime;
-//Zombie1 zombie1;
+Slime slime;
+Zombie1 zombie1;
 Zombie2 zombie2;
 Zombie3 zombie3;
 
@@ -74,17 +74,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     HBITMAP hOldBitmap;
 
     static StageManager stageManager;
-    static vector<Block> blocks;
+    static vector<Block> blocks_stage1;
 
     switch (uMsg) {
     case WM_CREATE:
     {
 
         stageManager.setBackground_img(stageManager.img_path[2]);
-        Block k;
-        blocks.push_back(k);
-      //  slime.insert();
-      //  zombie1.insert();
+
+        Block block;
+        blocks_stage1.push_back(move(block));
+
+        slime.insert();
+        zombie1.insert();
         zombie2.insert();
         zombie3.insert();
         SetTimer(hWnd, 1, 200, FALSE);
@@ -100,10 +102,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
 
         stageManager.DrawBackground_img(mDC, rect, 2);
-        // blocks[0].print(mDC);
+        blocks_stage1[0].print(mDC);
 
-      //  slime.print(mDC);
-      //  zombie1.print(mDC);
+        slime.print(mDC);
+        zombie1.print(mDC);
         zombie2.print(mDC);
         zombie3.print(mDC);
 

@@ -41,7 +41,6 @@ void Slime::insert() {
 void Slime::print(HDC& mDC) {
 	if (!slime_img.IsNull() && (hp != 0 || imageNum != 9)) {
 		slime_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, slime_img.GetWidth(), slime_img.GetHeight());
-
 	}
 }
 
