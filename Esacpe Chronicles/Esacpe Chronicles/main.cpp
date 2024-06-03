@@ -14,6 +14,8 @@
 #include "Zombie3.h"
 #include "Block.h"
 
+#define BLOCK_SIZE 70
+
 using namespace std;
 
 HINSTANCE g_hInst;
@@ -59,8 +61,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
     return static_cast<int>(Message.wParam);
 }
 
-//Slime slime;
-//Zombie1 zombie1;
+Slime slime;
+Zombie1 zombie1;
 Zombie2 zombie2;
 Zombie3 zombie3;
 
@@ -74,22 +76,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     HBITMAP hOldBitmap;
 
     static StageManager stageManager;
-    static vector<Block> blocks;
 
     switch (uMsg) {
     case WM_CREATE:
     {
-
-        stageManager.setBackground_img(stageManager.img_path[2]);
-        Block k;
-        blocks.push_back(k);
-      //  slime.insert();
-      //  zombie1.insert();
+        
+        stageManager.setBackground_img(stageManager.img_path[0]);
+     
+        slime.insert();
+        zombie1.insert();
         zombie2.insert();
         zombie3.insert();
         SetTimer(hWnd, 1, 200, FALSE);
         break;
     }
+    case WM_SIZE:
+        stageManager.setBlock();
+        break;
     case WM_PAINT: {
         hDC = BeginPaint(hWnd, &ps);
         mDC = CreateCompatibleDC(hDC);
@@ -100,10 +103,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
 
         stageManager.DrawBackground_img(mDC, rect, 2);
-        // blocks[0].print(mDC);
 
-      //  slime.print(mDC);
-      //  zombie1.print(mDC);
+        slime.print(mDC);
+        zombie1.print(mDC);
         zombie2.print(mDC);
         zombie3.print(mDC);
 
