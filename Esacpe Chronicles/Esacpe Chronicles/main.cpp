@@ -82,7 +82,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
     case WM_CREATE:
     {
-        
         stageManager.setBackground_img(stageManager.img_path[0]);
      
         slime.insert();
@@ -94,6 +93,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     }
     case WM_SIZE:
         stageManager.setBlock();
+        break;
+    case WM_KEYDOWN:
+        player.setKeyDown(wParam);
+        break;
+    case WM_KEYUP:
+        player.setKeyUp(wParam);
         break;
     case WM_PAINT: {
         hDC = BeginPaint(hWnd, &ps);
@@ -123,14 +128,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     }
     case WM_TIMER:
         if (wParam == 1) {
-           // slime.move(rect);
+           // slime.move(rect);_left
            // zombie1.move(rect);
             zombie2.move(rect);
             zombie3.move(rect);
 
-          
+            //player
             player.setImg(player.getImgNum() + 1);
-            
+            player.move();
         }
         InvalidateRect(hWnd, NULL, false);
         break;

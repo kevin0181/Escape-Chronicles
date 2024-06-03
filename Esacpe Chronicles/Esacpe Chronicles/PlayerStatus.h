@@ -1,7 +1,8 @@
 #pragma once
 
-enum Status {
-	DEFAULT,
+enum PlayerStatus {
+	DEFAULT_R,
+	DEFAULT_L,
 	LEFT,
 	RIGHT,
 	JUMP,

@@ -20,7 +20,7 @@
     <ClInclude Include="Zombie2.h" />
     <ClInclude Include="Zombie3.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="ActiveStatus.h" />
+    <ClInclude Include="PlayerStatus.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Stage.h" />
