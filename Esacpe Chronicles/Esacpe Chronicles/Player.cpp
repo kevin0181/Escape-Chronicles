@@ -15,12 +15,12 @@ int Player::getCimageSize() const{
 	case RIGHT:
 		return sizeof(_right) / sizeof(_right[0]);
 		break;
-	case JUMP_R:
+	/*case JUMP_R:
 		return sizeof(_jump_r) / sizeof(_jump_r[0]);
 		break;
 	case JUMP_L:
 		return sizeof(_jump_l) / sizeof(_jump_l[0]);
-		break;
+		break;*/
 	case ATTACK:
 		break;
 	case DEFENSE:
@@ -35,7 +35,7 @@ void Player::print(HDC& mDC) const {
         cImage->Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
     }
     else {
-        //MessageBox(NULL, L"유효하지 않은 캐릭터 이미지", L"오류", MB_OK);
+        MessageBox(NULL, L"유효하지 않은 캐릭터 이미지", L"오류", MB_OK);
     }
 }
 
@@ -68,12 +68,12 @@ void Player::setImg(int img_num) {
 	case RIGHT:
 		cImage->Load(_right[this->img_num]);
 		break;
-	case JUMP_R:
+	/*case JUMP_R:
 		cImage->Load(_jump_r[this->img_num]);
 		break;
 	case JUMP_L:
 		cImage->Load(_jump_l[this->img_num]);
-		break;
+		break;*/
 	case ATTACK:
 		break;
 	case DEFENSE:
@@ -91,11 +91,6 @@ void Player::setKeyDown(WPARAM wParam) {
 		status = PlayerStatus::LEFT;
 		break;
 	case 87: //w
-		if (status == PlayerStatus::RIGHT || status == PlayerStatus::DEFAULT_R)
-			status = PlayerStatus::JUMP_R;
-
-		if (status == PlayerStatus::LEFT || status == PlayerStatus::DEFAULT_L)
-			status = PlayerStatus::JUMP_L;
 		break;
 	case 83: //s
 		break;
@@ -108,17 +103,21 @@ void Player::setKeyDown(WPARAM wParam) {
 }
 
 void Player::setKeyUp(WPARAM wParam) {
-	if (status == PlayerStatus::DEFAULT_R || status == PlayerStatus::RIGHT || status == PlayerStatus::JUMP_R) {
-		status = PlayerStatus::DEFAULT_R;
-		return;
-	}
-
-	if (status == PlayerStatus::DEFAULT_L || status == PlayerStatus::LEFT || status == PlayerStatus::JUMP_L) {
+	switch (wParam)
+	{
+	case 65: //a
 		status = PlayerStatus::DEFAULT_L;
-		return;
+		break;
+	case 87: //w
+		break;
+	case 83: //s
+		break;
+	case 68: //d
+		status = PlayerStatus::DEFAULT_R;
+		break;
+	default:
+		break;
 	}
-
-
 }
 
 void Player::move() {

@@ -13,8 +13,13 @@ class Player {
 	bool defense;*/
 
 	PlayerStatus status;
+	bool jump_r;
+	bool jump_l;
+
 	int speed;
 	RECT rect;
+
+	int weapon; // 0 = sword, 1 = bow, 2 = gun
 
 	int img_num;
 	std::unique_ptr<CImage> cImage;
@@ -75,7 +80,7 @@ class Player {
 
 public:
 
-	Player() :cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0) {
+	Player() :cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(0), jump_l(false), jump_r(false) {
 		rect = { 0,0,70,90 };
 		OffsetRect(&rect, 0, 960);
 		HRESULT hr = cImage->Load(_default_r[0]);
