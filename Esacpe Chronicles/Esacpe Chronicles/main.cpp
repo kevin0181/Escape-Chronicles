@@ -13,6 +13,7 @@
 #include "Zombie2.h"
 #include "Zombie3.h"
 #include "Block.h"
+#include "Player.h"
 
 #define BLOCK_SIZE 70
 
@@ -76,6 +77,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     HBITMAP hOldBitmap;
 
     static StageManager stageManager;
+    static Player player;
 
     switch (uMsg) {
     case WM_CREATE:
@@ -87,7 +89,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         zombie1.insert();
         zombie2.insert();
         zombie3.insert();
-        SetTimer(hWnd, 1, 200, FALSE);
+        SetTimer(hWnd, 1, 160, FALSE);
         break;
     }
     case WM_SIZE:
@@ -109,6 +111,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         zombie2.print(mDC);
         zombie3.print(mDC);
 
+        player.print(mDC);
+
         BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
         SelectObject(mDC, hOldBitmap);
@@ -123,6 +127,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
            // zombie1.move(rect);
             zombie2.move(rect);
             zombie3.move(rect);
+
+          
+            player.setImg(player.getImgNum() + 1);
+            
         }
         InvalidateRect(hWnd, NULL, false);
         break;

@@ -9,6 +9,7 @@
     <ClCompile Include="Zombie2.cpp" />
     <ClCompile Include="Zombie3.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StageManager.h" />
@@ -18,6 +19,8 @@
     <ClInclude Include="Zombie1.h" />
     <ClInclude Include="Zombie2.h" />
     <ClInclude Include="Zombie3.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="ActiveStatus.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Stage.h" />
