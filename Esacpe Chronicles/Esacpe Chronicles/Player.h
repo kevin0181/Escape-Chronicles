@@ -13,8 +13,12 @@ class Player {
 	bool defense;*/
 
 	PlayerStatus status;
-	bool jump_r;
-	bool jump_l;
+
+	bool isJumping = false;
+	int jumpHeight = 50;
+	int jumpSpeed = 10;
+	int currentJumpHeight;
+	int initialY; // 점프 전 Y 좌표 저장
 
 	int speed;
 	RECT rect;
@@ -80,7 +84,7 @@ class Player {
 
 public:
 
-	Player() :cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(0), jump_l(false), jump_r(false) {
+	Player() :cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(0) {
 		rect = { 0,0,70,90 };
 		OffsetRect(&rect, 0, 960);
 		HRESULT hr = cImage->Load(_default_r[0]);
@@ -96,6 +100,7 @@ public:
 	int getCimageSize() const; // 현재 해당 이미지의 크기를 가져오기
 	void setImg(int img_num); // 캐릭터 이미지 할당
 	void move();
+	void jump();
 
 	int getImgNum() const;
 };

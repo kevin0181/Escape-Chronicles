@@ -68,12 +68,6 @@ void Player::setImg(int img_num) {
 	case RIGHT:
 		cImage->Load(_right[this->img_num]);
 		break;
-	/*case JUMP_R:
-		cImage->Load(_jump_r[this->img_num]);
-		break;
-	case JUMP_L:
-		cImage->Load(_jump_l[this->img_num]);
-		break;*/
 	case ATTACK:
 		break;
 	case DEFENSE:
@@ -91,6 +85,7 @@ void Player::setKeyDown(WPARAM wParam) {
 		status = PlayerStatus::LEFT;
 		break;
 	case 87: //w
+		isJumping = true;
 		break;
 	case 83: //s
 		break;
