@@ -75,7 +75,7 @@ class Player {
 
 public:
 
-	Player() :cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(3), img_num(0) {
+	Player() :cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0) {
 		rect = { 0,0,70,90 };
 		OffsetRect(&rect, 0, 960);
 		HRESULT hr = cImage->Load(_default_r[0]);

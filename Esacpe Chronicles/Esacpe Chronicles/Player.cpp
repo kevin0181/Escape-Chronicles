@@ -122,5 +122,23 @@ void Player::setKeyUp(WPARAM wParam) {
 }
 
 void Player::move() {
-
+	switch (status)
+	{
+	case DEFAULT_R:
+		break;
+	case DEFAULT_L:
+		break;
+	case LEFT:
+		OffsetRect(&rect, -speed, 0);
+		break;
+	case RIGHT:
+		OffsetRect(&rect, speed, 0);
+		break;
+	case ATTACK:
+		break;
+	case DEFENSE:
+		break;
+	default:
+		break;
+	}
 }
