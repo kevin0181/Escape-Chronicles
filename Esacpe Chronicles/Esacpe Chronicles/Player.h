@@ -55,9 +55,22 @@ class Player {
 		L"img/character/main/wark/wark_6.png",
 	};
 
-	LPCTSTR _jump[2] = {
+	LPCTSTR _jump_r[6] = {
+		L"img/character/main/jump/jump_1_v2.png",
+		L"img/character/main/jump/jump_1_v2.png",
 		L"img/character/main/jump/jump_1_v2.png",
 		L"img/character/main/jump/jump_2_v2.png",
+		L"img/character/main/jump/jump_2_v2.png",
+		L"img/character/main/jump/jump_2_v2.png",
+	};
+
+	LPCTSTR _jump_l[6] = {
+		L"img/character/main/jump/jump_1_v2_l.png",
+		L"img/character/main/jump/jump_1_v2_l.png",
+		L"img/character/main/jump/jump_1_v2_l.png",
+		L"img/character/main/jump/jump_2_v2_l.png",
+		L"img/character/main/jump/jump_2_v2_l.png",
+		L"img/character/main/jump/jump_2_v2_l.png",
 	};
 
 public:

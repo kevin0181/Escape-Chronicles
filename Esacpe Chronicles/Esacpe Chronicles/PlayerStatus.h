@@ -5,7 +5,8 @@ enum PlayerStatus {
 	DEFAULT_L,
 	LEFT,
 	RIGHT,
-	JUMP,
+	JUMP_R,
+	JUMP_L,
 	ATTACK,
 	DEFENSE
 };
