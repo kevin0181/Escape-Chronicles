@@ -185,6 +185,7 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="Zombie1.cpp" />
     <ClCompile Include="Zombie2.cpp" />
@@ -194,7 +195,9 @@
     <None Include="Stage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActiveStatus.h" />
     <ClInclude Include="Block.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="StageManager.h" />
     <ClCompile Include="Slime.cpp" />
     <ClInclude Include="Zombie1.h" />
