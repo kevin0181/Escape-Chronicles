@@ -15,8 +15,8 @@ class Player {
 	PlayerStatus status;
 
 	bool isJumping = false;
-	int jumpHeight = 50;
-	int jumpSpeed = 10;
+	int jumpHeight = 100;
+	int jumpSpeed = 20;
 	int currentJumpHeight;
 	int initialY; // 점프 전 Y 좌표 저장
 
