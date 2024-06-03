@@ -195,7 +195,7 @@
     <None Include="Stage.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActiveStatus.h" />
+    <ClInclude Include="PlayerStatus.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="StageManager.h" />
