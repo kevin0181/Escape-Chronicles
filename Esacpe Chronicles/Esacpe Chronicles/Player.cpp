@@ -15,12 +15,6 @@ int Player::getCimageSize() const{
 	case RIGHT:
 		return sizeof(_right) / sizeof(_right[0]);
 		break;
-	/*case JUMP_R:
-		return sizeof(_jump_r) / sizeof(_jump_r[0]);
-		break;
-	case JUMP_L:
-		return sizeof(_jump_l) / sizeof(_jump_l[0]);
-		break;*/
 	case ATTACK:
 		break;
 	case DEFENSE:
@@ -85,7 +79,10 @@ void Player::setKeyDown(WPARAM wParam) {
 		status = PlayerStatus::LEFT;
 		break;
 	case 87: //w
-		isJumping = true;
+		if (!isJumping) {
+			isJumping = true;
+			initialY = rect.top;
+		}
 		break;
 	case 83: //s
 		break;
@@ -115,7 +112,32 @@ void Player::setKeyUp(WPARAM wParam) {
 	}
 }
 
+void Player::jump() {
+	if (isJumping) {
+		rect.top -= jumpSpeed;
+		rect.bottom -= jumpSpeed;
+		currentJumpHeight += jumpSpeed;
+
+		if (currentJumpHeight >= jumpHeight) {
+			jumpSpeed = -jumpSpeed; // Change direction to falling
+		}
+
+		if (rect.top >= initialY) { // If player returns to initial height
+			rect.top = initialY;
+			rect.bottom = initialY + (rect.bottom - rect.top);
+			isJumping = false;
+			currentJumpHeight = 0;
+			jumpSpeed = abs(jumpSpeed); // Reset jump speed
+		}
+	}
+}
+
 void Player::move() {
+
+	if (isJumping) {
+		jump();
+	}
+
 	switch (status)
 	{
 	case DEFAULT_R:
