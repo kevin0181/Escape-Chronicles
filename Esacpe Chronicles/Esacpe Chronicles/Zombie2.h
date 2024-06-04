@@ -11,29 +11,54 @@ private:
 	bool left; // 좀비의 이동 방향
 	bool bool_attack; //일정 범위 안에 플레이어가 있을시 true, 플레이어를 공격한다
 public:
-	LPCTSTR zombie2_img_path[7] = { // zombiewoman
-		L"img/monster/zombiewoman/zombiewoman_walk_1.png",
-		L"img/monster/zombiewoman/zombiewoman_walk_2.png",
-		L"img/monster/zombiewoman/zombiewoman_walk_3.png",
-		L"img/monster/zombiewoman/zombiewoman_walk_4.png",
-		L"img/monster/zombiewoman/zombiewoman_walk_5.png",
-		L"img/monster/zombiewoman/zombiewoman_walk_6.png",
-		L"img/monster/zombiewoman/zombiewoman_walk_7.png"
+	LPCTSTR zombie2_img_path_L[7] = { // zombiewoman
+		L"img/monster/zombiewoman_L/zombiewoman_walk_1.png",
+		L"img/monster/zombiewoman_L/zombiewoman_walk_2.png",
+		L"img/monster/zombiewoman_L/zombiewoman_walk_3.png",
+		L"img/monster/zombiewoman_L/zombiewoman_walk_4.png",
+		L"img/monster/zombiewoman_L/zombiewoman_walk_5.png",
+		L"img/monster/zombiewoman_L/zombiewoman_walk_6.png",
+		L"img/monster/zombiewoman_L/zombiewoman_walk_7.png"
 	};
 
-	LPCTSTR zombie2_attack_img_path[4] = {
-		L"img/monster/zombiewoman/zombiewoman_attack_1.png",
-		L"img/monster/zombiewoman/zombiewoman_attack_2.png",
-		L"img/monster/zombiewoman/zombiewoman_attack_3.png",
-		L"img/monster/zombiewoman/zombiewoman_attack_4.png"
+	LPCTSTR zombie2_attack_img_path_L[4] = {
+		L"img/monster/zombiewoman_L/zombiewoman_attack_1.png",
+		L"img/monster/zombiewoman_L/zombiewoman_attack_2.png",
+		L"img/monster/zombiewoman_L/zombiewoman_attack_3.png",
+		L"img/monster/zombiewoman_L/zombiewoman_attack_4.png"
 	};
 
-	LPCTSTR zombie2_die_img_path[5] = {
-		L"img/monster/zombiewoman/zombiewoman_die_1.png",
-		L"img/monster/zombiewoman/zombiewoman_die_2.png",
-		L"img/monster/zombiewoman/zombiewoman_die_3.png",
-		L"img/monster/zombiewoman/zombiewoman_die_4.png",
-		L"img/monster/zombiewoman/zombiewoman_die_5.png"
+	LPCTSTR zombie2_die_img_path_L[5] = {
+		L"img/monster/zombiewoman_L/zombiewoman_die_1.png",
+		L"img/monster/zombiewoman_L/zombiewoman_die_2.png",
+		L"img/monster/zombiewoman_L/zombiewoman_die_3.png",
+		L"img/monster/zombiewoman_L/zombiewoman_die_4.png",
+		L"img/monster/zombiewoman_L/zombiewoman_die_5.png"
+	};
+
+	LPCTSTR zombie2_img_path_R[7] = { // zombiewoman
+		L"img/monster/zombiewoman_R/zombiewoman_walk_1.png",
+		L"img/monster/zombiewoman_R/zombiewoman_walk_2.png",
+		L"img/monster/zombiewoman_R/zombiewoman_walk_3.png",
+		L"img/monster/zombiewoman_R/zombiewoman_walk_4.png",
+		L"img/monster/zombiewoman_R/zombiewoman_walk_5.png",
+		L"img/monster/zombiewoman_R/zombiewoman_walk_6.png",
+		L"img/monster/zombiewoman_R/zombiewoman_walk_7.png"
+	};
+
+	LPCTSTR zombie2_attack_img_path_R[4] = {
+		L"img/monster/zombiewoman_R/zombiewoman_attack_1.png",
+		L"img/monster/zombiewoman_R/zombiewoman_attack_2.png",
+		L"img/monster/zombiewoman_R/zombiewoman_attack_3.png",
+		L"img/monster/zombiewoman_R/zombiewoman_attack_4.png"
+	};
+
+	LPCTSTR zombie2_die_img_path_R[5] = {
+		L"img/monster/zombiewoman_R/zombiewoman_die_1.png",
+		L"img/monster/zombiewoman_R/zombiewoman_die_2.png",
+		L"img/monster/zombiewoman_R/zombiewoman_die_3.png",
+		L"img/monster/zombiewoman_R/zombiewoman_die_4.png",
+		L"img/monster/zombiewoman_R/zombiewoman_die_5.png"
 	};
 
 	Zombie2();

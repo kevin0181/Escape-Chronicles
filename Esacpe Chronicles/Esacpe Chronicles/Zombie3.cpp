@@ -23,19 +23,26 @@ void Zombie3::insert() {
 		zombie3_img.Destroy();
 	}
 
-	if (hp != 0) {
-		if (bool_attack) {
-			// 공격할 때
-			zombie3_img.Load(zombie3_attack_img_path[imageNum]);
+	if (left) {
+		if (hp != 0) {
+			if (bool_attack)// 공격할 때
+				zombie3_img.Load(zombie3_attack_img_path_L[imageNum]);
+			else// 걍 움직일 떄
+				zombie3_img.Load(zombie3_img_path_L[imageNum]);
 		}
-		else {
-			// 걍 움직일 떄
-			zombie3_img.Load(zombie3_img_path[imageNum]);
-		}
+		else// 죽었을 떄
+			zombie3_img.Load(zombie3_die_img_path_L[imageNum]);
 	}
-	else {
-		// 죽었을 떄
-		zombie3_img.Load(zombie3_die_img_path[imageNum]);
+	}
+	else{
+		if (hp != 0) {
+			if (bool_attack)// 공격할 때
+				zombie3_img.Load(zombie3_attack_img_path_R[imageNum]);
+			else// 걍 움직일 떄
+				zombie3_img.Load(zombie3_img_path_R[imageNum]);
+		}
+		else// 죽었을 떄
+			zombie3_img.Load(zombie3_die_img_path_R[imageNum]);
 	}
 }
 
