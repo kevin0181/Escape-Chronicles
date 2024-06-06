@@ -16,11 +16,11 @@ private:
 public:
 
 	LPCTSTR intro_img_path[5] = {
-		L"img/intro_img/1.webp", // 
-		L"img/intro_img/1.webp", //
-		L"img/intro_img/3.webp", // 
-		L"img/intro_img/4.webp",
-		L"img/intro_img/5.webp",
+		L"img/intro_img/1.png", // 
+		L"img/intro_img/1.png", //
+		L"img/intro_img/3.png", // 
+		L"img/intro_img/4.png",
+		L"img/intro_img/5.png",
 	};
 
 	LPCTSTR background_img_path[3] = {
