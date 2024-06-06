@@ -158,3 +158,7 @@ void Player::move() {
 		break;
 	}
 }
+
+RECT Player::getRECT() const{
+	return rect;
+}

@@ -102,5 +102,6 @@ public:
 	void move();
 	void jump();
 
+	RECT getRECT() const;
 	int getImgNum() const;
 };
