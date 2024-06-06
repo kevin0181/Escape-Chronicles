@@ -14,12 +14,19 @@ void StageManager::setBackground_img(LPCTSTR path) {
     rect = { 0,0,background_img.GetWidth(),background_img.GetHeight() };
 }
 
+Stage StageManager::getCurrent_stage() const {
+    return current_stage;
+}
+
 void StageManager::DrawBackground_img(HDC& mDC, RECT rect, int w) {
     // 현재 배경 이미지를 주어진 HDC에 그리기
     if (!background_img.IsNull()) {
         background_img.Draw(mDC, 0, 0, background_img.GetWidth() * w, rect.bottom, 0, 0, background_img.GetWidth(), background_img.GetHeight()); //이미지 전체 화면
-        for (int i = 0; i < blocks_stage1.size(); ++i) { //블럭 그리기
-            blocks_stage1[i].print(mDC, i, 1);
+
+        if (current_stage == Stage::STAGE_1) {
+            for (int i = 0; i < blocks_stage1.size(); ++i) { //블럭 그리기
+                blocks_stage1[i].print(mDC, i, 1);
+            }
         }
     }
     else {
