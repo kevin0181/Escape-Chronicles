@@ -15,8 +15,8 @@ class Player {
 	PlayerStatus status;
 
 	bool isJumping = false;
-	int jumpHeight = 100;
-	int jumpSpeed = 20;
+	int jumpHeight = 200;
+	int jumpSpeed = 10;
 	int currentJumpHeight;
 	int initialY; // 점프 전 Y 좌표 저장
 
@@ -84,9 +84,11 @@ class Player {
 
 public:
 
+	int player_i = 0;
+
 	Player() :cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(0) {
-		rect = { 0,0,70,90 };
-		OffsetRect(&rect, 0, 790);
+		rect = { 0,0,90,120 };
+		OffsetRect(&rect, 0, 770);
 		HRESULT hr = cImage->Load(_default_r[0]);
 		if (FAILED(hr)) {
 			MessageBox(NULL, L"블록 이미지 로드 실패", L"오류", MB_OK);

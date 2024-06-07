@@ -88,7 +88,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         zombie1.insert();
         zombie2.insert();
         zombie3.insert();
-        SetTimer(hWnd, 1, 160, FALSE);
+        SetTimer(hWnd, 1, 1, FALSE);
         break;
     }
     case WM_SIZE:
@@ -113,11 +113,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
         hOldBitmap = static_cast<HBITMAP>(SelectObject(mDC, hBitmap));
 
-<<<<<<< HEAD
-        //FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
-=======
 		FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
->>>>>>> 99646cc36d56ef31b494c51314217269006d80bc
 
         /*
         intro
@@ -142,8 +138,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         zombie2.print(mDC);
         zombie3.print(mDC);*/
 
-        
-
 		BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
 		SelectObject(mDC, hOldBitmap);
@@ -160,8 +154,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			// zombie3.move(rect);
 
 			 //player
-			player.setImg(player.getImgNum() + 1);
-			player.move();
+			 player.player_i++;
+			 if (player.player_i % 20 == 0) {
+				 player.setImg(player.getImgNum() + 1);
+			 }
+			 player.move();
 		}
 		InvalidateRect(hWnd, NULL, false);
 		break;
