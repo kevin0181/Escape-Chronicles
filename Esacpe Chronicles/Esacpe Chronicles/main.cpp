@@ -169,7 +169,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 					player.setImg(player.getImgNum() + 1);
 				}
 				player.move();
-				player.gravity.UpdatePhysics(player.getRECT(), deltaTime);
+				player.gravity.UpdatePhysics(player.getRECT());
 				break;
 			}
 			default:

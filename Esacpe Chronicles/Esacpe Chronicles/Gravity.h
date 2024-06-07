@@ -5,10 +5,9 @@
 
 class Gravity {
 public:
-    const float gravity = 98.0f;
+    const float gravity = 4.5f;
 
-    void UpdatePhysics(RECT& rect, DWORD deltaTime);
+    void UpdatePhysics(RECT& rect);
 
 private:
-    std::map<RECT*, float> velocities;
 };
