@@ -8,8 +8,8 @@
     <ClCompile Include="Zombie1.cpp" />
     <ClCompile Include="Zombie2.cpp" />
     <ClCompile Include="Zombie3.cpp" />
-    <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Collision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StageManager.h" />
@@ -21,6 +21,7 @@
     <ClInclude Include="Zombie3.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerStatus.h" />
+    <ClInclude Include="Collision.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Stage.h" />

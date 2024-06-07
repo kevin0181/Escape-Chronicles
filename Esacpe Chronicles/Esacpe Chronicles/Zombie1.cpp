@@ -2,6 +2,7 @@
 #include <atlimage.h>
 #include "Monster.h"
 #include "Zombie1.h"
+#include "Collision.h"
 using namespace std;
 
 //srand(time(nullptr));

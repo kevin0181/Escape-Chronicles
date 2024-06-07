@@ -2,6 +2,7 @@
 #include <atlimage.h>
 #include "Monster.h"
 #include "Slime.h"
+#include "Collision.h"
 using namespace std;
 
 Slime::Slime() : Monster() {
