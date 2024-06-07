@@ -183,8 +183,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="Zombie1.cpp" />
@@ -195,6 +195,7 @@
     <None Include="Stage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="PlayerStatus.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Player.h" />
