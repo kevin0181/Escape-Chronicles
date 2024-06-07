@@ -79,44 +79,60 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	static StageManager stageManager;
 	static Player player;
 
-	switch (uMsg) {
-	case WM_CREATE:
-	{
-		stageManager.setBackground_img(stageManager.img_path[0]);
-
-		slime.insert();
-		zombie1.insert();
-		zombie2.insert();
-		zombie3.insert();
-		SetTimer(hWnd, 1, 160, FALSE);
-		break;
-	}
-	case WM_SIZE:
-		stageManager.setBlock();
-		break;
-	case WM_KEYDOWN:
-		player.setKeyDown(wParam);
-		break;
-	case WM_KEYUP:
-		player.setKeyUp(wParam);
-		break;
-	case WM_PAINT: {
-		hDC = BeginPaint(hWnd, &ps);
-		mDC = CreateCompatibleDC(hDC);
-		GetClientRect(hWnd, &rect);
-		hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
-		hOldBitmap = static_cast<HBITMAP>(SelectObject(mDC, hBitmap));
+    switch (uMsg) {
+    case WM_CREATE:
+    {
+        stageManager.setBackground_img(stageManager.intro_img_path[0]);
+     
+        slime.insert();
+        zombie1.insert();
+        zombie2.insert();
+        zombie3.insert();
+        SetTimer(hWnd, 1, 160, FALSE);
+        break;
+    }
+    case WM_SIZE:
+        stageManager.setBlock();
+        break;
+    case WM_KEYDOWN:
+        player.setKeyDown(wParam);
+        break;
+    case WM_KEYUP:
+        player.setKeyUp(wParam);
+        break;
+    case WM_PAINT: {
+        hDC = BeginPaint(hWnd, &ps);
+        mDC = CreateCompatibleDC(hDC);
+        GetClientRect(hWnd, &rect);
+        hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
+        hOldBitmap = static_cast<HBITMAP>(SelectObject(mDC, hBitmap));
 
 		FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
 
-		stageManager.DrawBackground_img(mDC, rect, 2);
+        /*
+        intro
+         스토리 이미지
+        */
+        if (Stage::INTRO == stageManager.getCurrent_stage()) {
+            stageManager.DrawBackground_img(mDC, rect, 1);
+        }
 
-		 slime.print(mDC);
-		// zombie1.print(mDC);
-	    // zombie2.print(mDC);
-		// zombie3.print(mDC);
+        /*
+        stage 1
+            플레이어, 슬라임, 파란색 벽돌
+        */
+        if (Stage::STAGE_1 == stageManager.getCurrent_stage()) {
+            stageManager.DrawBackground_img(mDC, rect, 2);
+            slime.print(mDC);
+            player.print(mDC);
+        }
 
-		player.print(mDC);
+        // ------------------------------------------------
+        /*zombie1.print(mDC);
+        zombie2.print(mDC);
+        zombie3.print(mDC);*/
+
+        
 
 		BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
