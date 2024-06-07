@@ -159,6 +159,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			case STAGE::STAGE_1:
 			{
 				slime.move(rect);//_left
+				
 				// zombie1.move(rect);
 				// zombie2.move(rect);
 				// zombie3.move(rect);

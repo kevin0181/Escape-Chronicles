@@ -43,13 +43,15 @@ void StageManager::destroyImg() {
 }
 
 
-void StageManager::setBlock() { // block create
+void StageManager::setBlock(int h) { // block create
 
     blocks_stage1.clear();
 
     for (int i = 0; i < rect.right / BLOCK_SIZE; ++i) { // 한장면에서 
-        Block block;
-        blocks_stage1.push_back(std::move(block));
+        for (int j = 0; j < h; ++j) {
+            Block block(rect, 210);
+            blocks_stage1.push_back(std::move(block));
+        }
     }
 }
 
@@ -59,7 +61,7 @@ void StageManager::setKeyDown(WPARAM wParam) {
     case VK_RETURN:
         intro_cnt++;
         if (intro_cnt >= 5) {
-            setBlock(); //block create
+            setBlock(1); //block create
             current_stage = STAGE::STAGE_1;
             setBackground_img(background_img_path[0]);
             break;
