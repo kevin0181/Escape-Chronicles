@@ -2,12 +2,13 @@
 #include <atlimage.h>
 #include "Monster.h"
 #include "Slime.h"
+#include "Collision.h"
 using namespace std;
 
 Slime::Slime() : Monster() {
 	hp = 500; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	rect = { 10, 300, 210, 420 };
+	rect = { 110, 300, 310, 420 };
 
 	left = true;
 	bool_attack = false;
@@ -22,19 +23,25 @@ void Slime::insert() {
 		slime_img.Destroy();
 	}
 
-	if (hp != 0) {
-		if (bool_attack) { 
-			// 공격할 때
-			slime_img.Load(slime_attack_img_path[imageNum]);
+	if(left){
+		if (hp != 0) {
+			if (bool_attack)// 공격할 때
+				slime_img.Load(slime_attack_img_path_L[imageNum]);
+			else// 걍 움직일 떄
+				slime_img.Load(slime_img_path_L[imageNum]);
 		}
-		else {
-			// 걍 움직일 떄
-			slime_img.Load(slime_img_path[imageNum]);
-		}
+		else// 죽었을 떄
+			slime_img.Load(slime_die_img_path_L[imageNum]);
 	}
 	else {
-		// 죽었을 떄
-		slime_img.Load(slime_die_img_path[imageNum]);
+		if (hp != 0) {
+			if (bool_attack)// 공격할 때
+				slime_img.Load(slime_attack_img_path_R[imageNum]);
+			else// 걍 움직일 떄
+				slime_img.Load(slime_img_path_R[imageNum]);
+		}
+		else// 죽었을 떄
+			slime_img.Load(slime_die_img_path_R[imageNum]);
 	}
 }
 
