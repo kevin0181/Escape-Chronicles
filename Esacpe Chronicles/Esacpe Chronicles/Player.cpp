@@ -119,15 +119,8 @@ void Player::jump() {
 		currentJumpHeight += jumpSpeed;
 
 		if (currentJumpHeight >= jumpHeight) {
-			jumpSpeed = -jumpSpeed; // Change direction to falling
-		}
-
-		if (rect.top >= initialY) { // If player returns to initial height
-			rect.top = initialY;
-			rect.bottom = initialY + (rect.bottom - rect.top);
-			isJumping = false;
 			currentJumpHeight = 0;
-			jumpSpeed = abs(jumpSpeed); // Reset jump speed
+			isJumping = false; // 중력때문에 일단 추가했는데, 충돌 검사할때 y축 충돌이면 false로 변경하게 코드 수정 필요
 		}
 	}
 }
