@@ -79,6 +79,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	static StageManager stageManager;
 	static Player player;
 
+	static DWORD lastUpdateTime = 0; // 마지막 업데이트 시간
+	DWORD currentTime = GetTickCount();
+	DWORD deltaTime = currentTime - lastUpdateTime;
+	lastUpdateTime = currentTime;
+
     switch (uMsg) {
     case WM_CREATE:
     {
@@ -148,17 +153,28 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	}
 	case WM_TIMER:
 		if (wParam == 1) {
-			 slime.move(rect);//_left
-			// zombie1.move(rect);
-			// zombie2.move(rect);
-			// zombie3.move(rect);
 
-			 //player
-			 player.player_i++;
-			 if (player.player_i % 20 == 0) {
-				 player.setImg(player.getImgNum() + 1);
-			 }
-			 player.move();
+			switch (stageManager.getCurrent_stage())
+			{
+			case STAGE::STAGE_1:
+			{
+				slime.move(rect);//_left
+				// zombie1.move(rect);
+				// zombie2.move(rect);
+				// zombie3.move(rect);
+
+				 //player
+				player.player_i++;
+				if (player.player_i % 20 == 0) {
+					player.setImg(player.getImgNum() + 1);
+				}
+				player.move();
+				player.gravity.UpdatePhysics(player.getRECT(), deltaTime);
+				break;
+			}
+			default:
+				break;
+			}
 		}
 		InvalidateRect(hWnd, NULL, false);
 		break;
