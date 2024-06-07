@@ -9,7 +9,9 @@ void Block::print(HDC& mDC, int w, int h) const {
         int yOffset = BLOCK_SIZE * h;
         RECT drawRect = { rect.left + xOffset, rect.top + yOffset, rect.right + xOffset, rect.bottom + yOffset };
 
-        cImage->Draw(mDC, drawRect.left, drawRect.top, drawRect.right - drawRect.left, drawRect.bottom - drawRect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
+       cImage->Draw(mDC, drawRect.left, drawRect.top, drawRect.right - drawRect.left,
+            drawRect.bottom - drawRect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
+
     }
     else {
         // Invalid image

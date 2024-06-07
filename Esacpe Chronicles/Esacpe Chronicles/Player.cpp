@@ -26,7 +26,7 @@ int Player::getCimageSize() const{
 
 void Player::print(HDC& mDC) const {
     if (!cImage->IsNull()) {
-        cImage->Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
+		cImage->Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
     }
     else {
         MessageBox(NULL, L"유효하지 않은 캐릭터 이미지", L"오류", MB_OK);

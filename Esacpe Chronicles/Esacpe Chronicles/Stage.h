@@ -1,9 +1,6 @@
-
-
-
 #pragma once
 
-enum class Stage {
+enum class STAGE {
 	INTRO,
 	MAIN,
 	STAGE_1,

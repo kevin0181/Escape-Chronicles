@@ -92,10 +92,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         break;
     }
     case WM_SIZE:
-        stageManager.setBlock();
         break;
     case WM_KEYDOWN:
-        player.setKeyDown(wParam);
+
+        if (stageManager.getCurrent_stage() == STAGE::INTRO)
+            stageManager.setKeyDown(wParam);
+
+        if(stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 || 
+            stageManager.getCurrent_stage() == STAGE::STAGE_3)
+            player.setKeyDown(wParam);
+
         break;
     case WM_KEYUP:
         player.setKeyUp(wParam);
@@ -107,13 +113,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
         hOldBitmap = static_cast<HBITMAP>(SelectObject(mDC, hBitmap));
 
+<<<<<<< HEAD
+        //FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
+=======
 		FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
+>>>>>>> 99646cc36d56ef31b494c51314217269006d80bc
 
         /*
         intro
          스토리 이미지
         */
-        if (Stage::INTRO == stageManager.getCurrent_stage()) {
+        if (STAGE::INTRO == stageManager.getCurrent_stage()) {
             stageManager.DrawBackground_img(mDC, rect, 1);
         }
 
@@ -121,8 +131,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         stage 1
             플레이어, 슬라임, 파란색 벽돌
         */
-        if (Stage::STAGE_1 == stageManager.getCurrent_stage()) {
-            stageManager.DrawBackground_img(mDC, rect, 2);
+        if (STAGE::STAGE_1 == stageManager.getCurrent_stage()) {
+            stageManager.DrawBackground_img(mDC, rect, 4);
             slime.print(mDC);
             player.print(mDC);
         }
