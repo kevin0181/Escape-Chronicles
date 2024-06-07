@@ -159,6 +159,6 @@ void Player::move() {
 	}
 }
 
-RECT Player::getRECT() const{
+RECT& Player::getRECT(){
 	return rect;
 }

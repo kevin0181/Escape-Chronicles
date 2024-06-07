@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "PlayerStatus.h"
+#include "Gravity.h"
 
 class Player {
 	/*bool left;
@@ -85,10 +86,12 @@ class Player {
 public:
 
 	int player_i = 0;
+	Gravity gravity;
 
 	Player() :cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(0) {
 		rect = { 0,0,90,120 };
-		OffsetRect(&rect, 0, 770);
+		//OffsetRect(&rect, 0, 770);
+		OffsetRect(&rect, 0, 100);
 		HRESULT hr = cImage->Load(_default_r[0]);
 		if (FAILED(hr)) {
 			MessageBox(NULL, L"블록 이미지 로드 실패", L"오류", MB_OK);
@@ -104,6 +107,7 @@ public:
 	void move();
 	void jump();
 
-	RECT getRECT() const;
+	RECT& getRECT();
 	int getImgNum() const;
+
 };
