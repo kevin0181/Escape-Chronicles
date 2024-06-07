@@ -14,7 +14,7 @@ public:
     // Default constructor
     Block() : cImage(std::make_unique<CImage>()) {
         rect = { 0, 0, 70, 70 };
-        OffsetRect(&rect, 0, 980);
+        OffsetRect(&rect, 0, 810);
         HRESULT hr = cImage->Load(path_stage1);
         if (FAILED(hr)) {
             // Load failed

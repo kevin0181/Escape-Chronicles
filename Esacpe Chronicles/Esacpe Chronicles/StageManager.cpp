@@ -3,7 +3,7 @@
 
 #define BLOCK_SIZE 70
 
-void StageManager::setCurrent_stage(Stage stage) {
+void StageManager::setCurrent_stage(STAGE stage) {
     current_stage = stage;
 }
 
@@ -14,16 +14,17 @@ void StageManager::setBackground_img(LPCTSTR path) {
     rect = { 0,0,background_img.GetWidth(),background_img.GetHeight() };
 }
 
-Stage StageManager::getCurrent_stage() const {
+STAGE StageManager::getCurrent_stage() const {
     return current_stage;
 }
 
 void StageManager::DrawBackground_img(HDC& mDC, RECT rect, int w) {
     // 현재 배경 이미지를 주어진 HDC에 그리기
     if (!background_img.IsNull()) {
-        background_img.Draw(mDC, 0, 0, background_img.GetWidth() * w, rect.bottom, 0, 0, background_img.GetWidth(), background_img.GetHeight()); //이미지 전체 화면
 
-        if (current_stage == Stage::STAGE_1) {
+        background_img.Draw(mDC, 0, 0, rect.right * w, rect.bottom, 0, 0, background_img.GetWidth(), background_img.GetHeight()); //이미지 전체 화면
+
+        if (current_stage == STAGE::STAGE_1) {
             for (int i = 0; i < blocks_stage1.size(); ++i) { //블럭 그리기
                 blocks_stage1[i].print(mDC, i, 1);
             }
@@ -49,5 +50,23 @@ void StageManager::setBlock() { // block create
     for (int i = 0; i < rect.right / BLOCK_SIZE; ++i) { // 한장면에서 
         Block block;
         blocks_stage1.push_back(std::move(block));
+    }
+}
+
+void StageManager::setKeyDown(WPARAM wParam) {
+    switch (wParam)
+    {
+    case VK_RETURN:
+        intro_cnt++;
+        if (intro_cnt >= 5) {
+            setBlock(); //block create
+            current_stage = STAGE::STAGE_1;
+            setBackground_img(background_img_path[0]);
+            break;
+        }
+        setBackground_img(this->intro_img_path[intro_cnt]);
+        break;
+    default:
+        break;
     }
 }
