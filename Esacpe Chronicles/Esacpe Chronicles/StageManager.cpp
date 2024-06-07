@@ -48,7 +48,7 @@ void StageManager::setBlock() { // block create
     blocks_stage1.clear();
 
     for (int i = 0; i < rect.right / BLOCK_SIZE; ++i) { // 한장면에서 
-        Block block;
+        Block block(rect);
         blocks_stage1.push_back(std::move(block));
     }
 }

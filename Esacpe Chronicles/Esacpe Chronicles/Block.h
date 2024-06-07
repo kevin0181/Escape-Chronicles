@@ -12,9 +12,9 @@ private:
 public:
 
     // Default constructor
-    Block() : cImage(std::make_unique<CImage>()) {
+    Block(const RECT& stageRect) : cImage(std::make_unique<CImage>()) {
         rect = { 0, 0, 70, 70 };
-        OffsetRect(&rect, 0, 810);
+        OffsetRect(&rect, 0, stageRect.bottom - 210);
         HRESULT hr = cImage->Load(path_stage1);
         if (FAILED(hr)) {
             // Load failed
