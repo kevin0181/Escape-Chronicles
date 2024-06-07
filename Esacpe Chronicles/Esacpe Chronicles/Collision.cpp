@@ -8,12 +8,7 @@ bool CheckCollision(RECT rect1, RECT rect2) {
 	else return false;
 }
 
-void Collision(Player p, Monster m) {
-	if (CheckCollision(p.rect, m.rect)) {
 
-	}
-
-}
 
 bool CheckBlockCollision(RECT rect, RECT rect1, bool left, RECT rect2) {
 	if ((rect1.left < rect2.right) && (rect1.top < rect2.bottom) && (rect1.right > rect2.left) &&
