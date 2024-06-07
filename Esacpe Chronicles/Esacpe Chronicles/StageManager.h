@@ -35,7 +35,7 @@ public:
 	*/
 	StageManager() :current_stage(STAGE::INTRO), rect({ 0,0,0,0 }) {};
 	
-	void setBlock();
+	void setBlock(int h);
 	void setCurrent_stage(STAGE stage); // 스테이지 변경
 	STAGE getCurrent_stage() const;
 	void setBackground_img(LPCTSTR path); // 스테이지에 따른 뒷 배경 변경
