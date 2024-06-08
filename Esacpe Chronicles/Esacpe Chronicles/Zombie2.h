@@ -70,7 +70,7 @@ public:
 	void print(HDC& mDC) override;
 	void move(RECT Rect) override; // rect를 움직이고 insert를 호출해 사진도 바꿔줌
 	void attack(bool status) override;
-	RECT getRect() override {
+	RECT& getRect() override {
 		return rect;
 	}
 };

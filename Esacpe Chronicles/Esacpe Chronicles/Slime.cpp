@@ -14,7 +14,7 @@ Slime::Slime() : Monster() {
 	bool_attack = false;
 }
 
-RECT Slime::getRect() const {
+RECT& Slime::getRect() {
 	return rect;
 }
 
@@ -71,6 +71,9 @@ void Slime::move(RECT Rect) {
 				left = true;
 			}
 		}
+
+		if (CheckBlockCollision(Rect, { 0,0,0,0 }, left,rect))
+			OffsetRect(&rect, 0, -4.5f);
 	}
 
 	if (imageNum == 9) {

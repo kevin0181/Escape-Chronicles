@@ -1,7 +1,9 @@
 #pragma once
 #include <atlimage.h>
 #include "Monster.h"
+
 #include "Collision.h"
+#include "Gravity.h"
 
 class Slime : public Monster {
 private:
@@ -12,6 +14,8 @@ private:
 	bool left; // 슬라임의 이동 방향
 	bool bool_attack; //일정 범위 안에 플레이어가 있을시 true, 플레이어를 공격한다
 public:
+	Gravity gravity;
+
 	LPCTSTR slime_img_path_L[9] = { // 그냥 움직임 L
 		L"img/monster/slime_L/Slime_move(1).png",
 		L"img/monster/slime_L/Slime_move(2).png",
@@ -93,9 +97,8 @@ public:
 	void print(HDC& mDC) override; 
 	void move(RECT Rect) override; // rect를 움직이고 insert를 호출해 사진도 바꿔줌
 	void attack(bool status) override;
-	RECT getRect() override {
-		return rect;
-	}
+
+	RECT& getRect() override;
 };
 
 

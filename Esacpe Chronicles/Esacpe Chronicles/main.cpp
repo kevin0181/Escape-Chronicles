@@ -79,21 +79,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	static StageManager stageManager;
 	static Player player;
 
-	switch (uMsg) {
-	case WM_CREATE:
-	{
-		stageManager.setBackground_img(stageManager.intro_img_path[0]);
+	static DWORD lastUpdateTime = 0; // 마지막 업데이트 시간
+	DWORD currentTime = GetTickCount();
+	DWORD deltaTime = currentTime - lastUpdateTime;
+	lastUpdateTime = currentTime;
 
-		slime.insert();
-		zombie1.insert();
-		zombie2.insert();
-		zombie3.insert();
-		SetTimer(hWnd, 1, 1, FALSE);
-		break;
-	}
-	case WM_SIZE:
-		break;
-	case WM_KEYDOWN:
+    switch (uMsg) {
+    case WM_CREATE:
+    {
+        stageManager.setBackground_img(stageManager.intro_img_path[0]);
+     
+        slime.insert();
+        zombie1.insert();
+        zombie2.insert();
+        zombie3.insert();
+        SetTimer(hWnd, 1, 1, FALSE);
+        break;
+    }
+    case WM_SIZE:
+        break;
+    case WM_KEYDOWN:
 
 		if (stageManager.getCurrent_stage() == STAGE::INTRO)
 			stageManager.setKeyDown(wParam);
@@ -148,17 +153,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	}
 	case WM_TIMER:
 		if (wParam == 1) {
-			slime.move(rect);//_left
-			// zombie1.move(rect);
-			// zombie2.move(rect);
-			// zombie3.move(rect);
 
-			 //player
-			player.player_i++;
-			if (player.player_i % 20 == 0) {
-				player.setImg(player.getImgNum() + 1);
+			switch (stageManager.getCurrent_stage())
+			{
+			case STAGE::STAGE_1:
+			{
+				
+				slime.gravity.UpdatePhysics(slime.getRect());
+				slime.move(rect);//_left
+				
+				
+				// zombie1.move(rect);
+				// zombie2.move(rect);
+				// zombie3.move(rect);
+
+				 //player
+				player.player_i++;
+				if (player.player_i % 20 == 0) {
+					player.setImg(player.getImgNum() + 1);
+				}
+				player.move();
+				player.gravity.UpdatePhysics(player.getRECT());
+				break;
 			}
-			player.move();
+			default:
+				break;
+			}
 		}
 		InvalidateRect(hWnd, NULL, false);
 		break;
