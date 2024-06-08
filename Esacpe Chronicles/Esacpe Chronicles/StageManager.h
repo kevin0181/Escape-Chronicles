@@ -11,10 +11,10 @@ private:
 	STAGE current_stage;
 	CImage background_img;
 	RECT rect; // 현재 이미지의 전체 크기 (스테이지마다 이미지 크기가 다르기 때문에)
-	
 public:
 	std::vector<Block> blocks_stage1;
 	int intro_cnt = 1;
+	RECT game_rect; // 게임 진행하는 화면 크기
 
 	LPCTSTR intro_img_path[5] = {
 		L"img/intro_img/1.png", // 
@@ -37,11 +37,11 @@ public:
 	
 	};
 	
-	void setBlock(int h, LPCTSTR path_block, float size, int detail_size);
+	void setBlock(const int& h, const LPCTSTR& path_block, const float& size);
 	void setCurrent_stage(STAGE stage); // 스테이지 변경
 	STAGE getCurrent_stage() const;
-	void setBackground_img(LPCTSTR path); // 스테이지에 따른 뒷 배경 변경
-	void DrawBackground_img(HDC& mDC, RECT rect,int w); // 뒷 배경 그리기
+	void setBackground_img(const LPCTSTR path); // 스테이지에 따른 뒷 배경 변경
+	void DrawBackground_img(HDC& mDC, const RECT& rect, const int& w); // 뒷 배경 그리기
 	void destroyImg(); // 이미지 삭제 (이미지 변경 시, 필수)
 
 	void setKeyDown(WPARAM wParam);
