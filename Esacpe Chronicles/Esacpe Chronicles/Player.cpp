@@ -152,6 +152,41 @@ void Player::move() {
 	}
 }
 
+void Player::setRECT(RECT rect) {
+	this->rect = rect;
+}
+
 RECT& Player::getRECT(){
 	return rect;
+}
+
+RECT& Player::getSaveRect() {
+	return saveRect;
+}
+
+void Player::setSaveRect(RECT rect) {
+	this->saveRect = rect;
+}
+
+bool Player::crash_check_block(RECT& rect, std::vector<Block>& blocks) { //
+	RECT crossRect;
+	for (auto& block : blocks) {
+		if (IntersectRect(&crossRect, &rect, &block.rect)) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void Player::TIMER(StageManager& stageManager) {
+	
+	setImg(img_num + 1);
+
+	move();
+	setSaveRect(rect);
+	gravity.UpdatePhysics(rect);
+	if (crash_check_block(rect, stageManager.blocks_stage1)) {
+		rect = saveRect;
+	}
 }
