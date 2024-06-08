@@ -111,7 +111,7 @@ public:
 	void TIMER(StageManager& stageManager);
 
 	void setImg(int img_num); // 캐릭터 이미지 할당
-	void move();
+	void move(StageManager& stageManager);
 	void jump();
 
 	void setRECT(RECT rect);
