@@ -82,13 +82,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     switch (uMsg) {
     case WM_CREATE:
     {
+		GetClientRect(hWnd, &rect);
         stageManager.setBackground_img(stageManager.intro_img_path[0]);
+		stageManager.game_rect = rect;
+		stageManager.game_rect.right *= 3;
      
         slime.insert();
         zombie1.insert();
         zombie2.insert();
         zombie3.insert();
-        SetTimer(hWnd, 1, 10, FALSE);
+        SetTimer(hWnd, 1, 1, FALSE);
         break;
     }
     case WM_SIZE:
