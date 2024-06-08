@@ -2,9 +2,12 @@
 
 #include <atlimage.h>
 #include <memory>
+#include <vector>
 
 #include "PlayerStatus.h"
 #include "Gravity.h"
+#include "Block.h"
+#include "StageManager.h"
 
 class Player {
 	/*bool left;
@@ -16,13 +19,14 @@ class Player {
 	PlayerStatus status;
 
 	bool isJumping = false;
-	int jumpHeight = 250;
-	int jumpSpeed = 10;
+	int jumpHeight = 150;
+	int jumpSpeed = 30;
 	int currentJumpHeight;
 	int initialY; // 점프 전 Y 좌표 저장
 
 	int speed;
 	RECT rect;
+	RECT saveRect;
 
 	int weapon; // 0 = sword, 1 = bow, 2 = gun
 
@@ -103,11 +107,19 @@ public:
 
 	void print(HDC& mDC) const;
 	int getCimageSize() const; // 현재 해당 이미지의 크기를 가져오기
+
+	void TIMER(StageManager& stageManager);
+
 	void setImg(int img_num); // 캐릭터 이미지 할당
-	void move();
+	void move(StageManager& stageManager);
 	void jump();
 
+	void setRECT(RECT rect);
 	RECT& getRECT();
+	void setSaveRect(RECT rect);
+	RECT& getSaveRect();
+
 	int getImgNum() const;
 
+	bool crash_check_block(RECT& rect, std::vector<Block>& blocks);
 };

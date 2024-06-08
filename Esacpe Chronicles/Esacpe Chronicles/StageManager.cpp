@@ -1,85 +1,80 @@
-#include "StageManager.h"
+ï»¿#include "StageManager.h"
 #include <stdexcept>
 
 #define BLOCK_SIZE 70
 
 void StageManager::setCurrent_stage(STAGE stage) {
-	current_stage = stage;
+    current_stage = stage;
 }
 
 void StageManager::setBackground_img(LPCTSTR path) {
-	// ±âÁ¸ ÀÌ¹ÌÁö¸¦ ÆÄ±«ÇÏ°í »õ·Î¿î ÀÌ¹ÌÁö·Î ±³Ã¼
-	destroyImg();
-	background_img.Load(path);
-	rect = { 0,0,background_img.GetWidth(),background_img.GetHeight() };
+    // ê¸°ì¡´ ì´ë¯¸ì§€ë¥¼ íŒŒê´´í•˜ê³  ìƒˆë¡œìš´ ì´ë¯¸ì§€ë¡œ êµì²´
+    destroyImg();
+    background_img.Load(path);
+    rect = { 0,0,background_img.GetWidth(),background_img.GetHeight() };
 }
 
 STAGE StageManager::getCurrent_stage() const {
-	return current_stage;
+    return current_stage;
 }
 
 void StageManager::DrawBackground_img(HDC& mDC, RECT rect, int w) {
-	// ÇöÀç ¹è°æ ÀÌ¹ÌÁö¸¦ ÁÖ¾îÁø HDC¿¡ ±×¸®±â
-	if (!background_img.IsNull()) {
+    // í˜„ì¬ ë°°ê²½ ì´ë¯¸ì§€ë¥¼ ì£¼ì–´ì§„ HDCì— ê·¸ë¦¬ê¸°
+    if (!background_img.IsNull()) {
 
-		background_img.Draw(mDC, 0, 0, rect.right * w, rect.bottom, 0, 0, background_img.GetWidth(), background_img.GetHeight()); //ÀÌ¹ÌÁö ÀüÃ¼ È­¸é
+        background_img.Draw(mDC, 0, 0, rect.right * w, rect.bottom, 0, 0, background_img.GetWidth(), background_img.GetHeight()); //ì´ë¯¸ì§€ ì „ì²´ í™”ë©´
 
-		if (current_stage == STAGE::STAGE_1) {
-			for (int i = 0; i < blocks_stage1.size() / 2; ++i) { //ºí·° ±×¸®±â
-				for (int j = 1; j > -7; j -= 6) {
-					if (j == -5 && i < 4&&i>0) {
-						blocks_stage1[i].print(mDC, i, -(i-1)*2);
-					}
-					else if (j == -5 && i < 24 && i>20) {
-						blocks_stage1[i].print(mDC, i, -(i - 21) * 2);
-					}
-					else if (j == -5 && (i == 6 || i == 7 || i == 10 || i == 15 || i == 17 || i == 18)) {}
-					else if(j!=-5||i>4){
-						blocks_stage1[i].print(mDC, i, j);
-					}
-				}
-			}
-		}
-	}
-	else {
-		throw std::runtime_error("Background image is not loaded.");
-	}
+        if (current_stage == STAGE::STAGE_1) {
+            for (int i = 0; i < blocks_stage1.size(); ++i) { //ë¸”ëŸ­ ê·¸ë¦¬ê¸°
+                blocks_stage1[i].print(mDC, i, 1);
+            }
+        }
+    }
+    else {
+        throw std::runtime_error("Background image is not loaded.");
+    }
 }
 
 void StageManager::destroyImg() {
-	// ¹è°æ ÀÌ¹ÌÁö°¡ ·ÎµåµÇ¾î ÀÖÀ¸¸é ÆÄ±«
-	if (!background_img.IsNull()) {
-		background_img.Destroy();
-	}
+    // ë°°ê²½ ì´ë¯¸ì§€ê°€ ë¡œë“œë˜ì–´ ìˆìœ¼ë©´ íŒŒê´´
+    if (!background_img.IsNull()) {
+        background_img.Destroy();
+    }
 }
 
 
-void StageManager::setBlock(int h) { // block create
+void StageManager::setBlock(int h, LPCTSTR path_block, float size, int detail_size) { // block create
 
-	blocks_stage1.clear();
+    blocks_stage1.clear();
 
-	for (int i = 0; i < rect.right / BLOCK_SIZE; ++i) { // ÇÑÀå¸é¿¡¼­ 
-		for (int j = 0; j < h; ++j) {
-			Block block(rect, 210);
-			blocks_stage1.push_back(std::move(block));
-		}
-	}
+    // ì „ì²´ ë†’ì´ì˜ 90% ì§€ì ì—ì„œ ì‹œì‘í•˜ì—¬ ë¸”ëŸ­ì„ ë°°ì¹˜
+    int startY = static_cast<int>(this->rect.bottom * size);
+
+    for (int i = 0; i < rect.right / BLOCK_SIZE * 3; ++i) {
+        for (int j = 0; j < h; ++j) {
+            Block block;
+            block.cImage->Load(path_block);
+            block.rect = { i * BLOCK_SIZE, j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE, (j + 1) * BLOCK_SIZE };
+            OffsetRect(&block.rect, 0, startY + detail_size);
+            blocks_stage1.push_back(std::move(block));
+        }
+    }
 }
 
 void StageManager::setKeyDown(WPARAM wParam) {
-	switch (wParam)
-	{
-	case VK_RETURN:
-		intro_cnt++;
-		if (intro_cnt >= 5) {
-			setBlock(2); //block create
-			current_stage = STAGE::STAGE_1;
-			setBackground_img(background_img_path[0]);
-			break;
-		}
-		setBackground_img(this->intro_img_path[intro_cnt]);
-		break;
-	default:
-		break;
-	}
+    switch (wParam)
+    {
+    case VK_RETURN:
+        intro_cnt++;
+        if (intro_cnt >= 5) {
+            setBlock(1, Block::path_stage1, 1.0, 30); //block create
+            current_stage = STAGE::STAGE_1;
+            setBackground_img(background_img_path[0]);
+            break;
+        }
+        setBackground_img(this->intro_img_path[intro_cnt]);
+        break;
+    default:
+        break;
+    }
 }

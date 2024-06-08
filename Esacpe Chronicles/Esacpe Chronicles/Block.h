@@ -4,22 +4,22 @@
 #include <atlimage.h>
 #include <memory>
 
+#define BLOCK_SIZE 70
+
 class Block {
 private:
-    RECT rect;
-    std::unique_ptr<CImage> cImage;
-    LPCTSTR path_stage1 = L"img/block/blue_block.png";
 public:
+    static const LPCTSTR path_stage1;
+    std::unique_ptr<CImage> cImage;
+    RECT rect;
 
     // Default constructor
-    Block(const RECT& stageRect, int n) : cImage(std::make_unique<CImage>()) {
-        rect = { 0, 0, 70, 70 };
-        OffsetRect(&rect, 0, stageRect.bottom - n);
-        HRESULT hr = cImage->Load(path_stage1);
-        if (FAILED(hr)) {
-            // Load failed
-            MessageBox(NULL, L"블록 이미지 로드 실패", L"오류", MB_OK);
-        }
+    Block() : cImage(std::make_unique<CImage>()) {
+        //HRESULT hr = cImage->Load(path_stage1);
+        //if (FAILED(hr)) {
+        //    // Load failed
+        //    MessageBox(NULL, L"블록 이미지 로드 실패", L"오류", MB_OK);
+        //}
     }
 
     // Move constructor
@@ -41,4 +41,8 @@ public:
     Block(const Block&) = delete;
     Block& operator=(const Block&) = delete;
     void print(HDC& mDC, int i, int h) const;
+
+    LPCTSTR getPath_stage1() {
+        return path_stage1;
+    }
 };

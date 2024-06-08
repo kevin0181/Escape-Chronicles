@@ -125,7 +125,9 @@ void Player::jump() {
 	}
 }
 
-void Player::move() {
+void Player::move(StageManager& stageManager) {
+
+	RECT tempRect = rect; // 현재 위치를 임시로 저장
 
 	if (isJumping) {
 		jump();
@@ -139,9 +141,15 @@ void Player::move() {
 		break;
 	case LEFT:
 		OffsetRect(&rect, -speed, 0);
+		if (crash_check_block(rect, stageManager.blocks_stage1)) {
+			rect = tempRect; // 충돌하면 원래 위치로 되돌림
+		}
 		break;
 	case RIGHT:
 		OffsetRect(&rect, speed, 0);
+		if (crash_check_block(rect, stageManager.blocks_stage1)) {
+			rect = tempRect; // 충돌하면 원래 위치로 되돌림
+		}
 		break;
 	case ATTACK:
 		break;
@@ -152,6 +160,43 @@ void Player::move() {
 	}
 }
 
+void Player::setRECT(RECT rect) {
+	this->rect = rect;
+}
+
 RECT& Player::getRECT(){
 	return rect;
+}
+
+RECT& Player::getSaveRect() {
+	return saveRect;
+}
+
+void Player::setSaveRect(RECT rect) {
+	this->saveRect = rect;
+}
+
+bool Player::crash_check_block(RECT& rect, std::vector<Block>& blocks) { //
+	RECT crossRect;
+	for (auto& block : blocks) {
+		if (IntersectRect(&crossRect, &rect, &block.rect)) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void Player::TIMER(StageManager& stageManager) {
+	
+	setImg(img_num + 1);
+
+	move(stageManager);
+
+	// 중력 돌 충도 체크
+	setSaveRect(rect);
+	gravity.UpdatePhysics(rect);
+	if (crash_check_block(rect, stageManager.blocks_stage1)) {
+		rect = saveRect;
+	}
 }
