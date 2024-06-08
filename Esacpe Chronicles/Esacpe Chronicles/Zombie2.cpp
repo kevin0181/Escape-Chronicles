@@ -66,16 +66,18 @@ void Zombie2::move(RECT Rect) {
 		else if (!bool_attack) {
 			// 걍 움직일 떄
 			if (left) {
-				rect.left -= 4;
-				rect.right -= 4;
-				if (CheckBlockCollision(Rect, { 0,0,0,0 }, left, rect)) // 화면 끝 도달 시 방향 변경
+				OffsetRect(&rect, -4, 0);
+				if (CheckBlockCollision(Rect, { 0,0,0,0 }, left, rect)) {// 화면 끝 도달 시 방향 변경
+					OffsetRect(&rect, 4, 0);
 					left = false;
+				}
 			}
 			else {
-				rect.left += 4;
-				rect.right += 4;
-				if (CheckBlockCollision(Rect, { 0,0,0,0 }, left, rect))
+				OffsetRect(&rect, 4, 0);
+				if (CheckBlockCollision(Rect, { 0,0,0,0 }, left, rect)) {
+					OffsetRect(&rect, -4, 0);
 					left = true;
+				}
 			}
 
 			if (imageNum == 7) {

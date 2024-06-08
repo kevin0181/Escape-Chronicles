@@ -1,7 +1,5 @@
 #pragma once
 #include <atlimage.h>
-#include "Monster.h"
-#include "Player.h"
 
 // 몬스터와 플레이어의 충돌을 처리하는 헤더.
 bool CheckCollision(RECT rect1, RECT rect2); // 몬스터와 충돌확인

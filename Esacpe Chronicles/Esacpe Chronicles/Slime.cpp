@@ -58,16 +58,18 @@ void Slime::move(RECT Rect) {
 
 	if(hp!=0&&!bool_attack){
 		if (left) {
-			rect.left -= 2;
-			rect.right -= 2;
-			if (CheckBlockCollision(Rect, { 0,0,0,0 }, left, rect)) // 화면 끝 도달 시 방향 변경
+			OffsetRect(&rect, -2, 0);
+			if (CheckBlockCollision(Rect, { 0,0,0,0 }, left, rect)) { // 화면 끝 도달 시 방향 변경
+				OffsetRect(&rect, 2, 0);
 				left = false;
+			}
 		}
 		else {
-			rect.left += 2;
-			rect.right += 2;
-			if (CheckBlockCollision(Rect, { 0,0,0,0 }, left, rect))
+			OffsetRect(&rect, 2, 0);
+			if (CheckBlockCollision(Rect, { 0,0,0,0 }, left, rect)) {
+				OffsetRect(&rect, -2, 0);
 				left = true;
+			}
 		}
 	}
 

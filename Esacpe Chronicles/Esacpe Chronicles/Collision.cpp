@@ -1,6 +1,5 @@
 #include <atlimage.h>
-#include "Monster.h"
-#include "Player.h"
+#include "collision.h"
 
 bool CheckCollision(RECT rect1, RECT rect2) {
 	if ((rect1.left < rect2.right) && (rect1.top < rect2.bottom) && (rect1.right > rect2.left) &&
