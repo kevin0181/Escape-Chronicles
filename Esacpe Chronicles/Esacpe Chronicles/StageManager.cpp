@@ -43,13 +43,19 @@ void StageManager::destroyImg() {
 }
 
 
-void StageManager::setBlock(int h) { // block create
+void StageManager::setBlock(int h, LPCTSTR path_block, float size, int detail_size) { // block create
 
     blocks_stage1.clear();
 
-    for (int i = 0; i < rect.right / BLOCK_SIZE; ++i) { // 한장면에서 
+    // 전체 높이의 90% 지점에서 시작하여 블럭을 배치
+    int startY = static_cast<int>(this->rect.bottom * size);
+
+    for (int i = 0; i < rect.right / BLOCK_SIZE * 3; ++i) {
         for (int j = 0; j < h; ++j) {
-            Block block(rect, 210);
+            Block block;
+            block.cImage->Load(path_block);
+            block.rect = { i * BLOCK_SIZE, j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE, (j + 1) * BLOCK_SIZE };
+            OffsetRect(&block.rect, 0, startY + detail_size);
             blocks_stage1.push_back(std::move(block));
         }
     }
@@ -61,7 +67,7 @@ void StageManager::setKeyDown(WPARAM wParam) {
     case VK_RETURN:
         intro_cnt++;
         if (intro_cnt >= 5) {
-            setBlock(1); //block create
+            setBlock(1, Block::path_stage1, 1.0, 30); //block create
             current_stage = STAGE::STAGE_1;
             setBackground_img(background_img_path[0]);
             break;
