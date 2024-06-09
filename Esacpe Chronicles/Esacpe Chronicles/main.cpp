@@ -4,6 +4,7 @@
 #include <vector>
 
 // ------------------
+#include "GlobalVariables.h"
 
 #include "Stage.h"
 #include "StageManager.h"

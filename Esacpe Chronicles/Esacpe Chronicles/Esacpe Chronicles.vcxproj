@@ -201,6 +201,7 @@
     <ClInclude Include="Brain1.h" />
     <ClInclude Include="Brain2.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="Gravity.h" />
     <ClInclude Include="PlayerStatus.h" />
     <ClInclude Include="Block.h" />

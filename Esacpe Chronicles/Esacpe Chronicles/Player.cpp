@@ -1,4 +1,5 @@
 #include"Player.h"
+#include "GlobalVariables.h"
 
 int Player::getCimageSize() const{ 
 	switch (status)
