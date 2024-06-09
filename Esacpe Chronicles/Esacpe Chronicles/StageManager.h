@@ -16,6 +16,15 @@ public:
 	int intro_cnt = 1;
 	RECT game_rect; // 게임 진행하는 화면 크기
 
+	CImage startBtnImg;
+	RECT startBtn;
+
+	LPCTSTR main_img_path[3] = {
+		L"img/main/start button.png", //start button
+		L"img/main/extraction.png", //background
+		L"img/main/Escape_Chronicles_logo.png"
+	};
+
 	LPCTSTR intro_img_path[5] = {
 		L"img/intro_img/1.png", // 
 		L"img/intro_img/1.png", //
@@ -34,7 +43,7 @@ public:
 		화면 전체 크기를 가져와서 화면에 맞춰 블록의 크기를 정해줌
 	*/
 	StageManager() :current_stage(STAGE::INTRO), rect({ 0,0,0,0 }) {
-	
+		startBtnImg.Load(main_img_path[0]);
 	};
 	
 	void setBlock(const int& h, const LPCTSTR& path_block, const float& size);
@@ -43,6 +52,8 @@ public:
 	void setBackground_img(const LPCTSTR path); // 스테이지에 따른 뒷 배경 변경
 	void DrawBackground_img(HDC& mDC, const RECT& rect, const int& w); // 뒷 배경 그리기
 	void destroyImg(); // 이미지 삭제 (이미지 변경 시, 필수)
-
+	void setMainBackGround(HDC& mDC, const RECT& rect); //main 화면
+	
+	void setLMBtnDown(LPARAM lParam);
 	void setKeyDown(WPARAM wParam);
 };
