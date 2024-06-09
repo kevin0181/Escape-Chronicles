@@ -58,4 +58,6 @@ public:
 	
 	void setLMBtnDown(LPARAM lParam);
 	void setKeyDown(WPARAM wParam);
+
+	void updateStageRect(int offsetX); // 카메라이동
 };

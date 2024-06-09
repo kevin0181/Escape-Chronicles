@@ -96,3 +96,9 @@ void StageManager::setKeyDown(WPARAM wParam) {
         break;
     }
 }
+
+void StageManager::updateStageRect(int offsetX) {
+    // offsetX만큼 StageManager의 rect를 이동 (y축은 변경하지 않음)
+    rect.left -= offsetX;
+    rect.right -= offsetX;
+}

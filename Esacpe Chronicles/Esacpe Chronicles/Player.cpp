@@ -126,8 +126,8 @@ void Player::jump() {
 }
 
 void Player::move(StageManager& stageManager) {
-
-	RECT tempRect = rect; // 현재 위치를 임시로 저장
+	RECT tempRect = rect;
+	int offsetX = 0;
 
 	if (isJumping) {
 		jump();
@@ -140,15 +140,19 @@ void Player::move(StageManager& stageManager) {
 	case DEFAULT_L:
 		break;
 	case LEFT:
-		OffsetRect(&rect, -speed, 0);
+		offsetX = -speed;
+		OffsetRect(&rect, offsetX, 0);
 		if (crash_check_block(rect, stageManager.blocks_stage1)) {
-			rect = tempRect; // 충돌하면 원래 위치로 되돌림
+			rect = tempRect;
+			offsetX = 0;
 		}
 		break;
 	case RIGHT:
-		OffsetRect(&rect, speed, 0);
+		offsetX = speed;
+		OffsetRect(&rect, offsetX, 0);
 		if (crash_check_block(rect, stageManager.blocks_stage1)) {
-			rect = tempRect; // 충돌하면 원래 위치로 되돌림
+			rect = tempRect;
+			offsetX = 0;
 		}
 		break;
 	case ATTACK:
@@ -158,7 +162,11 @@ void Player::move(StageManager& stageManager) {
 	default:
 		break;
 	}
+
+	// Player가 이동한 후 StageManager의 rect를 업데이트
+	stageManager.updateStageRect(offsetX);
 }
+
 
 void Player::setRECT(RECT rect) {
 	this->rect = rect;
