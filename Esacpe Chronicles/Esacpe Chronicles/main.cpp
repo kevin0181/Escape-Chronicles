@@ -90,9 +90,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		stageManager.setBackground_img(stageManager.intro_img_path[0]);
 		stageManager.game_rect = rect;
 		stageManager.game_rect.right *= 3; //게임 크기 정해주기
+		stageManager.viewRect = rect;
 
 		// 시작버튼
 		stageManager.startBtn = { rect.right - 300, rect.bottom - 150, rect.right - 200, rect.bottom - 50 };
+		stageManager.rect = rect;
      
 		{// 원하는 개수만큼 반복
 			Slime slime;
@@ -141,10 +143,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
          스토리 이미지
         */
         if (STAGE::INTRO == stageManager.getCurrent_stage()) {
-            stageManager.DrawBackground_img(mDC, rect, 1);
+			stageManager.DrawBackground_img(mDC, 1);
         }
 		if (STAGE::MAIN == stageManager.getCurrent_stage()) {
-			stageManager.DrawBackground_img(mDC, rect, 1);
+			stageManager.DrawBackground_img(mDC, 1);
 			stageManager.setMainBackGround(mDC, rect);
 		}
 
@@ -153,7 +155,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             플레이어, 슬라임, 파란색 벽돌
         */
         if (STAGE::STAGE_1 == stageManager.getCurrent_stage()) {
-            stageManager.DrawBackground_img(mDC, rect, 4);
+            stageManager.DrawBackground_img(mDC, 3);
 			for (auto& slime : slimes) {
 				slime.print(mDC);
 			}

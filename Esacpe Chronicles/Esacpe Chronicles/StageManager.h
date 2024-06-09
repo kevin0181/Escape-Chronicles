@@ -10,11 +10,15 @@ class StageManager {
 private:
 	STAGE current_stage;
 	CImage background_img;
-	RECT rect; // 현재 이미지의 전체 크기 (스테이지마다 이미지 크기가 다르기 때문에)
 public:
+
+	RECT viewRect; //모니터 화면크기
+	RECT rect; // 현재 보이는 이미지의 크기
+	int camera_move_speed = 15;
+
 	std::vector<Block> blocks_stage1;
 	int intro_cnt = 1;
-	RECT game_rect; // 게임 진행하는 화면 크기
+	RECT game_rect; // 게임 이미지 뒷배경 전체 크기
 
 	CImage startBtnImg;
 	RECT startBtn;
@@ -50,7 +54,7 @@ public:
 	void setCurrent_stage(STAGE stage); // 스테이지 변경
 	STAGE getCurrent_stage() const;
 	void setBackground_img(const LPCTSTR path); // 스테이지에 따른 뒷 배경 변경
-	void DrawBackground_img(HDC& mDC, const RECT& rect, const int& w); // 뒷 배경 그리기
+	void DrawBackground_img(HDC& mDC, const int& w); // 뒷 배경 그리기
 	void destroyImg(); // 이미지 삭제 (이미지 변경 시, 필수)
 	void setMainBackGround(HDC& mDC, const RECT& rect); //main 화면
 	
