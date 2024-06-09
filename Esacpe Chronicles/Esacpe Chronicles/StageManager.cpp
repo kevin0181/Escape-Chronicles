@@ -11,18 +11,17 @@ void StageManager::setBackground_img(const LPCTSTR path) {
     
     destroyImg();
     background_img.Load(path);
-    rect = { 0,0,background_img.GetWidth(),background_img.GetHeight() };
 }
 
 STAGE StageManager::getCurrent_stage() const {
     return current_stage;
 }
 
-void StageManager::DrawBackground_img(HDC& mDC, const RECT& rect, const int& w) {
+void StageManager::DrawBackground_img(HDC& mDC, const int& w) {
     
     if (!background_img.IsNull()) {
 
-        background_img.Draw(mDC, 0, 0, rect.right * w, rect.bottom, 0, 0, background_img.GetWidth(), background_img.GetHeight()); //이미지 전체 화면
+        background_img.Draw(mDC, rect.left, rect.top, (rect.right - rect.left) * w, rect.bottom - rect.top, 0, 0, background_img.GetWidth(), background_img.GetHeight()); //이미지 전체 화면
 
         if (current_stage == STAGE::STAGE_1) {
             for (int i = 0; i < blocks_stage1.size(); ++i) { //블럭 그리기

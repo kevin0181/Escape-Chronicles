@@ -89,6 +89,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 		// 시작버튼
 		stageManager.startBtn = { rect.right - 300, rect.bottom - 150, rect.right - 200, rect.bottom - 50 };
+		stageManager.rect = rect;
      
         slime.insert();
         zombie1.insert();
@@ -130,10 +131,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
          스토리 이미지
         */
         if (STAGE::INTRO == stageManager.getCurrent_stage()) {
-            stageManager.DrawBackground_img(mDC, rect, 1);
+			stageManager.DrawBackground_img(mDC, 1);
         }
 		if (STAGE::MAIN == stageManager.getCurrent_stage()) {
-			stageManager.DrawBackground_img(mDC, rect, 1);
+			stageManager.DrawBackground_img(mDC, 1);
 			stageManager.setMainBackGround(mDC, rect);
 		}
 
@@ -142,7 +143,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             플레이어, 슬라임, 파란색 벽돌
         */
         if (STAGE::STAGE_1 == stageManager.getCurrent_stage()) {
-            stageManager.DrawBackground_img(mDC, rect, 4);
+            stageManager.DrawBackground_img(mDC, 3);
             slime.print(mDC);
             player.print(mDC);
         }
@@ -167,7 +168,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			{
 			case STAGE::STAGE_1:
 			{
-				
 				
 				slime.move(stageManager,rect);//_left
 				
