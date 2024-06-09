@@ -183,6 +183,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Brain1.cpp" />
+    <ClCompile Include="Brain2.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Gravity.cpp" />
     <ClCompile Include="main.cpp" />
@@ -196,6 +198,8 @@
     <None Include="Stage.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Brain1.h" />
+    <ClInclude Include="Brain2.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Gravity.h" />
     <ClInclude Include="PlayerStatus.h" />

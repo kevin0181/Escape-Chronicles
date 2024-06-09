@@ -23,38 +23,38 @@ void Zombie1::insert() {
 	if (left) {
 		switch (status) {
 		case MOVE_:
-			zombie1_img.Load(zombie1_img_path_L[imageNum]);
+			zombie1_img.Load(zombie1_img_path_L[imageNum/5]);
 			break;
 		case ATTACK_:
-			zombie1_img.Load(zombie1_attack_img_path_L[imageNum]);
+			zombie1_img.Load(zombie1_attack_img_path_L[imageNum/5]);
 			break;
 		case DIE_:
-			zombie1_img.Load(zombie1_die_img_path_L[imageNum]);
+			zombie1_img.Load(zombie1_die_img_path_L[imageNum/5]);
 			break;
 		}
 	}
 	else {
 		switch (status) {
 		case MOVE_:
-			zombie1_img.Load(zombie1_img_path_R[imageNum]);
+			zombie1_img.Load(zombie1_img_path_R[imageNum/5]);
 			break;
 		case ATTACK_:
-			zombie1_img.Load(zombie1_attack_img_path_R[imageNum]);
+			zombie1_img.Load(zombie1_attack_img_path_R[imageNum/5]);
 			break;
 		case DIE_:
-			zombie1_img.Load(zombie1_die_img_path_R[imageNum]);
+			zombie1_img.Load(zombie1_die_img_path_R[imageNum/5]);
 			break;
 		}
 	}
 }
 
 void Zombie1::print(HDC& mDC) {
-	if (!zombie1_img.IsNull() && (hp != 0 || imageNum != 4)) {
+	if (!zombie1_img.IsNull()) {
 		zombie1_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, zombie1_img.GetWidth(), zombie1_img.GetHeight());
 	}
 }
 
-void Zombie1::move(StageManager& stageManager, RECT Rect) {
+void Zombie1::move(StageManager& stageManager) {
 
 	//중력
 	RECT temprect = rect;
@@ -64,7 +64,7 @@ void Zombie1::move(StageManager& stageManager, RECT Rect) {
 		rect = temprect;
 
 	//이미지
-	if (status != DIE_ || imageNum != 4)
+	if (status != DIE_ || imageNum != 20)
 		++imageNum;
 
 	switch (status) {
@@ -72,24 +72,24 @@ void Zombie1::move(StageManager& stageManager, RECT Rect) {
 		int offset = left ? -4 : 4;
 		OffsetRect(&rect, offset, 0);
 
-		if (imageNum == 8)
+		if (imageNum == 40)
 			imageNum = 0;
 
-		if (CheckClientRect(Rect, rect))
+		if (CheckClientRect(stageManager.game_rect, rect))
 			left = !left;
 	}
 		break;
 	case ATTACK_:
-		if (imageNum == 5)
+		if (imageNum == 25)
 			imageNum = 0;
 		break;
 	case DIE_:
-		if (imageNum == 4)
+		if (imageNum == 20)
 			zombie1_img.Destroy();
 		break;
 	}
 
-	if (status != DIE_ || imageNum != 4)
+	if (status != DIE_ || imageNum != 20)
 		insert();
 }
 

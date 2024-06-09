@@ -51,12 +51,12 @@ void Slime::insert() {
 }
 
 void Slime::print(HDC& mDC) {
-	if (!slime_img.IsNull() && (hp != 0 || imageNum != 9)) {
+	if (!slime_img.IsNull()) {
 		slime_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, slime_img.GetWidth(), slime_img.GetHeight());
 	}
 }
 
-void Slime::move(StageManager& stageManager,RECT Rect) {
+void Slime::move(StageManager& stageManager) {
 		//ม฿ทย
 		RECT temprect = rect;
 		gravity.UpdatePhysics(rect);
@@ -79,7 +79,7 @@ void Slime::move(StageManager& stageManager,RECT Rect) {
 			int offset = left ? -2 : 2;
 			OffsetRect(&rect, offset, 0);
 
-			if (CheckClientRect(Rect,rect))
+			if (CheckClientRect(stageManager.game_rect,rect))
 				left = !left;
 		}
 
