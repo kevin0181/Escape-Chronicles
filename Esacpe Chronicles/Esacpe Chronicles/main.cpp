@@ -12,6 +12,8 @@
 #include "Zombie1.h"
 #include "Zombie2.h"
 #include "Zombie3.h"
+#include "Brain1.h"
+#include "Brain2.h"
 #include "Block.h"
 #include "Player.h"
 
@@ -66,6 +68,8 @@ Slime slime;
 Zombie1 zombie1;
 Zombie2 zombie2;
 Zombie3 zombie3;
+//Brain1 brain1;
+//Brain2 brain2;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
@@ -91,6 +95,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         zombie1.insert();
         zombie2.insert();
         zombie3.insert();
+		//brain1.insert();
+		//brain2.insert();
+
         SetTimer(hWnd, 1, 1, FALSE);
         break;
     }
@@ -138,8 +145,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 		// ------------------------------------------------
 		//zombie1.print(mDC);
-		zombie2.print(mDC);
-		zombie3.print(mDC);
+		//zombie2.print(mDC);
+		//zombie3.print(mDC);
+		//brain1.print(mDC);
+		//brain2.print(mDC);
 
 		BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
@@ -156,13 +165,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			{
 			case STAGE::STAGE_1:
 			{
+				slime.move(stageManager);//_left
 				
-				
-				slime.move(stageManager,rect);//_left
-				
-				//zombie1.move(stageManager,rect);
-				zombie2.move(stageManager, rect);
-				zombie3.move(stageManager, rect);
+				zombie1.move(stageManager);
+				zombie2.move(stageManager);
+				zombie3.move(stageManager);
+				//brain1.move(stageManager);
+				//brain2.move(stageManager);
 
 				//player
 				player.TIMER(stageManager);

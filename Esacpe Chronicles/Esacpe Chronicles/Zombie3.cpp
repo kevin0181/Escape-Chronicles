@@ -49,12 +49,12 @@ void Zombie3::insert() {
 }
 
 void Zombie3::print(HDC& mDC) {
-	if (!zombie3_img.IsNull()&& (hp != 0 || imageNum != 5)) {
+	if (!zombie3_img.IsNull()) {
 		zombie3_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, zombie3_img.GetWidth(), zombie3_img.GetHeight());
 	}
 }
 
-void Zombie3::move(StageManager& stageManager, RECT Rect) {
+void Zombie3::move(StageManager& stageManager) {
 
 	//ม฿ทย
 	RECT temprect = rect;
@@ -75,7 +75,7 @@ void Zombie3::move(StageManager& stageManager, RECT Rect) {
 		if (imageNum == 10)
 			imageNum = 0;
 
-		if (CheckClientRect(Rect, rect))
+		if (CheckClientRect(stageManager.game_rect, rect))
 			left = !left;
 	}
 			  break;

@@ -80,7 +80,7 @@ public:
 
 	void insert() override; // 움직일 때(사진 바꿀 때)도 쓴다
 	void print(HDC& mDC) override;
-	void move(StageManager& stageManager, RECT Rect) override; // rect를 움직이고 insert를 호출해 사진도 바꿔줌
+	void move(StageManager& stageManager) override; // rect를 움직이고 insert를 호출해 사진도 바꿔줌
 	void attack() override;
 	RECT& getRect() override {
 		return rect;
