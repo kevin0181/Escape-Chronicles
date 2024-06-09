@@ -23,26 +23,26 @@ void Brain2::insert() {
 	if (left) {
 		switch (status) {
 		case MOVE_:
-			brain2_img.Load(brain2_img_path_L[imageNum]);
+			brain2_img.Load(brain2_img_path_L[imageNum/3]);
 			break;
 		case ATTACK_:
-			brain2_img.Load(brain2_attack_img_path_L[imageNum]);
+			brain2_img.Load(brain2_attack_img_path_L[imageNum/3]);
 			break;
 		case DIE_:
-			brain2_img.Load(brain2_die_img_path_L[imageNum]);
+			brain2_img.Load(brain2_die_img_path_L[imageNum/3]);
 			break;
 		}
 	}
 	else {
 		switch (status) {
 		case MOVE_:
-			brain2_img.Load(brain2_img_path_R[imageNum]);
+			brain2_img.Load(brain2_img_path_R[imageNum/3]);
 			break;
 		case ATTACK_:
-			brain2_img.Load(brain2_attack_img_path_R[imageNum]);
+			brain2_img.Load(brain2_attack_img_path_R[imageNum/3]);
 			break;
 		case DIE_:
-			brain2_img.Load(brain2_die_img_path_R[imageNum]);
+			brain2_img.Load(brain2_die_img_path_R[imageNum/3]);
 			break;
 		}
 	}
@@ -64,7 +64,7 @@ void Brain2::move(StageManager& stageManager) {
 		rect = temprect;
 
 	//ÀÌ¹ÌÁö
-	if (status != DIE_ || imageNum != 10)
+	if (status != DIE_ || imageNum != 30)
 		++imageNum;
 
 	switch (status) {
@@ -72,7 +72,7 @@ void Brain2::move(StageManager& stageManager) {
 		int offset = left ? -4 : 4;
 		OffsetRect(&rect, offset, 0);
 
-		if (imageNum == 6)
+		if (imageNum == 18)
 			imageNum = 0;
 
 		if (CheckClientRect(stageManager.game_rect, rect))
@@ -80,16 +80,16 @@ void Brain2::move(StageManager& stageManager) {
 	}
 			  break;
 	case ATTACK_:
-		if (imageNum == 6)
+		if (imageNum == 18)
 			imageNum = 0;
 		break;
 	case DIE_:
-		if (imageNum == 10)
+		if (imageNum == 30)
 			brain2_img.Destroy();
 		break;
 	}
 
-	if (status != DIE_ || imageNum != 10)
+	if (status != DIE_ || imageNum != 30)
 		insert();
 }
 

@@ -23,26 +23,26 @@ void Zombie1::insert() {
 	if (left) {
 		switch (status) {
 		case MOVE_:
-			zombie1_img.Load(zombie1_img_path_L[imageNum]);
+			zombie1_img.Load(zombie1_img_path_L[imageNum/5]);
 			break;
 		case ATTACK_:
-			zombie1_img.Load(zombie1_attack_img_path_L[imageNum]);
+			zombie1_img.Load(zombie1_attack_img_path_L[imageNum/5]);
 			break;
 		case DIE_:
-			zombie1_img.Load(zombie1_die_img_path_L[imageNum]);
+			zombie1_img.Load(zombie1_die_img_path_L[imageNum/5]);
 			break;
 		}
 	}
 	else {
 		switch (status) {
 		case MOVE_:
-			zombie1_img.Load(zombie1_img_path_R[imageNum]);
+			zombie1_img.Load(zombie1_img_path_R[imageNum/5]);
 			break;
 		case ATTACK_:
-			zombie1_img.Load(zombie1_attack_img_path_R[imageNum]);
+			zombie1_img.Load(zombie1_attack_img_path_R[imageNum/5]);
 			break;
 		case DIE_:
-			zombie1_img.Load(zombie1_die_img_path_R[imageNum]);
+			zombie1_img.Load(zombie1_die_img_path_R[imageNum/5]);
 			break;
 		}
 	}
@@ -64,7 +64,7 @@ void Zombie1::move(StageManager& stageManager) {
 		rect = temprect;
 
 	//ÀÌ¹ÌÁö
-	if (status != DIE_ || imageNum != 4)
+	if (status != DIE_ || imageNum != 20)
 		++imageNum;
 
 	switch (status) {
@@ -72,7 +72,7 @@ void Zombie1::move(StageManager& stageManager) {
 		int offset = left ? -4 : 4;
 		OffsetRect(&rect, offset, 0);
 
-		if (imageNum == 8)
+		if (imageNum == 40)
 			imageNum = 0;
 
 		if (CheckClientRect(stageManager.game_rect, rect))
@@ -80,16 +80,16 @@ void Zombie1::move(StageManager& stageManager) {
 	}
 		break;
 	case ATTACK_:
-		if (imageNum == 5)
+		if (imageNum == 25)
 			imageNum = 0;
 		break;
 	case DIE_:
-		if (imageNum == 4)
+		if (imageNum == 20)
 			zombie1_img.Destroy();
 		break;
 	}
 
-	if (status != DIE_ || imageNum != 4)
+	if (status != DIE_ || imageNum != 20)
 		insert();
 }
 

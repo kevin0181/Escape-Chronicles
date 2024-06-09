@@ -64,12 +64,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	return static_cast<int>(Message.wParam);
 }
 
-Slime slime;
-Zombie1 zombie1;
-Zombie2 zombie2;
-Zombie3 zombie3;
-//Brain1 brain1;
-//Brain2 brain2;
+vector<Slime> slimes;
+//Zombie1 zombie1;
+//Zombie2 zombie2;
+//Zombie3 zombie3;
+Brain1 brain1;
+Brain2 brain2;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
@@ -94,12 +94,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		// 시작버튼
 		stageManager.startBtn = { rect.right - 300, rect.bottom - 150, rect.right - 200, rect.bottom - 50 };
      
-        slime.insert();
-        zombie1.insert();
-        zombie2.insert();
-        zombie3.insert();
-		//brain1.insert();
-		//brain2.insert();
+		{// 원하는 개수만큼 반복
+			Slime slime;
+			slime.insert();
+			slimes.push_back(slime);
+		}
+        //zombie1.insert();
+        //zombie2.insert();
+        //zombie3.insert();
+		brain1.insert();
+		brain2.insert();
 
         SetTimer(hWnd, 1, 1, FALSE);
         break;
@@ -150,7 +154,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         */
         if (STAGE::STAGE_1 == stageManager.getCurrent_stage()) {
             stageManager.DrawBackground_img(mDC, rect, 4);
-            slime.print(mDC);
+			for (auto& slime : slimes) {
+				slime.print(mDC);
+			}
             player.print(mDC);
         }
 
@@ -176,11 +182,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			{
 			case STAGE::STAGE_1:
 			{
-				slime.move(stageManager);//_left
+				for (auto& slime : slimes) {
+					slime.move(stageManager);
+				}
 				
-				zombie1.move(stageManager);
-				zombie2.move(stageManager);
-				zombie3.move(stageManager);
+				//zombie1.move(stageManager);
+				//zombie2.move(stageManager);
+				//zombie3.move(stageManager);
 				//brain1.move(stageManager);
 				//brain2.move(stageManager);
 
