@@ -10,7 +10,7 @@ class Monster {
 public:
 	virtual void insert() = 0;
 	virtual void print(HDC& mDC) = 0;
-	virtual void move(StageManager& stageManager, RECT Rect) = 0;
+	virtual void move(StageManager& stageManager) = 0;
 	virtual void attack() = 0;
 	virtual RECT& getRect() = 0;
 };
