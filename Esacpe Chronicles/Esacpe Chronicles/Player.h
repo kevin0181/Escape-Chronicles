@@ -3,6 +3,7 @@
 #include <atlimage.h>
 #include <memory>
 #include <vector>
+#include <cmath> // abs 함수가 포함된 헤더 파일
 
 #include "PlayerStatus.h"
 #include "Gravity.h"
