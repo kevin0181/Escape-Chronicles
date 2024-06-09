@@ -1,19 +1,18 @@
 #pragma once
 #include <atlimage.h>
-#include "Monster.h"
 
+#include "Monster.h"
 #include "Collision.h"
 #include "Gravity.h"
+#include "StageManager.h"
 
 class Slime : public Monster {
-private:
 	int hp;
 	CImage slime_img; 
 	int imageNum;
 	RECT rect;
 	bool left; // 슬라임의 이동 방향
-	bool bool_attack; //일정 범위 안에 플레이어가 있을시 true, 플레이어를 공격한다
-public:
+	MonsterStatus status;
 	Gravity gravity;
 
 	LPCTSTR slime_img_path_L[9] = { // 그냥 움직임 L
@@ -88,15 +87,14 @@ public:
 		L"img/monster/slime_R/Slime_die(9).png",
 	};
 
+public:
 	Slime();
 
-
 	RECT getRect() const; //충돌 체크할 때 필요할까봐 해둠
-
 	void insert() override; // 움직일 때(사진 바꿀 때)도 쓴다
 	void print(HDC& mDC) override; 
-	void move(RECT Rect) override; // rect를 움직이고 insert를 호출해 사진도 바꿔줌
-	void attack(bool status) override;
+	void move(StageManager& stageManager, RECT Rect) override; // rect를 움직이고 insert를 호출해 사진도 바꿔줌
+	void attack() override;
 
 	RECT& getRect() override;
 };

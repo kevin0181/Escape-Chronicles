@@ -1,8 +1,4 @@
-#include <iostream>
-#include <atlimage.h>
-#include "Monster.h"
 #include "Zombie3.h"
-#include "Collision.h"
 using namespace std;
 
 //srand(time(nullptr));
@@ -10,9 +6,9 @@ using namespace std;
 Zombie3::Zombie3() : Monster() {
 	hp = 0; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	rect = { 300, 300, 500, 500 };
+	rect = { 300, 300, 600, 600 };
 	left = false;
-	bool_attack = true;
+	status = MOVE_;
 }
 
 RECT Zombie3::getRect() const {
@@ -25,25 +21,30 @@ void Zombie3::insert() {
 	}
 
 	if (left) {
-		if (hp != 0) {
-			if (bool_attack)// 공격할 때
-				zombie3_img.Load(zombie3_attack_img_path_L[imageNum]);
-			else// 걍 움직일 떄
-				zombie3_img.Load(zombie3_img_path_L[imageNum]);
-		}
-		else// 죽었을 떄
+		switch (status) {
+		case MOVE_:
+			zombie3_img.Load(zombie3_img_path_L[imageNum]);
+			break;
+		case ATTACK_:
+			zombie3_img.Load(zombie3_attack_img_path_L[imageNum]);
+			break;
+		case DIE_:
 			zombie3_img.Load(zombie3_die_img_path_L[imageNum]);
-	}
-	
-	else{
-		if (hp != 0) {
-			if (bool_attack)// 공격할 때
-				zombie3_img.Load(zombie3_attack_img_path_R[imageNum]);
-			else// 걍 움직일 떄
-				zombie3_img.Load(zombie3_img_path_R[imageNum]);
+			break;
 		}
-		else// 죽었을 떄
+	}
+	else {
+		switch (status) {
+		case MOVE_:
+			zombie3_img.Load(zombie3_img_path_R[imageNum]);
+			break;
+		case ATTACK_:
+			zombie3_img.Load(zombie3_attack_img_path_R[imageNum]);
+			break;
+		case DIE_:
 			zombie3_img.Load(zombie3_die_img_path_R[imageNum]);
+			break;
+		}
 	}
 }
 
@@ -53,48 +54,45 @@ void Zombie3::print(HDC& mDC) {
 	}
 }
 
-void Zombie3::move(RECT Rect) {
-	if (hp != 0 || imageNum != 5) {
+void Zombie3::move(StageManager& stageManager, RECT Rect) {
+
+	//중력
+	RECT temprect = rect;
+	gravity.UpdatePhysics(rect);
+
+	if (CheckBlockCollision(rect, stageManager.blocks_stage1))
+		rect = temprect;
+
+	//이미지
+	if (status != DIE_ || imageNum != 5)
 		++imageNum;
-	}
 
-	if (hp != 0) {
-		if (bool_attack && imageNum == 4) {
-			// 공격할 때
+	switch (status) {
+	case MOVE_: {
+		int offset = left ? -4 : 4;
+		OffsetRect(&rect, offset, 0);
+
+		if (imageNum == 10)
 			imageNum = 0;
-		}
-		else if (!bool_attack) {
-			// 걍 움직일 떄
-			if (left) {
-				OffsetRect(&rect, -4, 0);
-				if (CheckBlockCollision(Rect, { 0,0,0,0 }, left, rect)) {// 화면 끝 도달 시 방향 변경
-					OffsetRect(&rect, 4, 0);
-					left = false;
-				}
-			}
-			else {
-				OffsetRect(&rect, 4, 0);
-				if (CheckBlockCollision(Rect, { 0,0,0,0 }, left, rect)) {
-					OffsetRect(&rect, -4, 0);
-					left = true;
-				}
-			}
 
-			if(imageNum==10){
-				imageNum = 0;
-			}
-		}
+		if (CheckClientRect(Rect, rect))
+			left = !left;
 	}
-	else if (hp == 0 && imageNum == 5) {
-		// 죽었을 떄
-		zombie3_img.Destroy();
+			  break;
+	case ATTACK_:
+		if (imageNum == 4)
+			imageNum = 0;
+		break;
+	case DIE_:
+		if (imageNum == 5)
+			zombie3_img.Destroy();
+		break;
 	}
 
-	if (hp != 0 || imageNum != 5) {
+	if (status != DIE_ || imageNum != 5)
 		insert();
-	}
 }
 
-void Zombie3::attack(bool status) {
-	bool_attack = status;
+void Zombie3::attack() {
+	
 }

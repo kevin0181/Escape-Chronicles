@@ -1,17 +1,20 @@
 #pragma once
 #include <atlimage.h>
+
 #include "Monster.h"
 #include "Collision.h"
+#include "Gravity.h"
+#include "StageManager.h"
 
 class Zombie1 : public Monster {
-private:
 	int hp;
 	CImage zombie1_img;
 	int imageNum;
 	RECT rect;
 	bool left; // 좀비의 이동 방향
-	bool bool_attack; //일정 범위 안에 플레이어가 있을시 true, 플레이어를 공격한다
-public:
+	MonsterStatus status;
+	Gravity gravity;
+
 	LPCTSTR zombie1_img_path_L[8] = { // zombieman
 		L"img/monster/zombieman_L/zombieman_walk_1.png",
 		L"img/monster/zombieman_L/zombieman_walk_2.png",
@@ -64,15 +67,15 @@ public:
 		L"img/monster/zombieman_R/zombieman_die_4.png"
 	};
 
+public:
 	Zombie1();
 
 
 	RECT getRect() const; //충돌 체크할 때 필요할까봐 해둠
-	
 	void insert() override; // 움직일 때(사진 바꿀 때)도 쓴다
 	void print(HDC& mDC) override;
-	void move(RECT Rect) override; // rect를 움직이고 insert를 호출해 사진도 바꿔줌
-	void attack(bool status) override;
+	void move(StageManager& stageManager, RECT Rect) override; // rect를 움직이고 insert를 호출해 사진도 바꿔줌
+	void attack() override;
 	RECT& getRect() override {
 		return rect;
 	}
