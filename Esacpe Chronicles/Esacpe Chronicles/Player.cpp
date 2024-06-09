@@ -157,13 +157,16 @@ void Player::move(StageManager& stageManager) {
 
 		if (stageManager.rect.left < 0) {
 			OffsetRect(&rect, -speed, 0);
+			OffsetRect(&stageManager.rect, stageManager.camera_move_speed, 0);
 			if (crash_check_block(rect, stageManager.blocks_stage1) || checkPosition(stageManager, rect.right, false)) {
 				rect = tempRect; // 충돌하면 원래 위치로 되돌림
 			}
-			OffsetRect(&stageManager.rect, stageManager.camera_move_speed, 0);
 		}
 		else {
 			OffsetRect(&rect, -speed, 0);
+			if (crash_check_block(rect, stageManager.blocks_stage1)) {
+				rect = tempRect; // 충돌하면 원래 위치로 되돌림
+			}
 		}
 
 		break;
@@ -177,6 +180,9 @@ void Player::move(StageManager& stageManager) {
 		}
 		else {
 			OffsetRect(&rect, speed, 0);
+			if (crash_check_block(rect, stageManager.blocks_stage1)) {
+				rect = tempRect; // 충돌하면 원래 위치로 되돌림
+			}
 		}
 		break;
 	case ATTACK:

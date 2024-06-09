@@ -9,6 +9,12 @@
 class Block {
 private:
 public:
+
+    RECT stage1_blocks[10] = {
+        {},
+        {},
+    };
+
     static const LPCTSTR path_stage1;
     std::unique_ptr<CImage> cImage;
     RECT rect;
