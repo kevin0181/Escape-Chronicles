@@ -105,23 +105,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		break;
     case WM_KEYDOWN:
 
-        if (stageManager.getCurrent_stage() == STAGE::INTRO)
-            stageManager.setKeyDown(wParam);
+		if (stageManager.getCurrent_stage() == STAGE::INTRO)
+			stageManager.setKeyDown(wParam);
 
-        if(stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 || 
-            stageManager.getCurrent_stage() == STAGE::STAGE_3)
-            player.setKeyDown(wParam);
+		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
+			stageManager.getCurrent_stage() == STAGE::STAGE_3)
+			player.setKeyDown(wParam);
 
-        break;
-    case WM_KEYUP:
-        player.setKeyUp(wParam);
-        break;
-    case WM_PAINT: {
-        hDC = BeginPaint(hWnd, &ps);
-        mDC = CreateCompatibleDC(hDC);
-        GetClientRect(hWnd, &rect);
-        hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
-        hOldBitmap = static_cast<HBITMAP>(SelectObject(mDC, hBitmap));
+		break;
+	case WM_KEYUP:
+		player.setKeyUp(wParam);
+		break;
+	case WM_PAINT: {
+		hDC = BeginPaint(hWnd, &ps);
+		mDC = CreateCompatibleDC(hDC);
+		GetClientRect(hWnd, &rect);
+		hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
+		hOldBitmap = static_cast<HBITMAP>(SelectObject(mDC, hBitmap));
 
 		FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
 
@@ -136,6 +136,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			stageManager.DrawBackground_img(mDC, rect, 1);
 			stageManager.setMainBackGround(mDC, rect);
 		}
+
         /*
         stage 1
             플레이어, 슬라임, 파란색 벽돌
@@ -146,10 +147,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             player.print(mDC);
         }
 
-        // ------------------------------------------------
-        /*zombie1.print(mDC);
-        zombie2.print(mDC);
-        zombie3.print(mDC);*/
+		// ------------------------------------------------
+		//zombie1.print(mDC);
+		zombie2.print(mDC);
+		zombie3.print(mDC);
 
 		BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
@@ -166,11 +167,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			{
 			case STAGE::STAGE_1:
 			{
-				slime.move(rect);//_left
 				
-				// zombie1.move(rect);
-				// zombie2.move(rect);
-				// zombie3.move(rect);
+				
+				slime.move(stageManager,rect);//_left
+				
+				//zombie1.move(stageManager,rect);
+				zombie2.move(stageManager, rect);
+				zombie3.move(stageManager, rect);
 
 				//player
 				player.TIMER(stageManager);

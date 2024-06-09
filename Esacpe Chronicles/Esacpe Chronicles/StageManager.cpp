@@ -1,4 +1,4 @@
-#include "StageManager.h"
+ï»¿#include "StageManager.h"
 #include <stdexcept>
 
 #define BLOCK_SIZE 70
@@ -8,7 +8,7 @@ void StageManager::setCurrent_stage(STAGE stage) {
 }
 
 void StageManager::setBackground_img(const LPCTSTR path) {
-    // ±âÁ¸ ÀÌ¹ÌÁö¸¦ ÆÄ±«ÇÏ°í »õ·Î¿î ÀÌ¹ÌÁö·Î ±³Ã¼
+    
     destroyImg();
     background_img.Load(path);
     rect = { 0,0,background_img.GetWidth(),background_img.GetHeight() };
@@ -19,13 +19,13 @@ STAGE StageManager::getCurrent_stage() const {
 }
 
 void StageManager::DrawBackground_img(HDC& mDC, const RECT& rect, const int& w) {
-    // ÇöÀç ¹è°æ ÀÌ¹ÌÁö¸¦ ÁÖ¾îÁø HDC¿¡ ±×¸®±â
+    
     if (!background_img.IsNull()) {
 
-        background_img.Draw(mDC, 0, 0, rect.right * w, rect.bottom, 0, 0, background_img.GetWidth(), background_img.GetHeight()); //ÀÌ¹ÌÁö ÀüÃ¼ È­¸é
+        background_img.Draw(mDC, 0, 0, rect.right * w, rect.bottom, 0, 0, background_img.GetWidth(), background_img.GetHeight()); //ì´ë¯¸ì§€ ì „ì²´ í™”ë©´
 
         if (current_stage == STAGE::STAGE_1) {
-            for (int i = 0; i < blocks_stage1.size(); ++i) { //ºí·° ±×¸®±â
+            for (int i = 0; i < blocks_stage1.size(); ++i) { //ë¸”ëŸ­ ê·¸ë¦¬ê¸°
                 blocks_stage1[i].print(mDC, i, 1);
             }
         }
@@ -45,7 +45,7 @@ void StageManager::setMainBackGround(HDC& mDC, const RECT& rect) {
 }
 
 void StageManager::destroyImg() {
-    // ¹è°æ ÀÌ¹ÌÁö°¡ ·ÎµåµÇ¾î ÀÖÀ¸¸é ÆÄ±«
+    // ë°°ê²½ ì´ë¯¸ì§€ê°€ ë¡œë“œë˜ì–´ ìˆìœ¼ë©´ íŒŒê´´
     if (!background_img.IsNull()) {
         background_img.Destroy();
     }
@@ -55,6 +55,8 @@ void StageManager::destroyImg() {
 void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float& size) { // block create
 
     blocks_stage1.clear();
+
+    int startY = static_cast<int>(this->rect.bottom * size);
 
     for (int i = 0; i < game_rect.right / BLOCK_SIZE; ++i) {
         for (int j = 0; j < h; ++j) {
