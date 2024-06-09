@@ -86,6 +86,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		stageManager.setBackground_img(stageManager.intro_img_path[0]);
 		stageManager.game_rect = rect;
 		stageManager.game_rect.right *= 3; //게임 크기 정해주기
+		stageManager.viewRect = rect;
 
 		// 시작버튼
 		stageManager.startBtn = { rect.right - 300, rect.bottom - 150, rect.right - 200, rect.bottom - 50 };
