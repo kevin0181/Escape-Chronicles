@@ -188,8 +188,12 @@ bool Player::crash_check_block(RECT& rect, std::vector<Block>& blocks) { //
 }
 
 void Player::TIMER(StageManager& stageManager) {
+
+	static int timer_player = 0;
+	timer_player++;
 	
-	setImg(img_num + 1);
+	if (timer_player % 2 == 0)
+		setImg(img_num + 1);
 
 	move(stageManager);
 
