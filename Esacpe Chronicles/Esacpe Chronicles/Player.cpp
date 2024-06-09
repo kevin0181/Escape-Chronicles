@@ -1,4 +1,5 @@
 #include"Player.h"
+#include "GlobalVariables.h"
 
 int Player::getCimageSize() const{ 
 	switch (status)
@@ -157,26 +158,42 @@ void Player::move(StageManager& stageManager) {
 
 		if (stageManager.rect.left < 0) {
 			OffsetRect(&rect, -speed, 0);
+			OffsetRect(&stageManager.rect, stageManager.camera_move_speed, 0); // 뒷배경 이동 <-
+			
+			for (int i = 0; i < stageManager.blocks_stage1.size(); ++i) {
+				OffsetRect(&stageManager.blocks_stage1[i].rect, 10, 0);
+			}
+
 			if (crash_check_block(rect, stageManager.blocks_stage1) || checkPosition(stageManager, rect.right, false)) {
 				rect = tempRect; // 충돌하면 원래 위치로 되돌림
 			}
-			OffsetRect(&stageManager.rect, stageManager.camera_move_speed, 0);
 		}
 		else {
 			OffsetRect(&rect, -speed, 0);
+			if (crash_check_block(rect, stageManager.blocks_stage1)) {
+				rect = tempRect; // 충돌하면 원래 위치로 되돌림
+			}
 		}
 
 		break;
 	case RIGHT:
 		if (std::abs(stageManager.rect.right) + std::abs(stageManager.rect.left) < stageManager.game_rect.right) {
-			OffsetRect(&stageManager.rect, -stageManager.camera_move_speed, 0);
 			OffsetRect(&rect, speed, 0);
+			OffsetRect(&stageManager.rect, -stageManager.camera_move_speed, 0); // 뒷배경 이동 ->
+
+			for (int i = 0; i < stageManager.blocks_stage1.size(); ++i) {
+				OffsetRect(&stageManager.blocks_stage1[i].rect, -10, 0);
+			}
+
 			if (crash_check_block(rect, stageManager.blocks_stage1) || checkPosition(stageManager, rect.left, true)) {
 				rect = tempRect; // 충돌하면 원래 위치로 되돌림
 			}
 		}
 		else {
 			OffsetRect(&rect, speed, 0);
+			if (crash_check_block(rect, stageManager.blocks_stage1)) {
+				rect = tempRect; // 충돌하면 원래 위치로 되돌림
+			}
 		}
 		break;
 	case ATTACK:

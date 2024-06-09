@@ -66,6 +66,19 @@ void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float
             blocks_stage1.push_back(std::move(block));
         }
     }
+
+    RECT rect_side_blocks[2] = {
+        {-70,0,0,game_rect.bottom},
+        {game_rect.right,0,game_rect.right + 70,game_rect.bottom}
+    };
+
+    for (int i = 0; i < 2; i++) {
+        Block block;
+        block.cImage->Load(path_block);
+        block.rect = rect_side_blocks[i];
+        blocks_stage1.push_back(std::move(block));
+    }
+
 }
 
 void StageManager::setLMBtnDown(LPARAM lParam) {
