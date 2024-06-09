@@ -155,7 +155,7 @@ void Player::move(StageManager& stageManager) {
 		break;
 	case LEFT:
 
-		if (stageManager.rect.left <= 0) {
+		if (stageManager.rect.left < 0) {
 			OffsetRect(&rect, -speed, 0);
 			if (crash_check_block(rect, stageManager.blocks_stage1) || checkPosition(stageManager, rect.right, false)) {
 				rect = tempRect; // 충돌하면 원래 위치로 되돌림
@@ -168,7 +168,7 @@ void Player::move(StageManager& stageManager) {
 
 		break;
 	case RIGHT:
-		if (std::abs(stageManager.rect.right) + std::abs(stageManager.rect.left) <= stageManager.game_rect.right) {
+		if (std::abs(stageManager.rect.right) + std::abs(stageManager.rect.left) < stageManager.game_rect.right) {
 			OffsetRect(&stageManager.rect, -stageManager.camera_move_speed, 0);
 			OffsetRect(&rect, speed, 0);
 			if (crash_check_block(rect, stageManager.blocks_stage1) || checkPosition(stageManager, rect.left, true)) {
