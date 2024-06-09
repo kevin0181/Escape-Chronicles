@@ -35,6 +35,15 @@ void StageManager::DrawBackground_img(HDC& mDC, const RECT& rect, const int& w) 
     }
 }
 
+void StageManager::setMainBackGround(HDC& mDC, const RECT& rect) {
+    if (!startBtnImg.IsNull()) {
+        startBtnImg.Draw(mDC, startBtn.left, startBtn.top, 100, 100, 0, 0, startBtnImg.GetWidth(), startBtnImg.GetHeight());
+    }
+    else {
+        throw std::runtime_error("Background image is not loaded.");
+    }
+}
+
 void StageManager::destroyImg() {
     // 배경 이미지가 로드되어 있으면 파괴
     if (!background_img.IsNull()) {
@@ -58,15 +67,26 @@ void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float
     }
 }
 
+void StageManager::setLMBtnDown(LPARAM lParam) {
+    POINT mP;
+    mP.x = LOWORD(lParam);
+    mP.y = HIWORD(lParam);
+
+    if (PtInRect(&startBtn, mP)) {
+        setBlock(1, Block::path_stage1, 0.98); //block create
+        current_stage = STAGE::STAGE_1;
+        setBackground_img(background_img_path[0]);
+    }
+}
+
 void StageManager::setKeyDown(WPARAM wParam) {
     switch (wParam)
     {
     case VK_RETURN:
         intro_cnt++;
         if (intro_cnt >= 5) {
-            setBlock(1, Block::path_stage1, 0.98); //block create
-            current_stage = STAGE::STAGE_1;
-            setBackground_img(background_img_path[0]);
+            current_stage = STAGE::MAIN;
+            setBackground_img(main_img_path[2]);
             break;
         }
         setBackground_img(this->intro_img_path[intro_cnt]);

@@ -80,12 +80,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	static Player player;
 
     switch (uMsg) {
-    case WM_CREATE:
-    {
+	case WM_CREATE:
+	{
 		GetClientRect(hWnd, &rect);
-        stageManager.setBackground_img(stageManager.intro_img_path[0]);
+		stageManager.setBackground_img(stageManager.intro_img_path[0]);
 		stageManager.game_rect = rect;
-		stageManager.game_rect.right *= 3;
+		stageManager.game_rect.right *= 3; //게임 크기 정해주기
+
+		// 시작버튼
+		stageManager.startBtn = { rect.right - 300, rect.bottom - 150, rect.right - 200, rect.bottom - 50 };
      
         slime.insert();
         zombie1.insert();
@@ -94,8 +97,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         SetTimer(hWnd, 1, 1, FALSE);
         break;
     }
-    case WM_SIZE:
-        break;
+	case WM_LBUTTONDOWN:
+
+		if (stageManager.getCurrent_stage() == STAGE::MAIN)
+			stageManager.setLMBtnDown(lParam);
+
+		break;
     case WM_KEYDOWN:
 
         if (stageManager.getCurrent_stage() == STAGE::INTRO)
@@ -125,7 +132,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         if (STAGE::INTRO == stageManager.getCurrent_stage()) {
             stageManager.DrawBackground_img(mDC, rect, 1);
         }
-
+		if (STAGE::MAIN == stageManager.getCurrent_stage()) {
+			stageManager.DrawBackground_img(mDC, rect, 1);
+			stageManager.setMainBackGround(mDC, rect);
+		}
         /*
         stage 1
             플레이어, 슬라임, 파란색 벽돌
