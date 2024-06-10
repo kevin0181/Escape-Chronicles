@@ -93,30 +93,58 @@ void Player::setImg(int img_num) {
 		}
 
 		if (attack_sword == 1) { // 2¹ø °ø°Ý
-			cImage->Load(_attack_sword_2_r[this->img_num]);
+			if (direction == PlayerStatus::LEFT)
+				cImage->Load(_attack_sword_2_l[this->img_num]);
+			else if (direction == PlayerStatus::RIGHT)
+				cImage->Load(_attack_sword_2_r[this->img_num]);
+
 			if (img_num == 4) {
-				status = PlayerStatus::DEFAULT_R;
+				if (direction == PlayerStatus::LEFT)
+					status = PlayerStatus::DEFAULT_L;
+				else if (direction == PlayerStatus::RIGHT)
+					status = PlayerStatus::DEFAULT_R;
 			}
 		}
 
 		if (attack_sword == 2) {
-			cImage->Load(_attack_sword_3_r[this->img_num]);
+			if (direction == PlayerStatus::LEFT)
+				cImage->Load(_attack_sword_3_l[this->img_num]);
+			else if (direction == PlayerStatus::RIGHT)
+				cImage->Load(_attack_sword_3_r[this->img_num]);
+
 			if (img_num == 4) {
-				status = PlayerStatus::DEFAULT_R;
+				if (direction == PlayerStatus::LEFT)
+					status = PlayerStatus::DEFAULT_L;
+				else if (direction == PlayerStatus::RIGHT)
+					status = PlayerStatus::DEFAULT_R;
 			}
 		}
 
 		if (attack_sword == 3) {
-			cImage->Load(_attack_sword_4_r[this->img_num]);
+			if (direction == PlayerStatus::LEFT)
+				cImage->Load(_attack_sword_4_l[this->img_num]);
+			else if (direction == PlayerStatus::RIGHT)
+				cImage->Load(_attack_sword_4_r[this->img_num]);
+
 			if (img_num == 4) {
-				status = PlayerStatus::DEFAULT_R;
+				if (direction == PlayerStatus::LEFT)
+					status = PlayerStatus::DEFAULT_L;
+				else if (direction == PlayerStatus::RIGHT)
+					status = PlayerStatus::DEFAULT_R;
 			}
 		}
 
 		if (attack_sword == 4) {
-			cImage->Load(_attack_sword_5_r[this->img_num]);
+			if (direction == PlayerStatus::LEFT)
+				cImage->Load(_attack_sword_5_l[this->img_num]);
+			else if (direction == PlayerStatus::RIGHT)
+				cImage->Load(_attack_sword_5_r[this->img_num]);
+
 			if (img_num == 6) {
-				status = PlayerStatus::DEFAULT_R;
+				if (direction == PlayerStatus::LEFT)
+					status = PlayerStatus::DEFAULT_L;
+				else if (direction == PlayerStatus::RIGHT)
+					status = PlayerStatus::DEFAULT_R;
 			}
 		}
 
