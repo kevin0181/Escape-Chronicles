@@ -88,6 +88,14 @@ class Player {
 		L"img/character/main/jump/jump_2_v2_l.png",
 	};
 
+	LPCTSTR _attack_sword_1[5] = {
+		L"img/character/main/attack1(sword)/attack1.png",
+		L"img/character/main/attack1(sword)/attack2.png",
+		L"img/character/main/attack1(sword)/attack3.png",
+		L"img/character/main/attack1(sword)/attack4.png",
+		L"img/character/main/attack1(sword)/attack5.png",
+	};
+
 public:
 
 	int player_i = 0;
