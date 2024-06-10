@@ -17,6 +17,19 @@ int Player::getCimageSize() const{
 		return sizeof(_right) / sizeof(_right[0]);
 		break;
 	case ATTACK:
+		switch (attack_sword)
+		{
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+			return 4;
+			break;
+		case 4:
+			return 6;
+		default:
+			break;
+		}
 		break;
 	case DEFENSE:
 		break;
@@ -64,10 +77,41 @@ void Player::setImg(int img_num) {
 		cImage->Load(_right[this->img_num]);
 		break;
 	case ATTACK:
-		cImage->Load(_attack_sword_1[this->img_num]);
-		if (img_num == 4) {
-			status = PlayerStatus::DEFAULT_R;
+		if (attack_sword == 0) {
+			cImage->Load(_attack_sword_1[this->img_num]);
+			if (img_num == 4) {
+				status = PlayerStatus::DEFAULT_R;
+			}
 		}
+
+		if (attack_sword == 1) {
+			cImage->Load(_attack_sword_2[this->img_num]);
+			if (img_num == 4) {
+				status = PlayerStatus::DEFAULT_R;
+			}
+		}
+
+		if (attack_sword == 2) {
+			cImage->Load(_attack_sword_3[this->img_num]);
+			if (img_num == 4) {
+				status = PlayerStatus::DEFAULT_R;
+			}
+		}
+
+		if (attack_sword == 3) {
+			cImage->Load(_attack_sword_4[this->img_num]);
+			if (img_num == 4) {
+				status = PlayerStatus::DEFAULT_R;
+			}
+		}
+
+		if (attack_sword == 4) {
+			cImage->Load(_attack_sword_5[this->img_num]);
+			if (img_num == 6) {
+				status = PlayerStatus::DEFAULT_R;
+			}
+		}
+
 		break;
 	case DEFENSE:
 		break;

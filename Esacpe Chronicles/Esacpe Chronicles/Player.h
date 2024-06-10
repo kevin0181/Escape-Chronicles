@@ -31,6 +31,8 @@ class Player {
 
 	int weapon; // 0 = sword, 1 = bow, 2 = gun
 
+	int attack_sword = 1;
+
 	int img_num;
 	std::unique_ptr<CImage> cImage;
 
@@ -94,6 +96,40 @@ class Player {
 		L"img/character/main/attack1(sword)/attack3.png",
 		L"img/character/main/attack1(sword)/attack4.png",
 		L"img/character/main/attack1(sword)/attack5.png",
+	};
+
+	LPCTSTR _attack_sword_2[5] = {
+		L"img/character/main/attack2(sword)/attack1.png",
+		L"img/character/main/attack2(sword)/attack2.png",
+		L"img/character/main/attack2(sword)/attack3.png",
+		L"img/character/main/attack2(sword)/attack4.png",
+		L"img/character/main/attack2(sword)/attack5.png",
+	};
+
+	LPCTSTR _attack_sword_3[5] = {
+		L"img/character/main/attack3(sword)/attack1.png",
+		L"img/character/main/attack3(sword)/attack2.png",
+		L"img/character/main/attack3(sword)/attack3.png",
+		L"img/character/main/attack3(sword)/attack4.png",
+		L"img/character/main/attack3(sword)/attack5.png",
+	};
+
+	LPCTSTR _attack_sword_4[5] = {
+		L"img/character/main/attack4(sword)/attack1.png",
+		L"img/character/main/attack4(sword)/attack2.png",
+		L"img/character/main/attack4(sword)/attack3.png",
+		L"img/character/main/attack4(sword)/attack4.png",
+		L"img/character/main/attack4(sword)/attack5.png",
+	};
+
+	LPCTSTR _attack_sword_5[7] = {
+		L"img/character/main/attack5(sword)/attack1.png",
+		L"img/character/main/attack5(sword)/attack2.png",
+		L"img/character/main/attack5(sword)/attack3.png",
+		L"img/character/main/attack5(sword)/attack4.png",
+		L"img/character/main/attack5(sword)/attack5.png",
+		L"img/character/main/attack5(sword)/attack6.png",
+		L"img/character/main/attack5(sword)/attack7.png",
 	};
 
 public:
