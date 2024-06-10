@@ -157,12 +157,14 @@ void Player::move(StageManager& stageManager) {
 	case LEFT:
 
 		if (stageManager.rect.left < 0) {
-			OffsetRect(&rect, -speed, 0);
+			OffsetRect(&rect, -speed, 0); // player 이동
 			OffsetRect(&stageManager.rect, stageManager.camera_move_speed, 0); // 뒷배경 이동 <-
 			
-			for (int i = 0; i < stageManager.blocks_stage1.size(); ++i) {
+			for (int i = 0; i < stageManager.blocks_stage1.size(); ++i) { // 블럭이동
 				OffsetRect(&stageManager.blocks_stage1[i].rect, 10, 0);
 			}
+			
+			moveMonster(false);
 
 			if (crash_check_block(rect, stageManager.blocks_stage1) || checkPosition(stageManager, rect.right, false)) {
 				rect = tempRect; // 충돌하면 원래 위치로 되돌림
@@ -184,6 +186,8 @@ void Player::move(StageManager& stageManager) {
 			for (int i = 0; i < stageManager.blocks_stage1.size(); ++i) {
 				OffsetRect(&stageManager.blocks_stage1[i].rect, -10, 0);
 			}
+
+			moveMonster(true);
 
 			if (crash_check_block(rect, stageManager.blocks_stage1) || checkPosition(stageManager, rect.left, true)) {
 				rect = tempRect; // 충돌하면 원래 위치로 되돌림
@@ -247,5 +251,19 @@ void Player::TIMER(StageManager& stageManager) {
 	gravity.UpdatePhysics(rect);
 	if (crash_check_block(rect, stageManager.blocks_stage1)) {
 		rect = saveRect;
+	}
+}
+
+void Player::moveMonster(bool status) {
+
+	if (status) { // ->
+		for (auto& slime : slimes) {
+			OffsetRect(&slime.getRect(), -10, 0);
+		}
+	}
+	else { // <-
+		for (auto& slime : slimes) {
+			OffsetRect(&slime.getRect(), 10, 0);
+		}
 	}
 }
