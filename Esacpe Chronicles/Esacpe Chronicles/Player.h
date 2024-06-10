@@ -18,18 +18,21 @@ class Player {
 	bool defense;*/
 
 	PlayerStatus status;
+	PlayerStatus direction = PlayerStatus::RIGHT;
 
 	bool isJumping = false;
 	int jumpHeight = 150;
 	int jumpSpeed = 30;
 	int currentJumpHeight;
 	int initialY; // 점프 전 Y 좌표 저장
-
+	
 	int speed;
 	RECT rect;
 	RECT saveRect;
 
 	int weapon; // 0 = sword, 1 = bow, 2 = gun
+
+	int attack_sword = 4; // sword 공격 모션
 
 	int img_num;
 	std::unique_ptr<CImage> cImage;
@@ -86,6 +89,90 @@ class Player {
 		L"img/character/main/jump/jump_2_v2_l.png",
 		L"img/character/main/jump/jump_2_v2_l.png",
 		L"img/character/main/jump/jump_2_v2_l.png",
+	};
+
+	LPCTSTR _attack_sword_1_r[5] = {
+		L"img/character/main/attack1(sword)/attack1.png",
+		L"img/character/main/attack1(sword)/attack2.png",
+		L"img/character/main/attack1(sword)/attack3.png",
+		L"img/character/main/attack1(sword)/attack4.png",
+		L"img/character/main/attack1(sword)/attack5.png",
+	};
+
+	LPCTSTR _attack_sword_1_l[5] = {
+		L"img/character/main/attack1(sword)/attack1_l.png",
+		L"img/character/main/attack1(sword)/attack2_l.png",
+		L"img/character/main/attack1(sword)/attack3_l.png",
+		L"img/character/main/attack1(sword)/attack4_l.png",
+		L"img/character/main/attack1(sword)/attack5_l.png",
+	};
+
+	LPCTSTR _attack_sword_2_r[5] = {
+		L"img/character/main/attack2(sword)/attack1.png",
+		L"img/character/main/attack2(sword)/attack2.png",
+		L"img/character/main/attack2(sword)/attack3.png",
+		L"img/character/main/attack2(sword)/attack4.png",
+		L"img/character/main/attack2(sword)/attack5.png",
+	};
+
+	LPCTSTR _attack_sword_2_l[5] = {
+		L"img/character/main/attack2(sword)/attack1_l.png",
+		L"img/character/main/attack2(sword)/attack2_l.png",
+		L"img/character/main/attack2(sword)/attack3_l.png",
+		L"img/character/main/attack2(sword)/attack4_l.png",
+		L"img/character/main/attack2(sword)/attack5_l.png",
+	};
+
+	LPCTSTR _attack_sword_3_r[5] = {
+		L"img/character/main/attack3(sword)/attack1.png",
+		L"img/character/main/attack3(sword)/attack2.png",
+		L"img/character/main/attack3(sword)/attack3.png",
+		L"img/character/main/attack3(sword)/attack4.png",
+		L"img/character/main/attack3(sword)/attack5.png",
+	};
+
+	LPCTSTR _attack_sword_3_l[5] = {
+		L"img/character/main/attack3(sword)/attack1_l.png",
+		L"img/character/main/attack3(sword)/attack2_l.png",
+		L"img/character/main/attack3(sword)/attack3_l.png",
+		L"img/character/main/attack3(sword)/attack4_l.png",
+		L"img/character/main/attack3(sword)/attack5_l.png",
+	};
+
+	LPCTSTR _attack_sword_4_r[5] = {
+		L"img/character/main/attack4(sword)/attack1.png",
+		L"img/character/main/attack4(sword)/attack2.png",
+		L"img/character/main/attack4(sword)/attack3.png",
+		L"img/character/main/attack4(sword)/attack4.png",
+		L"img/character/main/attack4(sword)/attack5.png",
+	};
+
+	LPCTSTR _attack_sword_4_l[5] = {
+		L"img/character/main/attack4(sword)/attack1_l.png",
+		L"img/character/main/attack4(sword)/attack2_l.png",
+		L"img/character/main/attack4(sword)/attack3_l.png",
+		L"img/character/main/attack4(sword)/attack4_l.png",
+		L"img/character/main/attack4(sword)/attack5_l.png",
+	};
+
+	LPCTSTR _attack_sword_5_r[7] = {
+		L"img/character/main/attack5(sword)/attack1.png",
+		L"img/character/main/attack5(sword)/attack2.png",
+		L"img/character/main/attack5(sword)/attack3.png",
+		L"img/character/main/attack5(sword)/attack4.png",
+		L"img/character/main/attack5(sword)/attack5.png",
+		L"img/character/main/attack5(sword)/attack6.png",
+		L"img/character/main/attack5(sword)/attack7.png",
+	};
+
+	LPCTSTR _attack_sword_5_l[7] = {
+		L"img/character/main/attack5(sword)/attack1_l.png",
+		L"img/character/main/attack5(sword)/attack2_l.png",
+		L"img/character/main/attack5(sword)/attack3_l.png",
+		L"img/character/main/attack5(sword)/attack4_l.png",
+		L"img/character/main/attack5(sword)/attack5_l.png",
+		L"img/character/main/attack5(sword)/attack6_l.png",
+		L"img/character/main/attack5(sword)/attack7_l.png",
 	};
 
 public:

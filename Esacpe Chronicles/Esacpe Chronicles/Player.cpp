@@ -17,6 +17,19 @@ int Player::getCimageSize() const{
 		return sizeof(_right) / sizeof(_right[0]);
 		break;
 	case ATTACK:
+		switch (attack_sword)
+		{
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+			return 4;
+			break;
+		case 4:
+			return 6;
+		default:
+			break;
+		}
 		break;
 	case DEFENSE:
 		break;
@@ -64,6 +77,77 @@ void Player::setImg(int img_num) {
 		cImage->Load(_right[this->img_num]);
 		break;
 	case ATTACK:
+
+		if (attack_sword == 0) { // 1번 공격
+			if (direction == PlayerStatus::LEFT)
+				cImage->Load(_attack_sword_1_l[this->img_num]);
+			else if(direction == PlayerStatus::RIGHT)
+				cImage->Load(_attack_sword_1_r[this->img_num]);
+
+			if (img_num == 4) {
+				if (direction == PlayerStatus::LEFT)
+					status = PlayerStatus::DEFAULT_L;
+				else if (direction == PlayerStatus::RIGHT)
+					status = PlayerStatus::DEFAULT_R;
+			}
+		}
+
+		if (attack_sword == 1) { // 2번 공격
+			if (direction == PlayerStatus::LEFT)
+				cImage->Load(_attack_sword_2_l[this->img_num]);
+			else if (direction == PlayerStatus::RIGHT)
+				cImage->Load(_attack_sword_2_r[this->img_num]);
+
+			if (img_num == 4) {
+				if (direction == PlayerStatus::LEFT)
+					status = PlayerStatus::DEFAULT_L;
+				else if (direction == PlayerStatus::RIGHT)
+					status = PlayerStatus::DEFAULT_R;
+			}
+		}
+
+		if (attack_sword == 2) {
+			if (direction == PlayerStatus::LEFT)
+				cImage->Load(_attack_sword_3_l[this->img_num]);
+			else if (direction == PlayerStatus::RIGHT)
+				cImage->Load(_attack_sword_3_r[this->img_num]);
+
+			if (img_num == 4) {
+				if (direction == PlayerStatus::LEFT)
+					status = PlayerStatus::DEFAULT_L;
+				else if (direction == PlayerStatus::RIGHT)
+					status = PlayerStatus::DEFAULT_R;
+			}
+		}
+
+		if (attack_sword == 3) {
+			if (direction == PlayerStatus::LEFT)
+				cImage->Load(_attack_sword_4_l[this->img_num]);
+			else if (direction == PlayerStatus::RIGHT)
+				cImage->Load(_attack_sword_4_r[this->img_num]);
+
+			if (img_num == 4) {
+				if (direction == PlayerStatus::LEFT)
+					status = PlayerStatus::DEFAULT_L;
+				else if (direction == PlayerStatus::RIGHT)
+					status = PlayerStatus::DEFAULT_R;
+			}
+		}
+
+		if (attack_sword == 4) {
+			if (direction == PlayerStatus::LEFT)
+				cImage->Load(_attack_sword_5_l[this->img_num]);
+			else if (direction == PlayerStatus::RIGHT)
+				cImage->Load(_attack_sword_5_r[this->img_num]);
+
+			if (img_num == 6) {
+				if (direction == PlayerStatus::LEFT)
+					status = PlayerStatus::DEFAULT_L;
+				else if (direction == PlayerStatus::RIGHT)
+					status = PlayerStatus::DEFAULT_R;
+			}
+		}
+
 		break;
 	case DEFENSE:
 		break;
@@ -78,6 +162,7 @@ void Player::setKeyDown(WPARAM wParam) {
 	{
 	case 65: //a
 		status = PlayerStatus::LEFT;
+		direction = PlayerStatus::LEFT;
 		break;
 	case 87: //w
 		if (!isJumping) {
@@ -89,6 +174,11 @@ void Player::setKeyDown(WPARAM wParam) {
 		break;
 	case 68: //d
 		status = PlayerStatus::RIGHT;
+		direction = PlayerStatus::RIGHT;
+		break;
+	case 32: //spacebar
+		status = PlayerStatus::ATTACK;
+		img_num = 0;
 		break;
 	default:
 		break;
