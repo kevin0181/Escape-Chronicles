@@ -65,6 +65,9 @@ void Player::setImg(int img_num) {
 		break;
 	case ATTACK:
 		cImage->Load(_attack_sword_1[this->img_num]);
+		if (img_num == 4) {
+			status = PlayerStatus::DEFAULT_R;
+		}
 		break;
 	case DEFENSE:
 		break;
@@ -93,6 +96,7 @@ void Player::setKeyDown(WPARAM wParam) {
 		break;
 	case 32: //spacebar
 		status = PlayerStatus::ATTACK;
+		img_num = 0;
 		break;
 	default:
 		break;
