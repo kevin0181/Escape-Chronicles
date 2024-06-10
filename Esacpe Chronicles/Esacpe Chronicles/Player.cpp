@@ -144,10 +144,6 @@ void Player::move(StageManager& stageManager) {
 
 	RECT tempRect = rect; // 현재 위치를 임시로 저장
 
-	if (isJumping) {
-		jump();
-	}
-
 	switch (status)
 	{
 	case DEFAULT_R:
@@ -207,6 +203,11 @@ void Player::move(StageManager& stageManager) {
 	default:
 		break;
 	}
+
+	if (isJumping) {
+		jump();
+	}
+
 }
 
 void Player::setRECT(RECT rect) {
