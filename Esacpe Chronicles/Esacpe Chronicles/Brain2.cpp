@@ -76,7 +76,7 @@ void Brain2::move(StageManager& stageManager) {
 		if (imageNum == 18)
 			imageNum = 0;
 
-		CheckClientRect(stageManager.rect, rect, left);
+		CheckClientRect(stageManager, rect, left);
 	}
 			  break;
 	case ATTACK_:

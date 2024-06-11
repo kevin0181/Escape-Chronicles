@@ -14,9 +14,11 @@ public:
 
 	RECT viewRect; //모니터 화면크기
 	RECT rect; // 현재 보이는 이미지의 크기
-	int camera_move_speed = 15;
+	int camera_move_speed = 10;
 
-	std::vector<Block> blocks_stage1;
+	std::vector<Block> block_stage1_map; //지상
+	 
+	std::vector<Block> blocks_stage1; //바닥
 	int intro_cnt = 1;
 	RECT game_rect; // 게임 이미지 뒷배경 전체 크기
 

@@ -19,6 +19,7 @@ class Player {
 	bool defense;*/
 
 	PlayerStatus status;
+	PlayerStatus saveStatus;
 	PlayerStatus direction = PlayerStatus::RIGHT;
 
 	bool isOnGround = true; //¶¥¿¡ ´ê¾Ò´ÂÁö Ã¼Å©

@@ -86,9 +86,9 @@ void Player::setImg(int img_num) {
 
 			if (img_num == 4) {
 				if (direction == PlayerStatus::LEFT)
-					status = PlayerStatus::DEFAULT_L;
+					status = saveStatus;
 				else if (direction == PlayerStatus::RIGHT)
-					status = PlayerStatus::DEFAULT_R;
+					status = saveStatus;
 			}
 		}
 
@@ -100,9 +100,9 @@ void Player::setImg(int img_num) {
 
 			if (img_num == 4) {
 				if (direction == PlayerStatus::LEFT)
-					status = PlayerStatus::DEFAULT_L;
+					status = saveStatus;
 				else if (direction == PlayerStatus::RIGHT)
-					status = PlayerStatus::DEFAULT_R;
+					status = saveStatus;
 			}
 		}
 
@@ -114,9 +114,9 @@ void Player::setImg(int img_num) {
 
 			if (img_num == 4) {
 				if (direction == PlayerStatus::LEFT)
-					status = PlayerStatus::DEFAULT_L;
+					status = saveStatus;
 				else if (direction == PlayerStatus::RIGHT)
-					status = PlayerStatus::DEFAULT_R;
+					status = saveStatus;
 			}
 		}
 
@@ -128,9 +128,9 @@ void Player::setImg(int img_num) {
 
 			if (img_num == 4) {
 				if (direction == PlayerStatus::LEFT)
-					status = PlayerStatus::DEFAULT_L;
+					status = saveStatus;
 				else if (direction == PlayerStatus::RIGHT)
-					status = PlayerStatus::DEFAULT_R;
+					status = saveStatus;
 			}
 		}
 
@@ -142,9 +142,9 @@ void Player::setImg(int img_num) {
 
 			if (img_num == 6) {
 				if (direction == PlayerStatus::LEFT)
-					status = PlayerStatus::DEFAULT_L;
+					status = saveStatus;
 				else if (direction == PlayerStatus::RIGHT)
-					status = PlayerStatus::DEFAULT_R;
+					status = saveStatus;
 			}
 		}
 
@@ -158,6 +158,7 @@ void Player::setImg(int img_num) {
 }
 
 void Player::setKeyDown(WPARAM wParam) {
+	
 	switch (wParam)
 	{
 	case 65: //a
@@ -179,6 +180,7 @@ void Player::setKeyDown(WPARAM wParam) {
 		break;
 	case 32: //spacebar
 	{
+		saveStatus = status;
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<> attck_dis(0, 4);
@@ -274,7 +276,7 @@ void Player::move(StageManager& stageManager) {
 
 		break;
 	case RIGHT:
-		if (std::abs(stageManager.rect.right) + std::abs(stageManager.rect.left) < stageManager.game_rect.right) {
+		if (std::abs(stageManager.rect.right) + std::abs(stageManager.rect.left) < stageManager.game_rect.right) { //카메라 우측이동
 			OffsetRect(&rect, speed, 0);
 			OffsetRect(&stageManager.rect, -stageManager.camera_move_speed, 0); // 뒷배경 이동 ->
 
