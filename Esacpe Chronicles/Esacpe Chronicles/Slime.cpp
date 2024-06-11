@@ -1,14 +1,14 @@
-#include <iostream>
-#include <atlimage.h>
-#include "Monster.h"
 #include "Slime.h"
-#include "Collision.h"
+
 using namespace std;
+
+
 
 Slime::Slime() : Monster() {
 	hp = 500; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	rect = { 110, 300, 310, 420 };
+	rect.left = 200*(rand() % 7); //rand() % (stageManager.rect.right + 1);
+	rect = { rect.left, 300, rect.left+200, 420 };
 	left = true;
 	status = MOVE_;
 }
@@ -79,8 +79,7 @@ void Slime::move(StageManager& stageManager) {
 			int offset = left ? -2 : 2;
 			OffsetRect(&rect, offset, 0);
 
-			if (CheckClientRect(stageManager.game_rect,rect))
-				left = !left;
+			CheckClientRect(stageManager.rect, rect,left);
 		}
 
 		if (status != DIE_ || imageNum != 9)

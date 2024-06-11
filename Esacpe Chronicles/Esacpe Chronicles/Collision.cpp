@@ -8,7 +8,7 @@ bool CheckCollision(RECT rect1, RECT rect2) {
 
 
 
-bool CheckBlockCollision(RECT& rect,  std::vector<Block>& blocks) { //
+bool CheckBlockCollision(RECT& rect, std::vector<Block>& blocks) { //
 	RECT crossRect;
 	for (auto& block : blocks) {
 		if (IntersectRect(&crossRect, &rect, &block.rect)) {
@@ -18,8 +18,10 @@ bool CheckBlockCollision(RECT& rect,  std::vector<Block>& blocks) { //
 	return false;
 }
 
-bool CheckClientRect(RECT clientrect, RECT rect) {
-	if (rect.left <= clientrect.left || rect.right >= clientrect.right)
-		return true;
-	else return false;
+void CheckClientRect(RECT clientrect, RECT rect, bool& left) {
+	if (rect.left < clientrect.left)
+		left = false;
+	else if (rect.right > clientrect.right)
+		left = true;
+
 }

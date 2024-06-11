@@ -7,7 +7,9 @@ using namespace std;
 Zombie2::Zombie2() : Monster() {
 	hp = 500; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	rect = { 1000, 300, 1300, 600 };
+	srand(static_cast<unsigned int>(time(NULL)));
+	rect.left = 200 * (rand() % 7);
+	rect = { rect.left, 300, rect.left+300, 600 };
 	left = false;
 	status = MOVE_;
 }
@@ -75,8 +77,7 @@ void Zombie2::move(StageManager& stageManager) {
 		if (imageNum == 35)
 			imageNum = 0;
 
-		if (CheckClientRect(stageManager.game_rect, rect))
-			left = !left;
+		CheckClientRect(stageManager.rect, rect, left);
 	}
 			  break;
 	case ATTACK_:

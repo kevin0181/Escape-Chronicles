@@ -9,4 +9,4 @@ bool CheckCollision(RECT rect1, RECT rect2); // 몬스터와 충돌확인
 
 bool CheckBlockCollision(RECT& rect, std::vector<Block>& blocks); // 화면,블록과 충돌확인 (화면 rect, 블록 rect, 비교대상 이동방향,비교대상 rect)
 
-bool CheckClientRect(RECT clientrect, RECT rect);
+void CheckClientRect(RECT clientrect, RECT rect,bool& left);

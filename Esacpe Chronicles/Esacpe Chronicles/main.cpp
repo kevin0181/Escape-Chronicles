@@ -8,13 +8,6 @@
 
 #include "Stage.h"
 #include "StageManager.h"
-#include "Monster.h"
-#include "Slime.h"
-#include "Zombie1.h"
-#include "Zombie2.h"
-#include "Zombie3.h"
-#include "Brain1.h"
-#include "Brain2.h"
 #include "Block.h"
 #include "Player.h"
 
@@ -65,12 +58,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	return static_cast<int>(Message.wParam);
 }
 
-vector<Slime> slimes;
-//Zombie1 zombie1;
-//Zombie2 zombie2;
-//Zombie3 zombie3;
-Brain1 brain1;
-Brain2 brain2;
+
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
@@ -97,7 +85,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		stageManager.startBtn = { rect.right - 300, rect.bottom - 150, rect.right - 200, rect.bottom - 50 };
 		stageManager.rect = rect;
      
-		{// 원하는 개수만큼 반복
+		for (int i = 0; i < 5;++i) {// 원하는 개수만큼 반복
 			Slime slime;
 			slime.insert();
 			slimes.push_back(slime);
@@ -105,8 +93,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         //zombie1.insert();
         //zombie2.insert();
         //zombie3.insert();
-		brain1.insert();
-		brain2.insert();
+		//brain1.insert();
+		//brain2.insert();
+
+		
 
         SetTimer(hWnd, 1, 1, FALSE);
         break;
@@ -164,11 +154,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         }
 
 		// ------------------------------------------------
-		//zombie1.print(mDC);
-		//zombie2.print(mDC);
-		//zombie3.print(mDC);
-		//brain1.print(mDC);
-		//brain2.print(mDC);
+		//zombie1[i].print(mDC);
+		//zombie2[i].print(mDC);
+		//zombie3[i].print(mDC);
+		//brain1[i].print(mDC);
+		//brain2[i].print(mDC);
 
 		BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 

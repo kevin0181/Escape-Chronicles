@@ -12,6 +12,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Gravity.cpp" />
     <ClCompile Include="brain1.cpp" />
+    <ClCompile Include="Brain2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StageManager.h" />
@@ -25,6 +26,9 @@
     <ClInclude Include="PlayerStatus.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Gravity.h" />
+    <ClInclude Include="Brain1.h" />
+    <ClInclude Include="Brain2.h" />
+    <ClInclude Include="GlobalVariables.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Stage.h" />
