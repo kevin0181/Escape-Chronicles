@@ -21,6 +21,7 @@ class Player {
 	PlayerStatus status;
 	PlayerStatus direction = PlayerStatus::RIGHT;
 
+	bool isOnGround = true; //¶¥¿¡ ´ê¾Ò´ÂÁö Ã¼Å©
 	bool isJumping = false;
 	int jumpHeight = 150;
 	int jumpSpeed = 30;
@@ -210,7 +211,7 @@ public:
 
 	int getImgNum() const;
 
-	bool crash_check_block(RECT& rect, std::vector<Block>& blocks);
+	bool crash_check_block(const RECT& rect, const std::vector<Block>& blocks);
 	bool checkPosition(const StageManager& stageManager, const int rect,const bool status);
 	void moveMonster(bool status);
 };
