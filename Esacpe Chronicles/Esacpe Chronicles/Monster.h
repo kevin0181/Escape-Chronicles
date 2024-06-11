@@ -1,10 +1,13 @@
 #pragma once
 #include <string>
-#include < atlimage.h >
-#include <windows.h>
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
 
 #include "Player.h"
 #include "StageManager.h"
+#include "Collision.h"
+#include "Gravity.h"
 
 class Monster {
 public:
@@ -20,3 +23,4 @@ enum MonsterStatus {
 	ATTACK_,
 	DIE_
 };
+

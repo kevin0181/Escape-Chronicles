@@ -3,9 +3,6 @@
 #include <atlimage.h>
 
 #include "Monster.h"
-#include "Collision.h"
-#include "Gravity.h"
-#include "StageManager.h"
 
 class Brain1 : public Monster {
 	int hp;

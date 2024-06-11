@@ -1,12 +1,13 @@
 #include "Brain1.h"
 using namespace std;
 
-//srand(time(nullptr));
 
 Brain1::Brain1() : Monster() {
 	hp = 0; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	rect = { 400, 500, 650, 750 };
+	srand(static_cast<unsigned int>(time(NULL)));
+	rect.left = 200 * (rand() % 7);
+	rect = {rect.left, 500, rect.left+250, 750 };
 	left = false;
 	status = MOVE_;
 }
@@ -75,8 +76,7 @@ void Brain1::move(StageManager& stageManager) {
 		if (imageNum == 40)
 			imageNum = 0;
 
-		if (CheckClientRect(stageManager.game_rect, rect))
-			left = !left;
+		CheckClientRect(stageManager.rect, rect, left);
 	}
 			  break;
 	case ATTACK_:

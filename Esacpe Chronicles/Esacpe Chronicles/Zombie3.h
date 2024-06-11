@@ -2,9 +2,6 @@
 #include <atlimage.h>
 
 #include "Monster.h"
-#include "Collision.h"
-#include "Gravity.h"
-#include "StageManager.h"
 
 class Zombie3 : public Monster {
 	int hp;
