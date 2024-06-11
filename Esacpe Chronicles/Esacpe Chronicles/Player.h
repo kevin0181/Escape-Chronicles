@@ -21,6 +21,7 @@ class Player {
 	PlayerStatus status;
 	PlayerStatus direction = PlayerStatus::RIGHT;
 
+	bool isOnGround = true; //¶¥¿¡ ´ê¾Ò´ÂÁö Ã¼Å©
 	bool isJumping = false;
 	int jumpHeight = 150;
 	int jumpSpeed = 30;

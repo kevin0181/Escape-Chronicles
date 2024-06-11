@@ -165,8 +165,9 @@ void Player::setKeyDown(WPARAM wParam) {
 		direction = PlayerStatus::LEFT;
 		break;
 	case 87: //w
-		if (!isJumping) {
+		if (!isJumping && isOnGround) {
 			isJumping = true;
+			isOnGround = false; // 점프 시작 시 땅에 있지 않음으로 설정
 			initialY = rect.top;
 		}
 		break;
@@ -328,10 +329,12 @@ bool Player::crash_check_block(RECT& rect, std::vector<Block>& blocks) { //
 	RECT crossRect;
 	for (auto& block : blocks) {
 		if (IntersectRect(&crossRect, &rect, &block.rect)) {
+			isOnGround = true; // 땅에 닿았을 때
+			isJumping = false; // 점프 중이 아님
 			return true;
 		}
 	}
-
+	isOnGround = false; // 충돌이 없으면 공중에 있음
 	return false;
 }
 
