@@ -91,7 +91,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		cursorWidth = cursorImage.GetWidth();
 		cursorHeight = cursorImage.GetHeight();
 
-
 		GetClientRect(hWnd, &rect);
 		stageManager.setBackground_img(stageManager.intro_img_path[0]);
 		stageManager.game_rect = rect;
