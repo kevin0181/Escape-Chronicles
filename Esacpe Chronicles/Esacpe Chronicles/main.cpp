@@ -58,7 +58,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	return static_cast<int>(Message.wParam);
 }
 
-
+vector<Slime> slimes;
+vector<Zombie1> zombie1;
+vector<Zombie2> zombie2;
+vector<Zombie3> zombie3;
+vector<Brain1> brain1;
+vector<Brain2> brain2;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 

@@ -13,11 +13,11 @@
 #include "Brain2.h"
 
 // 전역 변수 선언
-static std::vector<Slime> slimes; 
-static std::vector<Zombie1> zombie1;
-static std::vector<Zombie2> zombie2;
-static std::vector<Zombie3> zombie3;
-static std::vector<Brain1> brain1;
-static std::vector<Brain2> brain2;
+extern std::vector<Slime> slimes; 
+extern std::vector<Zombie1> zombie1;
+extern std::vector<Zombie2> zombie2;
+extern std::vector<Zombie3> zombie3;
+extern std::vector<Brain1> brain1;
+extern std::vector<Brain2> brain2;
 
 #endif // GLOBALVARIABLES_H
