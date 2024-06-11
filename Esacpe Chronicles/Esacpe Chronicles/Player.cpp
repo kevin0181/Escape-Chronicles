@@ -177,9 +177,17 @@ void Player::setKeyDown(WPARAM wParam) {
 		direction = PlayerStatus::RIGHT;
 		break;
 	case 32: //spacebar
+	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<> attck_dis(0, 4);
+
 		status = PlayerStatus::ATTACK;
+		attack_sword = attck_dis(gen);
+
 		img_num = 0;
 		break;
+	}
 	default:
 		break;
 	}
