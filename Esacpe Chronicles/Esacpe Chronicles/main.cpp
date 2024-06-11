@@ -83,7 +83,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		GetClientRect(hWnd, &rect);
 		stageManager.setBackground_img(stageManager.intro_img_path[0]);
 		stageManager.game_rect = rect;
-		stageManager.game_rect.right = rect.left + (rect.right - rect.left) * 2;
+		stageManager.game_rect.right = (rect.right - rect.left) * 3;
 		stageManager.viewRect = rect;
 
 		// 시작버튼

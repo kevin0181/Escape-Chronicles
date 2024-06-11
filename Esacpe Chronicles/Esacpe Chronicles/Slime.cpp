@@ -76,10 +76,10 @@ void Slime::move(StageManager& stageManager) {
 		}
 
 		if(status==MOVE_) {
-			int offset = left ? -2 : 2;
+			int offset = left ? -10 : 10;
 			OffsetRect(&rect, offset, 0);
 
-			CheckClientRect(stageManager.rect, rect,left);
+			CheckClientRect(stageManager, rect,left);
 		}
 
 		if (status != DIE_ || imageNum != 9)

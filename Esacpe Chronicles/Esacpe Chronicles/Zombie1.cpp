@@ -77,7 +77,7 @@ void Zombie1::move(StageManager& stageManager) {
 		if (imageNum == 40)
 			imageNum = 0;
 
-		CheckClientRect(stageManager.rect, rect, left);
+		CheckClientRect(stageManager, rect, left);
 	}
 		break;
 	case ATTACK_:

@@ -14,7 +14,7 @@ public:
 
 	RECT viewRect; //모니터 화면크기
 	RECT rect; // 현재 보이는 이미지의 크기
-	int camera_move_speed = 15;
+	int camera_move_speed = 10;
 
 	std::vector<Block> blocks_stage1;
 	int intro_cnt = 1;
