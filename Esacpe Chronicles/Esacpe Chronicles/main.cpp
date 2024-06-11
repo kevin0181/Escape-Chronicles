@@ -77,9 +77,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	static StageManager stageManager;
 	static Player player;
 
+	static CImage cursorImage;
+	static int cursorWidth, cursorHeight;
+	// 마우스 위치 가져오기
+	static POINT cursorPos;
+
     switch (uMsg) {
 	case WM_CREATE:
 	{
+		// 기본 커서 숨기기
+		ShowCursor(FALSE);
+		cursorImage.Load(L"img/cursor/cursor.png");
+		cursorWidth = cursorImage.GetWidth();
+		cursorHeight = cursorImage.GetHeight();
+
+
 		GetClientRect(hWnd, &rect);
 		stageManager.setBackground_img(stageManager.intro_img_path[0]);
 		stageManager.game_rect = rect;
@@ -129,6 +141,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		GetClientRect(hWnd, &rect);
 		hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
 		hOldBitmap = static_cast<HBITMAP>(SelectObject(mDC, hBitmap));
+		//마우스 위치 가져오기
+		GetCursorPos(&cursorPos);
+		ScreenToClient(hWnd, &cursorPos);
 
 		FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
 
@@ -162,6 +177,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		//zombie3[i].print(mDC);
 		//brain1[i].print(mDC);
 		//brain2[i].print(mDC);
+		
+
+		//커서 이미지 그리기
+		cursorImage.Draw(mDC, cursorPos.x - 40, cursorPos.y - 40, 80, 80, 0, 0, cursorWidth, cursorHeight);
 
 		BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
@@ -195,10 +214,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			default:
 				break;
 			}
+			InvalidateRect(hWnd, NULL, false);
 		}
-		InvalidateRect(hWnd, NULL, false);
 		break;
 	case WM_DESTROY:
+		KillTimer(hWnd, 1);
+		KillTimer(hWnd, 2);
 		PostQuitMessage(0);
 		break;
 	default:
