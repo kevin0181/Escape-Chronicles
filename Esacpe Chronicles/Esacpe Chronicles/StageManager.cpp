@@ -50,7 +50,7 @@ void StageManager::destroyImg() {
 }
 
 
-void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float& size) { // block create
+void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float& size) { // stageblock 바닥 1번생성!
 
     blocks_stage1.clear();
 
