@@ -325,7 +325,7 @@ void Player::setSaveRect(RECT rect) {
 	this->saveRect = rect;
 }
 
-bool Player::crash_check_block(RECT& rect, std::vector<Block>& blocks) { //
+bool Player::crash_check_block(const RECT& rect, const std::vector<Block>& blocks) { //
 	RECT crossRect;
 	for (auto& block : blocks) {
 		if (IntersectRect(&crossRect, &rect, &block.rect)) {

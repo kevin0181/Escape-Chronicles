@@ -211,7 +211,7 @@ public:
 
 	int getImgNum() const;
 
-	bool crash_check_block(RECT& rect, std::vector<Block>& blocks);
+	bool crash_check_block(const RECT& rect, const std::vector<Block>& blocks);
 	bool checkPosition(const StageManager& stageManager, const int rect,const bool status);
 	void moveMonster(bool status);
 };

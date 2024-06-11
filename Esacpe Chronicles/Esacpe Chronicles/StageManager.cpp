@@ -8,7 +8,6 @@ void StageManager::setCurrent_stage(STAGE stage) {
 }
 
 void StageManager::setBackground_img(const LPCTSTR path) {
-    
     destroyImg();
     background_img.Load(path);
 }
@@ -55,9 +54,7 @@ void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float
 
     blocks_stage1.clear();
 
-    int startY = static_cast<int>(this->rect.bottom * size);
-
-    for (int i = 0; i < game_rect.right / BLOCK_SIZE; ++i) {
+    for (int i = 0; i < (game_rect.right / BLOCK_SIZE) + 1; ++i) {
         for (int j = 0; j < h; ++j) {
             Block block;
             block.cImage->Load(path_block);
@@ -67,7 +64,7 @@ void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float
         }
     }
 
-    RECT rect_side_blocks[2] = {
+    RECT rect_side_blocks[2] = { //옆 벽면
         {-70,0,0,game_rect.bottom},
         {game_rect.right,0,game_rect.right + 70,game_rect.bottom}
     };

@@ -83,7 +83,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		GetClientRect(hWnd, &rect);
 		stageManager.setBackground_img(stageManager.intro_img_path[0]);
 		stageManager.game_rect = rect;
-		stageManager.game_rect.right *= 3; //게임 크기 정해주기
+		stageManager.game_rect.right = rect.left + (rect.right - rect.left) * 2;
 		stageManager.viewRect = rect;
 
 		// 시작버튼
@@ -100,8 +100,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         //zombie3.insert();
 		//brain1.insert();
 		//brain2.insert();
-
-		
 
         SetTimer(hWnd, 1, 1, FALSE);
         break;
