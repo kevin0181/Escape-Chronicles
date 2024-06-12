@@ -62,6 +62,10 @@ void Player::setImg(int img_num) {
 
 	cImage->Destroy();
 
+	if (press_m_l && weapon == 2) { // 마우스 좌 클릭 누르고 있을때. // bow
+
+	}
+
 	switch (status)
 	{
 	case DEFAULT_L:
@@ -161,6 +165,15 @@ void Player::setKeyDown(WPARAM wParam) {
 	
 	switch (wParam)
 	{
+	case 49: // 1번 -> sword
+		weapon = 1;
+		break;
+	case 50: // 2번 -> bow
+		weapon = 2;
+		break;
+	case 51: // 3번 -> gun
+		weapon = 3;
+		break;
 	case 65: //a
 		status = PlayerStatus::LEFT;
 		direction = PlayerStatus::LEFT;
@@ -242,6 +255,10 @@ bool Player::checkPosition(const StageManager& stageManager, const int r, bool s
 }
 
 void Player::move(StageManager& stageManager) {
+
+	if (press_m_l && weapon != 1) { // 공격 모션 중이면 못 움직이게
+		return;
+	}
 
 	RECT tempRect = rect; // 현재 위치를 임시로 저장
 

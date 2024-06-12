@@ -33,7 +33,7 @@ class Player {
 	RECT rect;
 	RECT saveRect;
 
-	int weapon; // 0 = sword, 1 = bow, 2 = gun
+	int weapon; // 1 = sword, 2 = bow, 3 = gun
 
 	int attack_sword = 4; // sword 공격 모션
 
@@ -208,8 +208,9 @@ public:
 
 	int player_i = 0;
 	Gravity gravity;
+	bool press_m_l;
 
-	Player() :cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(0) {
+	Player() :cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
 		rect = { 0,0,90,120 };
 		//OffsetRect(&rect, 0, 770);
 		OffsetRect(&rect, 100, 500);
