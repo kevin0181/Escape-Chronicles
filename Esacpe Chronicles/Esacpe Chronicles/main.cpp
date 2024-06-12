@@ -145,9 +145,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	case WM_LBUTTONUP:
 
 		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
-			stageManager.getCurrent_stage() == STAGE::STAGE_3)
+			stageManager.getCurrent_stage() == STAGE::STAGE_3) {
 			player.press_m_l = false;
-
+		}
 		break;
     case WM_KEYDOWN:
 

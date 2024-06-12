@@ -41,8 +41,10 @@ int Player::getCimageSize() const{
 void Player::print(HDC& mDC) const {
     if (!cImage->IsNull()) {
 		cImage->Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
-		weapon_cImage->Draw(mDC, weapon_rect.left, weapon_rect.top, weapon_rect.right - weapon_rect.left, weapon_rect.bottom - weapon_rect.top,
-			0, 0, weapon_cImage->GetWidth(), weapon_cImage->GetHeight());
+		if (press_m_l) {
+			weapon_cImage->Draw(mDC, weapon_rect.left, weapon_rect.top, weapon_rect.right - weapon_rect.left, weapon_rect.bottom - weapon_rect.top,
+				0, 0, weapon_cImage->GetWidth(), weapon_cImage->GetHeight());
+		}
     }
     else {
         MessageBox(NULL, L"유효하지 않은 캐릭터 이미지", L"오류", MB_OK);
@@ -68,13 +70,19 @@ void Player::setImg(int img_num) {
 
 		weapon_cImage->Destroy(); // 무기 이미지 삭제
 
-		if (mouse_p.x < rect.right) {
+		if (mouse_p.x < rect.right) { // left
 			cImage->Load(_bow_default_l[0]);
 			weapon_cImage->Load(_bow_l[0]);
+			weapon_rect = rect;
+			InflateRect(&weapon_rect, -10, -10);
+			OffsetRect(&weapon_rect, -10, 0);
 		}
-		else if (mouse_p.x > rect.right) {
+		else if (mouse_p.x > rect.right) { // right
 			cImage->Load(_bow_default_r[0]);
 			weapon_cImage->Load(_bow_r[0]);
+			weapon_rect = rect;
+			InflateRect(&weapon_rect, -10, -10);
+			OffsetRect(&weapon_rect, 10, 0);
 		}
 
 		return;
@@ -282,6 +290,8 @@ void Player::move(StageManager& stageManager) {
 	}
 
 	RECT tempRect = rect; // 현재 위치를 임시로 저장
+
+	weapon_rect = rect;
 
 	switch (status)
 	{

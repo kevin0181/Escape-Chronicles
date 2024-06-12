@@ -34,7 +34,7 @@ class Player {
 	RECT saveRect;
 
 	int weapon; // 1 = sword, 2 = bow, 3 = gun
-	RECT weapon_rect = { 0, 0, 10, 10 };
+	RECT weapon_rect = { 0, 0, 1, 1 };
 	int attack_sword = 4; // sword 공격 모션
 
 	int img_num;
