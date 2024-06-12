@@ -6,6 +6,7 @@
 // ------------------
 #include "GlobalVariables.h"
 
+#include "collision.h"
 #include "Stage.h"
 #include "StageManager.h"
 #include "Block.h"
@@ -64,7 +65,7 @@ vector<Zombie2> zombie2;
 vector<Zombie3> zombie3;
 vector<Brain1> brain1;
 vector<Brain2> brain2;
-Boss boss;
+vector<Boss> boss;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
@@ -112,7 +113,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         //zombie3.insert();
 		//brain1.insert();
 		//brain2.insert();
-		boss.insert();
+		//boss.insert();
 
         SetTimer(hWnd, 1, 1, FALSE);
         break;
@@ -181,7 +182,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		//커서 이미지 그리기
 		cursorImage.Draw(mDC, cursorPos.x - 40, cursorPos.y - 40, 80, 80, 0, 0, cursorWidth, cursorHeight);
 
-		boss.print(mDC);
+		//boss.print(mDC);
 
 		BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
@@ -200,6 +201,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			{
 				for (auto& slime : slimes) {
 					slime.move(stageManager);
+					slime.MonsterPlayerCollision(player);
 				}
 				
 				//zombie1.move(stageManager);
@@ -207,7 +209,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 				//zombie3.move(stageManager);
 				//brain1.move(stageManager);
 				//brain2.move(stageManager);
-				boss.move(stageManager);
+				//boss.move(stageManager);
 
 				//player
 				player.TIMER(stageManager);

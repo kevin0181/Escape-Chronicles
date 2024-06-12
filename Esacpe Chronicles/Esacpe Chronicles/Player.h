@@ -18,7 +18,6 @@ class Player {
 	bool attack;
 	bool defense;*/
 
-	PlayerStatus status;
 	PlayerStatus saveStatus;
 	PlayerStatus direction = PlayerStatus::RIGHT;
 
@@ -183,6 +182,7 @@ class Player {
 	};
 
 public:
+	PlayerStatus status;
 
 	int player_i = 0;
 	Gravity gravity;

@@ -92,6 +92,8 @@ public:
 	void attack() override;
 
 	RECT& getRect() override;
+	void MonsterPlayerCollision(Player& p) override; //플레이어랑 충돌했을 때 함수
+	void Collisionplayer(Player& p) override; //플레이어랑 충돌했을때 몬스터의 대처
 };
 
 
