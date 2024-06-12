@@ -76,6 +76,7 @@ void Player::setImg(int img_num) {
 			cImage->Load(_bow_default_r[0]);
 			weapon_cImage->Load(_bow_r[0]);
 		}
+
 		return;
 	}
 
@@ -206,7 +207,14 @@ void Player::setKeyDown(WPARAM wParam) {
 		break;
 	case 32: //spacebar
 	{
-		saveStatus = status;
+		img_num = 0;
+
+		if (weapon != 1)
+			return;
+	
+		if (status != PlayerStatus::ATTACK) //공격 아닐때만 저장 (연속으로 공격 방지)
+			saveStatus = status;
+
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<> attck_dis(0, 4);
@@ -214,7 +222,7 @@ void Player::setKeyDown(WPARAM wParam) {
 		status = PlayerStatus::ATTACK;
 		attack_sword = attck_dis(gen);
 
-		img_num = 0;
+	
 		break;
 	}
 	default:
