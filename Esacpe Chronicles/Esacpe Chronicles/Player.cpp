@@ -60,10 +60,14 @@ void Player::setImg(int img_num) {
 		this->img_num = 0;
 	}
 
-	cImage->Destroy();
+	cImage->Destroy(); // 이미지 삭제
 
 	if (press_m_l && weapon == 2) { // 마우스 좌 클릭 누르고 있을때. // bow
-
+		if (mouse_p.x < rect.right)
+			cImage->Load(_bow_default_l[0]);
+		else if (mouse_p.x > rect.right)
+			cImage->Load(_bow_default_r[0]);
+		return;
 	}
 
 	switch (status)

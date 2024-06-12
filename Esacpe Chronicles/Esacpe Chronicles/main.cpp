@@ -66,6 +66,8 @@ vector<Brain1> brain1;
 vector<Brain2> brain2;
 Boss boss;
 
+StageManager stageManager;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 	static RECT rect; // 화면 전체 크기
@@ -74,8 +76,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	HDC hDC, mDC;
 	HBITMAP hBitmap;
 	HBITMAP hOldBitmap;
-
-	static StageManager stageManager;
+	 
 	static Player player;
 
 	static CImage cursorImage;
@@ -123,8 +124,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			stageManager.setLMBtnDown(lParam);
 
 		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
-			stageManager.getCurrent_stage() == STAGE::STAGE_3)
+			stageManager.getCurrent_stage() == STAGE::STAGE_3) {
+			player.mouse_p.x = LOWORD(lParam);
+			player.mouse_p.y = HIWORD(lParam);
 			player.press_m_l = true;
+		}
+
+		break;
+	case WM_MOUSEMOVE:
+
+		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
+			stageManager.getCurrent_stage() == STAGE::STAGE_3) {
+			if (player.press_m_l) {
+				player.mouse_p.x = LOWORD(lParam);
+				player.mouse_p.y = HIWORD(lParam);
+			}
+		}
 
 		break;
 	case WM_LBUTTONUP:

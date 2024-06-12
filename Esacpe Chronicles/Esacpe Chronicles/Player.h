@@ -208,7 +208,9 @@ public:
 
 	int player_i = 0;
 	Gravity gravity;
+
 	bool press_m_l;
+	POINT mouse_p;
 
 	Player() :cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
 		rect = { 0,0,90,120 };
