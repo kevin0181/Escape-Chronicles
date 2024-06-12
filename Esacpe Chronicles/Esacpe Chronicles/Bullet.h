@@ -22,4 +22,22 @@ public:
 			MessageBox(NULL, L"총알 이미지 로드 실패", L"오류", MB_OK);
 		}
 	}
+
+	//// Move constructor
+	//Bullet(Bullet&& other) noexcept
+	//	: cImage(std::move(other.cImage)), rect(other.rect) {}
+
+	//// Move assignment operator
+	//Bullet& operator=(Bullet&& other) noexcept {
+	//	if (this != &other) {
+	//		cImage = std::move(other.cImage);
+	//		rect = other.rect;
+	//	}
+	//	return *this;
+	//}
+
+	//// Disable copy constructor and copy assignment operator
+	//Bullet(const Bullet&) = delete;
+	//Bullet& operator=(const Bullet&) = delete;
+
 };

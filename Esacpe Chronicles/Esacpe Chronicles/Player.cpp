@@ -72,6 +72,10 @@ void Player::setImg(int img_num) {
 		if (mouse_p.x < rect.right) { // left
 			if (press_cnt >= 20) {
 				weapon_cImage->Load(_bow_l[1]);
+
+				// 활 추가
+
+
 			}
 			else {
 				weapon_cImage->Load(_bow_l[0]);
@@ -84,6 +88,14 @@ void Player::setImg(int img_num) {
 		else if (mouse_p.x > rect.right) { // right
 			if (press_cnt >= 20) {
 				weapon_cImage->Load(_bow_r[1]);
+				
+				// 활 추가
+
+				Bullet bullet;
+				bullet.cImage->Load(bullet._arrow_r[0]);
+				bullet.rect = weapon_rect;
+				bullets.push_back(std::move(bullet));
+
 			}
 			else {
 				weapon_cImage->Load(_bow_r[0]);
