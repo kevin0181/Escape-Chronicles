@@ -48,13 +48,13 @@ void Boss::insert() {
 	}
 }
 
-void Boss::print(HDC& mDC) {
+void Boss::print(const HDC& mDC) {
 	if (!boss_img.IsNull()) {
 		boss_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, boss_img.GetWidth(), boss_img.GetHeight());
 	}
 }
 
-void Boss::move(StageManager& stageManager) {
+void Boss::move(const StageManager& stageManager) {
 	//ม฿ทย
 	RECT temprect = rect;
 	gravity.UpdatePhysics(rect);
@@ -82,11 +82,4 @@ void Boss::move(StageManager& stageManager) {
 
 	if (status != DIE_ || imageNum != 30)
 		insert();
-}
-
-
-void Boss::attack() {
-	if (status == ATTACK_) {
-
-	}
 }

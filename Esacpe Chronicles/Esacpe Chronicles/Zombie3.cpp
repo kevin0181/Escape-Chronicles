@@ -13,9 +13,6 @@ Zombie3::Zombie3() : Monster() {
 	status = MOVE_;
 }
 
-RECT Zombie3::getRect() const {
-	return rect;
-}
 
 void Zombie3::insert() {
 	if (!zombie3_img.IsNull()) {
@@ -50,13 +47,13 @@ void Zombie3::insert() {
 	}
 }
 
-void Zombie3::print(HDC& mDC) {
+void Zombie3::print(const HDC& mDC) {
 	if (!zombie3_img.IsNull()) {
 		zombie3_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, zombie3_img.GetWidth(), zombie3_img.GetHeight());
 	}
 }
 
-void Zombie3::move(StageManager& stageManager) {
+void Zombie3::move(const StageManager& stageManager) {
 
 	//ม฿ทย
 	RECT temprect = rect;
@@ -92,8 +89,4 @@ void Zombie3::move(StageManager& stageManager) {
 
 	if (status != DIE_ || imageNum != 25)
 		insert();
-}
-
-void Zombie3::attack() {
-	
 }

@@ -54,12 +54,22 @@ void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float
 
 	blocks_stage1.clear();
 
-	for (int i = 0; i < (game_rect.right / BLOCK_SIZE) + 1; ++i) {
+	/*for (int i = 0; i < (game_rect.right / BLOCK_SIZE) + 1; ++i) {
 		for (int j = 0; j < h; ++j) {
 			Block block;
 			block.cImage->Load(path_block);
 			block.rect = { i * BLOCK_SIZE, j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE, (j + 1) * BLOCK_SIZE };
 			OffsetRect(&block.rect, 0, this->game_rect.bottom * size);
+			blocks_stage1.push_back(std::move(block));
+		}
+	}*/
+
+	for (int i = 0; i < (game_rect.right / BLOCK_SIZE) + 1; ++i) {
+		for (int j = 0; j < h; ++j) {
+			Block block;
+			block.cImage->Load(path_block);
+			block.rect = { i * BLOCK_SIZE, j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE, (j + 1) * BLOCK_SIZE };
+			OffsetRect(&block.rect, 0, this->game_rect.bottom * size-j*(BLOCK_SIZE*7));
 			blocks_stage1.push_back(std::move(block));
 		}
 	}
@@ -69,49 +79,24 @@ void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float
 		{game_rect.right,0,game_rect.right + 70,game_rect.bottom}
 	};
 
-	for (int i = 0; i < (game_rect.right / BLOCK_SIZE) + 1; ++i) {
-		if (i < 5) {
+	/*for (int i = 0; i < (game_rect.right / BLOCK_SIZE) + 1; ++i) {
+		if (i < 5 || (i % 7 == 1 || i % 3 == 1)) {
 			for (int j = 0; j < h; ++j) {
 				Block block;
 				block.cImage->Load(path_block);
 				block.rect = { i * BLOCK_SIZE, j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE, (j + 1) * BLOCK_SIZE };
-				OffsetRect(&block.rect, 0, this->game_rect.bottom / 10*(10-i));
+
+				if (i < 5) {
+					OffsetRect(&block.rect, 0, this->game_rect.bottom / 10 * (10 - i));
+				}
+				else if (i % 7 == 1 || i % 3 == 1) {
+					OffsetRect(&block.rect, 0, this->game_rect.bottom / 2);
+				}
+
 				blocks_stage1.push_back(std::move(block));
 			}
 		}
-		else if (i%7==1|| i % 3 == 1) {
-			for (int j = 0; j < h; ++j) {
-				Block block;
-				block.cImage->Load(path_block);
-				block.rect = { i * BLOCK_SIZE, j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE, (j + 1) * BLOCK_SIZE };
-				OffsetRect(&block.rect, 0, this->game_rect.bottom / 2);
-				blocks_stage1.push_back(std::move(block));
-			}
-		}
-
-
-
-		/*if (j == -5 && i < 4 && i>0) {
-			blocks_stage1[i].print(mDC, i, -(i - 1) * 2);
-		}
-		else if (j == -5 && i < 24 && i>20) {
-			blocks_stage1[i].print(mDC, i, -(i - 21) * 2);
-		}
-		else if (j == -5 && (i == 6 || i == 7 || i == 10 || i == 15 || i == 17 || i == 18)) {}
-		else if (j != -5 || i > 4) {
-			blocks_stage1[i].print(mDC, i, j);
-		}*/
-
-	}
-
-
-	for (int i = 0; i < 2; i++) {
-		Block block;
-		block.cImage->Load(path_block);
-		block.rect = rect_side_blocks[i];
-		blocks_stage1.push_back(std::move(block));
-	}
-
+	}*/
 }
 
 void StageManager::setLMBtnDown(LPARAM lParam) {
@@ -120,7 +105,7 @@ void StageManager::setLMBtnDown(LPARAM lParam) {
 	mP.y = HIWORD(lParam);
 
 	if (PtInRect(&startBtn, mP)) {
-		setBlock(1, Block::path_stage1, 0.98); //block create
+		setBlock(2, Block::path_stage1, 0.98); //block create
 		current_stage = STAGE::STAGE_1;
 		setBackground_img(background_img_path[0]);
 	}

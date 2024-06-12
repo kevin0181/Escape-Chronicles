@@ -50,13 +50,13 @@ void Slime::insert() {
 	}
 }
 
-void Slime::print(HDC& mDC) {
+void Slime::print(const HDC& mDC) {
 	if (!slime_img.IsNull()) {
 		slime_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, slime_img.GetWidth(), slime_img.GetHeight());
 	}
 }
 
-void Slime::move(StageManager& stageManager) {
+void Slime::move(const StageManager& stageManager) {
 		//중력
 		RECT temprect = rect;
 		gravity.UpdatePhysics(rect);
@@ -98,7 +98,7 @@ void Slime::MonsterPlayerCollision(Player& p) {
 	}
 }
 
-void Slime::Collisionplayer(Player& p) { //플레이어랑 충돌했을때 몬스터의 대처
+void Slime::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터의 대처
 	switch (p.status) {
 	case ATTACK:
 		OffsetRect(&rect, +20, -20);
@@ -107,11 +107,5 @@ void Slime::Collisionplayer(Player& p) { //플레이어랑 충돌했을때 몬스터의 대처
 	default:
 		status = ATTACK_;
 		break;
-	}
-}
-
-void Slime::attack() {
-	if (status == ATTACK_) {
-
 	}
 }

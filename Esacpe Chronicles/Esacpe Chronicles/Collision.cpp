@@ -1,6 +1,6 @@
 #include "collision.h"
 
-bool CheckBlockCollision(RECT& rect, std::vector<Block>& blocks) { //
+bool CheckBlockCollision(const RECT& rect, const std::vector<Block>& blocks) { //
 	RECT crossRect;
 	for (auto& block : blocks) {
 		if (IntersectRect(&crossRect, &rect, &block.rect)) {
@@ -10,7 +10,7 @@ bool CheckBlockCollision(RECT& rect, std::vector<Block>& blocks) { //
 	return false;
 }
 
-void CheckClientRect(const StageManager& stageManager, RECT rect, bool& left) {
+void CheckClientRect(const StageManager& stageManager, const RECT rect, bool& left) {
 	if (rect.left <= stageManager.rect.left)
 	{
 		left = false;
