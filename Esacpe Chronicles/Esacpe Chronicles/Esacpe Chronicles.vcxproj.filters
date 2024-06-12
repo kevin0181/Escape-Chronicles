@@ -13,6 +13,7 @@
     <ClCompile Include="Gravity.cpp" />
     <ClCompile Include="brain1.cpp" />
     <ClCompile Include="Brain2.cpp" />
+    <ClCompile Include="Boss.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StageManager.h" />
@@ -29,6 +30,7 @@
     <ClInclude Include="Brain1.h" />
     <ClInclude Include="Brain2.h" />
     <ClInclude Include="GlobalVariables.h" />
+    <ClInclude Include="Boss.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Stage.h" />
