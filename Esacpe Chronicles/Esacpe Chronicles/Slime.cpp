@@ -76,7 +76,7 @@ void Slime::move(StageManager& stageManager) {
 		}
 
 		if(status==MOVE_) {
-			int offset = left ? -10 : 10;
+			int offset = left ? -2 : 2;
 			OffsetRect(&rect, offset, 0);
 
 			CheckClientRect(stageManager, rect,left);

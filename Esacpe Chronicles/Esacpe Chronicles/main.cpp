@@ -64,6 +64,7 @@ vector<Zombie2> zombie2;
 vector<Zombie3> zombie3;
 vector<Brain1> brain1;
 vector<Brain2> brain2;
+Boss boss;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
@@ -100,6 +101,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         //zombie3.insert();
 		//brain1.insert();
 		//brain2.insert();
+		boss.insert();
 
         SetTimer(hWnd, 1, 1, FALSE);
         break;
@@ -162,6 +164,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		//zombie3[i].print(mDC);
 		//brain1[i].print(mDC);
 		//brain2[i].print(mDC);
+		boss.print(mDC);
 
 		BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
@@ -187,6 +190,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 				//zombie3.move(stageManager);
 				//brain1.move(stageManager);
 				//brain2.move(stageManager);
+				boss.move(stageManager);
 
 				//player
 				player.TIMER(stageManager);

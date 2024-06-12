@@ -11,6 +11,7 @@
 #include "Zombie3.h"
 #include "Brain1.h"
 #include "Brain2.h"
+#include "Boss.h"
 
 // 전역 변수 선언
 extern std::vector<Slime> slimes; 
@@ -19,5 +20,6 @@ extern std::vector<Zombie2> zombie2;
 extern std::vector<Zombie3> zombie3;
 extern std::vector<Brain1> brain1;
 extern std::vector<Brain2> brain2;
+extern Boss boss;
 
 #endif // GLOBALVARIABLES_H
