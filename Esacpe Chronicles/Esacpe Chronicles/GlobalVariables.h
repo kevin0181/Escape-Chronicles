@@ -20,6 +20,6 @@ extern std::vector<Zombie2> zombie2;
 extern std::vector<Zombie3> zombie3;
 extern std::vector<Brain1> brain1;
 extern std::vector<Brain2> brain2;
-extern Boss boss;
+extern std::vector<Boss> boss;
 
 #endif // GLOBALVARIABLES_H

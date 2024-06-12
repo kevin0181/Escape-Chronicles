@@ -16,6 +16,8 @@ public:
 	virtual void move(StageManager& stageManager) = 0;
 	virtual void attack() = 0;
 	virtual RECT& getRect() = 0;
+	virtual void Collisionplayer(Player& p) = 0;
+	virtual void MonsterPlayerCollision(Player& p) = 0;
 };
 
 enum MonsterStatus {
