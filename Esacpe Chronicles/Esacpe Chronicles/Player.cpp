@@ -41,6 +41,8 @@ int Player::getCimageSize() const{
 void Player::print(HDC& mDC) const {
     if (!cImage->IsNull()) {
 		cImage->Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
+		weapon_cImage->Draw(mDC, weapon_rect.left, weapon_rect.top, weapon_rect.right - weapon_rect.left, weapon_rect.bottom - weapon_rect.top,
+			0, 0, weapon_cImage->GetWidth(), weapon_cImage->GetHeight());
     }
     else {
         MessageBox(NULL, L"유효하지 않은 캐릭터 이미지", L"오류", MB_OK);
@@ -60,9 +62,12 @@ void Player::setImg(int img_num) {
 	}
 
 	cImage->Destroy(); // 이미지 삭제
-	weapon_cImage->Destroy(); // 무기 이미지 삭제
+	
 
 	if (press_m_l && weapon == 2) { // 마우스 좌 클릭 누르고 있을때. // bow
+
+		weapon_cImage->Destroy(); // 무기 이미지 삭제
+
 		if (mouse_p.x < rect.right) {
 			cImage->Load(_bow_default_l[0]);
 			weapon_cImage->Load(_bow_l[0]);
