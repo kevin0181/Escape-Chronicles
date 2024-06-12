@@ -178,8 +178,12 @@ class Player {
 		L"img/character/main/attack5(sword)/attack7_l.png",
 	};
 
-	LPCSTR _bow_default_r[1] = {
+	LPCTSTR _bow_default_r[1] = {
+		L"img/character/main/weapon/default.png"
+	};
 
+	LPCTSTR _bow_default_l[1] = {
+		L"img/character/main/weapon/default_l.png"
 	};
 
 public:
