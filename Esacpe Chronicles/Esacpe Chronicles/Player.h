@@ -35,12 +35,15 @@ class Player {
 
 	int weapon; // 1 = sword, 2 = bow, 3 = gun
 	RECT weapon_rect = { 0, 0, 1, 1 };
+	RECT bullet_rect = { 0,0,1,1 };
 	int attack_sword = 4; // sword 공격 모션
 
 	int img_num;
 	std::unique_ptr<CImage> cImage;
 
 	std::unique_ptr<CImage> weapon_cImage;
+
+	std::unique_ptr<CImage> bullet_cImage;
 
 	LPCTSTR _default_r[5] = {
 		L"img/character/main/stay/stay_1.png",
@@ -214,7 +217,7 @@ public:
 	bool press_m_l;
 	POINT mouse_p;
 
-	Player() : weapon_cImage(std::make_unique<CImage>()), cImage(std::make_unique<CImage>()),  status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
+	Player() : weapon_cImage(std::make_unique<CImage>()), cImage(std::make_unique<CImage>()), bullet_cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
 		rect = { 0,0,90,120 };
 		//OffsetRect(&rect, 0, 770);
 		OffsetRect(&rect, 100, 500);
@@ -228,6 +231,12 @@ public:
 
 		if (FAILED(hr2)) {
 			MessageBox(NULL, L"무기 이미지 로드 실패", L"오류", MB_OK);
+		}
+
+		HRESULT hr3 = bullet_cImage->Load(_arrow_r[0]);
+
+		if (FAILED(hr3)) {
+			MessageBox(NULL, L"총알 이미지 로드 실패", L"오류", MB_OK);
 		}
 
 	};
