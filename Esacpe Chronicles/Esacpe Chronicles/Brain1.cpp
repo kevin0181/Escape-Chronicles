@@ -49,13 +49,13 @@ void Brain1::insert() {
 	}
 }
 
-void Brain1::print(HDC& mDC) {
+void Brain1::print(const HDC& mDC) {
 	if (!brain1_img.IsNull() ) {
 		brain1_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, brain1_img.GetWidth(), brain1_img.GetHeight());
 	}
 }
 
-void Brain1::move(StageManager& stageManager) {
+void Brain1::move(const StageManager& stageManager) {
 
 	//ม฿ทย
 	RECT temprect = rect;
@@ -91,8 +91,4 @@ void Brain1::move(StageManager& stageManager) {
 
 	if (status != DIE_ || imageNum != 25)
 		insert();
-}
-
-void Brain1::attack() {
-
 }

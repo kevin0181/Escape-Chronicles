@@ -67,12 +67,9 @@ class Zombie1 : public Monster {
 public:
 	Zombie1();
 
-
-	RECT getRect() const; //충돌 체크할 때 필요할까봐 해둠
 	void insert() override; // 움직일 때(사진 바꿀 때)도 쓴다
-	void print(HDC& mDC) override;
-	void move(StageManager& stageManager) override; // rect를 움직이고 insert를 호출해 사진도 바꿔줌
-	void attack() override;
+	void print(const HDC& mDC) override;
+	void move(const StageManager& stageManager) override; // rect를 움직이고 insert를 호출해 사진도 바꿔줌
 	RECT& getRect() override {
 		return rect;
 	}
