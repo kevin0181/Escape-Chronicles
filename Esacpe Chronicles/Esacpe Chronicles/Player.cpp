@@ -70,15 +70,25 @@ void Player::setImg(int img_num) {
 		weapon_cImage->Destroy(); // 무기 이미지 삭제
 
 		if (mouse_p.x < rect.right) { // left
+			if (press_cnt >= 20) {
+				weapon_cImage->Load(_bow_l[1]);
+			}
+			else {
+				weapon_cImage->Load(_bow_l[0]);
+			}
 			cImage->Load(_bow_default_l[0]);
-			weapon_cImage->Load(_bow_l[0]);
 			weapon_rect = rect;
 			InflateRect(&weapon_rect, -10, -10);
 			OffsetRect(&weapon_rect, -10, 0);
 		}
 		else if (mouse_p.x > rect.right) { // right
+			if (press_cnt >= 20) {
+				weapon_cImage->Load(_bow_r[1]);
+			}
+			else {
+				weapon_cImage->Load(_bow_r[0]);
+			}
 			cImage->Load(_bow_default_r[0]);
-			weapon_cImage->Load(_bow_r[0]);
 			weapon_rect = rect;
 			InflateRect(&weapon_rect, -10, -10);
 			OffsetRect(&weapon_rect, 10, 0);

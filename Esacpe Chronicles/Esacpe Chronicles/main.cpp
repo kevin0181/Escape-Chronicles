@@ -147,6 +147,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
 			stageManager.getCurrent_stage() == STAGE::STAGE_3) {
 			player.press_m_l = false;
+			player.press_cnt = 0;
 		}
 		break;
     case WM_KEYDOWN:
@@ -219,6 +220,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	}
 	case WM_TIMER:
 		if (wParam == 1) {
+
+			if (player.press_m_l) { // 몇 초 누르고 있는지 확인
+				player.press_cnt++;
+			}
 
 			switch (stageManager.getCurrent_stage())
 			{

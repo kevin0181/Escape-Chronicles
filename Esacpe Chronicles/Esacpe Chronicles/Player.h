@@ -209,6 +209,7 @@ public:
 	Gravity gravity;
 
 	bool press_m_l;
+	int press_cnt = 0;
 	POINT mouse_p;
 
 	Player() : weapon_cImage(std::make_unique<CImage>()), cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
