@@ -10,6 +10,7 @@
 #include "Gravity.h"
 #include "Block.h"
 #include "StageManager.h"
+#include "Bullet.h"
 
 class Player {
 	/*bool left;
@@ -43,7 +44,7 @@ class Player {
 
 	std::unique_ptr<CImage> weapon_cImage;
 
-	std::unique_ptr<CImage> bullet_cImage;
+	std::vector<Bullet> bullets;
 
 	LPCTSTR _default_r[5] = {
 		L"img/character/main/stay/stay_1.png",
@@ -201,13 +202,6 @@ class Player {
 		L"img/character/main/weapon/bow/bow2_l.png"
 	};
 
-	LPCTSTR _arrow_r[1] = {
-		L"img/character/main/weapon/bow/arrow.png"
-	};
-
-	LPCTSTR _arrow_l[2] = {
-		L"img/character/main/weapon/bow/arrow_l.png"
-	};
 
 public:
 
@@ -217,7 +211,7 @@ public:
 	bool press_m_l;
 	POINT mouse_p;
 
-	Player() : weapon_cImage(std::make_unique<CImage>()), cImage(std::make_unique<CImage>()), bullet_cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
+	Player() : weapon_cImage(std::make_unique<CImage>()), cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
 		rect = { 0,0,90,120 };
 		//OffsetRect(&rect, 0, 770);
 		OffsetRect(&rect, 100, 500);
@@ -231,12 +225,6 @@ public:
 
 		if (FAILED(hr2)) {
 			MessageBox(NULL, L"무기 이미지 로드 실패", L"오류", MB_OK);
-		}
-
-		HRESULT hr3 = bullet_cImage->Load(_arrow_r[0]);
-
-		if (FAILED(hr3)) {
-			MessageBox(NULL, L"총알 이미지 로드 실패", L"오류", MB_OK);
 		}
 
 	};

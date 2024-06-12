@@ -65,7 +65,6 @@ void Player::setImg(int img_num) {
 
 	cImage->Destroy(); // 이미지 삭제
 	
-
 	if (press_m_l && weapon == 2) { // 마우스 좌 클릭 누르고 있을때. // bow
 
 		weapon_cImage->Destroy(); // 무기 이미지 삭제
@@ -84,7 +83,6 @@ void Player::setImg(int img_num) {
 			InflateRect(&weapon_rect, -10, -10);
 			OffsetRect(&weapon_rect, 10, 0);
 		}
-
 		return;
 	}
 
