@@ -186,6 +186,16 @@ class Player {
 		L"img/character/main/weapon/default_l.png"
 	};
 
+	LPCTSTR _bow_r[2] = {
+		L"img/character/main/weapon/bow/bow1.png"
+		L"img/character/main/weapon/bow/bow2.png"
+	};
+
+	LPCTSTR _bow_l[2] = {
+		L"img/character/main/weapon/bow/bow1_l.png"
+		L"img/character/main/weapon/bow/bow2_l.png"
+	};
+
 public:
 
 	int player_i = 0;
