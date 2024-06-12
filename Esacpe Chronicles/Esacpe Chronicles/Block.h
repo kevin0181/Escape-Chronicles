@@ -46,7 +46,7 @@ public:
     // Deleted copy constructor and copy assignment operator to avoid copying
     Block(const Block&) = delete;
     Block& operator=(const Block&) = delete;
-    void print(HDC& mDC, const int& w, const int& h) const;
+    void print(HDC& mDC) const;
 
     LPCTSTR getPath_stage1() {
         return path_stage1;

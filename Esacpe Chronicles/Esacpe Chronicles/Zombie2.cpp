@@ -14,10 +14,6 @@ Zombie2::Zombie2() : Monster() {
 	status = MOVE_;
 }
 
-RECT Zombie2::getRect() const {
-	return rect;
-}
-
 void Zombie2::insert() {
 	if (!zombie2_img.IsNull()) {
 		zombie2_img.Destroy();
@@ -51,18 +47,18 @@ void Zombie2::insert() {
 	}
 }
 
-void Zombie2::print(HDC& mDC) {
+void Zombie2::print(const HDC& mDC) {
 	if (!zombie2_img.IsNull() ) {
 		zombie2_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, zombie2_img.GetWidth(), zombie2_img.GetHeight());
 	}
 }
 
-void Zombie2::move(StageManager& stageManager) {
+void Zombie2::move(const StageManager& stageManager) {
 	//중력
 	RECT temprect = rect;
 	gravity.UpdatePhysics(rect);
 
-	if (CheckBlockCollision(rect, stageManager.blocks_stage1))
+	if (CheckBlockCollision(rect, stageManager))
 		rect = temprect;
 
 	//이미지
@@ -92,8 +88,4 @@ void Zombie2::move(StageManager& stageManager) {
 
 	if (status != DIE_ || imageNum != 25)
 		insert();
-}
-
-void Zombie2::attack() {
-	
 }

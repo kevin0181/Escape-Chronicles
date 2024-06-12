@@ -25,50 +25,50 @@ void Slime::insert() {
 	if (left) {
 		switch (status) {
 		case MOVE_:
-			slime_img.Load(slime_img_path_L[imageNum]);
+			slime_img.Load(slime_img_path_L[imageNum/3]);
 			break;
 		case ATTACK_:
-			slime_img.Load(slime_attack_img_path_L[imageNum]);
+			slime_img.Load(slime_attack_img_path_L[imageNum/3]);
 			break;
 		case DIE_:
-			slime_img.Load(slime_die_img_path_L[imageNum]);
+			slime_img.Load(slime_die_img_path_L[imageNum/3]);
 			break;
 		}	
 	}
 	else {
 		switch (status) {
 		case MOVE_:
-			slime_img.Load(slime_img_path_R[imageNum]);
+			slime_img.Load(slime_img_path_R[imageNum/3]);
 			break;
 		case ATTACK_:
-			slime_img.Load(slime_attack_img_path_R[imageNum]);
+			slime_img.Load(slime_attack_img_path_R[imageNum/3]);
 			break;
 		case DIE_:
-			slime_img.Load(slime_die_img_path_R[imageNum]);
+			slime_img.Load(slime_die_img_path_R[imageNum/3]);
 			break;
 		}
 	}
 }
 
-void Slime::print(HDC& mDC) {
+void Slime::print(const HDC& mDC) {
 	if (!slime_img.IsNull()) {
 		slime_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, slime_img.GetWidth(), slime_img.GetHeight());
 	}
 }
 
-void Slime::move(StageManager& stageManager) {
+void Slime::move(const StageManager& stageManager) {
 		//중력
 		RECT temprect = rect;
 		gravity.UpdatePhysics(rect);
 
-		if (CheckBlockCollision(rect, stageManager.blocks_stage1))
+		if (CheckBlockCollision(rect, stageManager))
 			rect = temprect;
 
 		//이미지
-		if (status != DIE_ || imageNum != 9)
+		if (status != DIE_ || imageNum != 27)
 		++imageNum;
 
-		if (imageNum == 9) {
+		if (imageNum == 27) {
 			if (status==DIE_)
 				slime_img.Destroy();
 			else
@@ -82,13 +82,30 @@ void Slime::move(StageManager& stageManager) {
 			CheckClientRect(stageManager, rect,left);
 		}
 
-		if (status != DIE_ || imageNum != 9)
+		if (status != DIE_ || imageNum != 27)
 			insert();
 }
 
+void Slime::MonsterPlayerCollision(Player& p) {
+	RECT intersectRect;
+	if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
+		Collisionplayer(p);
+		//player의 충돌했을 때 대처? 반응? 함수를 부르기
+	}
+	else {
+		
+		status = MOVE_;
+	}
+}
 
-void Slime::attack() {
-	if (status == ATTACK_) {
-
+void Slime::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터의 대처
+	switch (p.status) {
+	case ATTACK:
+		OffsetRect(&rect, +20, -20);
+		hp -= 10;
+		break;
+	default:
+		status = ATTACK_;
+		break;
 	}
 }

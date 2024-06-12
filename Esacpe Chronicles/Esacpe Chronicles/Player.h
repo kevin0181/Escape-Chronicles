@@ -19,7 +19,6 @@ class Player {
 	bool attack;
 	bool defense;*/
 
-	PlayerStatus status;
 	PlayerStatus saveStatus;
 	PlayerStatus direction = PlayerStatus::RIGHT;
 
@@ -204,11 +203,12 @@ class Player {
 
 
 public:
+	PlayerStatus status;
 
 	int player_i = 0;
 	Gravity gravity;
 
-	bool press_m_l;
+	bool press_m_l = false;
 	int press_cnt = 0;
 	POINT mouse_p;
 
@@ -249,7 +249,8 @@ public:
 
 	int getImgNum() const;
 
-	bool crash_check_block(const RECT& rect, const std::vector<Block>& blocks);
+	bool check_bottom();
+	int check_side();
 	bool checkPosition(const StageManager& stageManager, const int rect,const bool status);
 	void moveMonster(bool status);
 };

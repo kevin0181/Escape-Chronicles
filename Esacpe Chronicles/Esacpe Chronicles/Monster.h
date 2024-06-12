@@ -12,10 +12,11 @@
 class Monster {
 public:
 	virtual void insert() = 0;
-	virtual void print(HDC& mDC) = 0;
-	virtual void move(StageManager& stageManager) = 0;
-	virtual void attack() = 0;
+	virtual void print(const HDC& mDC) = 0;
+	virtual void move(const StageManager& stageManager) = 0;
 	virtual RECT& getRect() = 0;
+	virtual void Collisionplayer(const Player& p) = 0;
+	virtual void MonsterPlayerCollision(Player& p) = 0;
 };
 
 enum MonsterStatus {

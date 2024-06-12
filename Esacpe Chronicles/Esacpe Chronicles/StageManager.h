@@ -8,10 +8,9 @@
 
 class StageManager {
 private:
+public:
 	STAGE current_stage;
 	CImage background_img;
-public:
-
 	RECT viewRect; //모니터 화면크기
 	RECT rect; // 현재 보이는 이미지의 크기
 	int camera_move_speed = 10;
@@ -40,7 +39,7 @@ public:
 	};
 
 	LPCTSTR background_img_path[3] = {
-		L"img/background/stage1_background_img.png", // background stage 1
+		L"img/background/stage1_background_img_v2.png", // background stage 1
 		L"img/background/stage2_background_img.png", // background stage 2
 		L"img/background/stage3_background_img.png" // background stage 3
 	};

@@ -41,7 +41,7 @@ int Player::getCimageSize() const{
 void Player::print(HDC& mDC) const {
     if (!cImage->IsNull()) {
 		cImage->Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
-		if (press_m_l) {
+		if (press_m_l && weapon != 1) {
 			weapon_cImage->Draw(mDC, weapon_rect.left, weapon_rect.top, weapon_rect.right - weapon_rect.left, weapon_rect.bottom - weapon_rect.top,
 				0, 0, weapon_cImage->GetWidth(), weapon_cImage->GetHeight());
 		}
@@ -309,9 +309,8 @@ void Player::move(StageManager& stageManager) {
 		return;
 	}
 
-	RECT tempRect = rect; // 현재 위치를 임시로 저장
-
 	weapon_rect = rect;
+	saveRect = rect;
 
 	switch (status)
 	{
@@ -331,15 +330,15 @@ void Player::move(StageManager& stageManager) {
 			
 			moveMonster(false);
 
-			if (crash_check_block(rect, stageManager.blocks_stage1) || checkPosition(stageManager, rect.right, false)) {
-				rect = tempRect; // 충돌하면 원래 위치로 되돌림
+			if (checkPosition(stageManager, rect.right, false)) { //카메라 이동
+				OffsetRect(&rect, speed, 0); // player 이동
 			}
+
+			
 		}
 		else {
 			OffsetRect(&rect, -speed, 0);
-			if (crash_check_block(rect, stageManager.blocks_stage1)) {
-				rect = tempRect; // 충돌하면 원래 위치로 되돌림
-			}
+			OffsetRect(&rect, check_side(), 0);
 		}
 
 		break;
@@ -354,15 +353,14 @@ void Player::move(StageManager& stageManager) {
 
 			moveMonster(true);
 
-			if (crash_check_block(rect, stageManager.blocks_stage1) || checkPosition(stageManager, rect.left, true)) {
-				rect = tempRect; // 충돌하면 원래 위치로 되돌림
+			if (checkPosition(stageManager, rect.left, true)) {
+				OffsetRect(&rect, -speed, 0); // player 이동
 			}
+
 		}
 		else {
 			OffsetRect(&rect, speed, 0);
-			if (crash_check_block(rect, stageManager.blocks_stage1)) {
-				rect = tempRect; // 충돌하면 원래 위치로 되돌림
-			}
+			OffsetRect(&rect, -check_side(), 0);
 		}
 		break;
 	case ATTACK:
@@ -395,17 +393,20 @@ void Player::setSaveRect(RECT rect) {
 	this->saveRect = rect;
 }
 
-bool Player::crash_check_block(const RECT& rect, const std::vector<Block>& blocks) { //
-	RECT crossRect;
-	for (auto& block : blocks) {
-		if (IntersectRect(&crossRect, &rect, &block.rect)) {
-			isOnGround = true; // 땅에 닿았을 때
-			isJumping = false; // 점프 중이 아님
-			return true;
-		}
+bool Player::check_bottom() { 
+	if (rect.bottom >= stageManager.game_rect.bottom) {
+		isOnGround = true; // 땅에 닿았을 때
+		isJumping = false; // 점프 중이 아님
+		return true;
 	}
 	isOnGround = false; // 충돌이 없으면 공중에 있음
 	return false;
+}
+
+int Player::check_side() {
+	if (rect.left <= stageManager.viewRect.left || rect.right >= stageManager.viewRect.right)
+		return speed;
+	return 0;
 }
 
 void Player::TIMER(StageManager& stageManager) {
@@ -421,7 +422,7 @@ void Player::TIMER(StageManager& stageManager) {
 	// 중력 돌 충도 체크
 	setSaveRect(rect);
 	gravity.UpdatePhysics(rect);
-	if (crash_check_block(rect, stageManager.blocks_stage1)) {
+	if (check_bottom()) { // 바닥 충돌 체크
 		rect = saveRect;
 	}
 }

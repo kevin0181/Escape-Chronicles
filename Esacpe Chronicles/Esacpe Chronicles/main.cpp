@@ -6,6 +6,7 @@
 // ------------------
 #include "GlobalVariables.h"
 
+#include "collision.h"
 #include "Stage.h"
 #include "StageManager.h"
 #include "Block.h"
@@ -64,7 +65,7 @@ vector<Zombie2> zombie2;
 vector<Zombie3> zombie3;
 vector<Brain1> brain1;
 vector<Brain2> brain2;
-Boss boss;
+vector<Boss> boss;
 
 StageManager stageManager;
 
@@ -96,6 +97,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		GetClientRect(hWnd, &rect);
 		stageManager.setBackground_img(stageManager.intro_img_path[0]);
 		stageManager.game_rect = rect;
+		stageManager.game_rect.bottom -= 10;
 		stageManager.game_rect.right = (rect.right - rect.left) * 3;
 		stageManager.viewRect = rect;
 
@@ -113,7 +115,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         //zombie3.insert();
 		//brain1.insert();
 		//brain2.insert();
-		boss.insert();
+		//boss.insert();
 
         SetTimer(hWnd, 1, 1, FALSE);
         break;
@@ -205,10 +207,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		//zombie3[i].print(mDC);
 		//brain1[i].print(mDC);
 		//brain2[i].print(mDC);
+		
+		
 		//커서 이미지 그리기
 		cursorImage.Draw(mDC, cursorPos.x - 40, cursorPos.y - 40, 80, 80, 0, 0, cursorWidth, cursorHeight);
 
-		boss.print(mDC);
+		//boss.print(mDC);
 
 		BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
@@ -231,6 +235,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			{
 				for (auto& slime : slimes) {
 					slime.move(stageManager);
+					slime.MonsterPlayerCollision(player);
 				}
 				
 				//zombie1.move(stageManager);
@@ -238,7 +243,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 				//zombie3.move(stageManager);
 				//brain1.move(stageManager);
 				//brain2.move(stageManager);
-				boss.move(stageManager);
+				//boss.move(stageManager);
 
 				//player
 				player.TIMER(stageManager);

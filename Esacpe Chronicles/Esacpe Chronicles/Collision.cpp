@@ -1,25 +1,16 @@
 #include "collision.h"
 
+//bool CheckBlockCollision(const RECT& rect, const std::vector<Block>& blocks) { //
+//	RECT crossRect;
+//	for (auto& block : blocks) {
+//		if (IntersectRect(&crossRect, &rect, &block.rect)) {
+//			return true;
+//		}
+//	}
+//	return false;
+//}
 
-bool CheckCollision(RECT rect1, RECT rect2) {
-	if ((rect1.left < rect2.right) && (rect1.top < rect2.bottom) && (rect1.right > rect2.left) &&
-		(rect1.bottom > rect2.top)) return true;
-	else return false;
-}
-
-
-
-bool CheckBlockCollision(RECT& rect, std::vector<Block>& blocks) { //
-	RECT crossRect;
-	for (auto& block : blocks) {
-		if (IntersectRect(&crossRect, &rect, &block.rect)) {
-			return true;
-		}
-	}
-	return false;
-}
-
-void CheckClientRect(const StageManager& stageManager, RECT rect, bool& left) {
+void CheckClientRect(const StageManager& stageManager, const RECT rect, bool& left) {
 	if (rect.left <= stageManager.rect.left)
 	{
 		left = false;
@@ -30,4 +21,11 @@ void CheckClientRect(const StageManager& stageManager, RECT rect, bool& left) {
 		left = true;
 		return;
 	}
+}
+
+int CheckBlockCollision(const RECT& rect, const StageManager& stageManager){
+	if (rect.bottom >= stageManager.game_rect.bottom) {
+		return true;
+	}
+	return false;
 }

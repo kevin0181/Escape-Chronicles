@@ -49,19 +49,19 @@ void Brain2::insert() {
 	}
 }
 
-void Brain2::print(HDC& mDC) {
+void Brain2::print(const HDC& mDC) {
 	if (!brain2_img.IsNull()) {
 		brain2_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, brain2_img.GetWidth(), brain2_img.GetHeight());
 	}
 }
 
-void Brain2::move(StageManager& stageManager) {
+void Brain2::move(const StageManager& stageManager) {
 
 	//중력
 	RECT temprect = rect;
 	gravity.UpdatePhysics(rect);
 
-	if (CheckBlockCollision(rect, stageManager.blocks_stage1))
+	if (CheckBlockCollision(rect, stageManager))
 		rect = temprect;
 
 	//이미지
@@ -91,8 +91,4 @@ void Brain2::move(StageManager& stageManager) {
 
 	if (status != DIE_ || imageNum != 30)
 		insert();
-}
-
-void Brain2::attack() {
-
 }
