@@ -67,6 +67,7 @@ void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float
 		}
 	}
 
+	
 }
 
 void StageManager::setLMBtnDown(LPARAM lParam) {
