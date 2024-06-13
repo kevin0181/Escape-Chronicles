@@ -5,11 +5,17 @@
 #include <vector>
 #include <cmath> // abs 함수가 포함된 헤더 파일
 #include <random>
+#include <gdiplus.h>
+
+#pragma comment (lib, "gdiplus.lib")
+
+using namespace Gdiplus;
 
 #include "PlayerStatus.h"
 #include "Gravity.h"
 #include "Block.h"
 #include "StageManager.h"
+#include "Bullet.h"
 
 class Player {
 	/*bool left;
@@ -32,12 +38,17 @@ class Player {
 	RECT rect;
 	RECT saveRect;
 
-	int weapon; // 0 = sword, 1 = bow, 2 = gun
-
+	int weapon; // 1 = sword, 2 = bow, 3 = gun
+	RECT weapon_rect = { 0, 0, 1, 1 };
+	RECT bullet_rect = { 0,0,1,1 };
 	int attack_sword = 4; // sword 공격 모션
 
 	int img_num;
 	std::unique_ptr<CImage> cImage;
+
+	Gdiplus::Image* weapon_img = nullptr;
+
+	std::vector<Bullet> bullets;
 
 	LPCTSTR _default_r[5] = {
 		L"img/character/main/stay/stay_1.png",
@@ -177,9 +188,24 @@ class Player {
 		L"img/character/main/attack5(sword)/attack7_l.png",
 	};
 
-	LPCSTR _bow_default_r[1] = {
-
+	LPCTSTR _bow_default_r[1] = {
+		L"img/character/main/weapon/default.png"
 	};
+
+	LPCTSTR _bow_default_l[1] = {
+		L"img/character/main/weapon/default_l.png"
+	};
+
+	LPCTSTR _bow_r[2] = {
+		L"img/character/main/weapon/bow/bow1_v2.png",
+		L"img/character/main/weapon/bow/bow2_v2.png"
+	};
+
+	LPCTSTR _bow_l[2] = {
+		L"img/character/main/weapon/bow/bow1_l.png",
+		L"img/character/main/weapon/bow/bow2_l.png"
+	};
+
 
 public:
 	PlayerStatus status;
@@ -187,14 +213,29 @@ public:
 	int player_i = 0;
 	Gravity gravity;
 
-	Player() :cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(0) {
+	bool press_m_l = false;
+	int press_cnt = 0;
+	POINT mouse_p;
+
+	Player() : cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
 		rect = { 0,0,90,120 };
 		//OffsetRect(&rect, 0, 770);
 		OffsetRect(&rect, 100, 500);
 		HRESULT hr = cImage->Load(_default_r[0]);
+
 		if (FAILED(hr)) {
-			MessageBox(NULL, L"블록 이미지 로드 실패", L"오류", MB_OK);
+			MessageBox(NULL, L"캐릭터 이미지 로드 실패", L"오류", MB_OK);
 		}
+
+		Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+		ULONG_PTR gdiplusToken;
+		GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
+
+		weapon_img = new Gdiplus::Image(_bow_r[0]);
+		if (!weapon_img) {
+			MessageBox(NULL, L"무기 이미지 로드 실패", L"Error", MB_OK | MB_ICONERROR);
+		}
+
 	};
 
 	void setKeyDown(WPARAM wParam);
@@ -216,7 +257,8 @@ public:
 
 	int getImgNum() const;
 
-	bool crash_check_block(const RECT& rect, const std::vector<Block>& blocks);
+	bool check_bottom();
+	int check_side();
 	bool checkPosition(const StageManager& stageManager, const int rect,const bool status);
 	void moveMonster(bool status);
 };

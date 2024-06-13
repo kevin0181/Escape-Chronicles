@@ -23,8 +23,11 @@ void StageManager::DrawBackground_img(HDC& mDC, const int& w) {
 		background_img.Draw(mDC, rect.left, rect.top, (rect.right - rect.left) * w, rect.bottom - rect.top, 0, 0, background_img.GetWidth(), background_img.GetHeight()); //이미지 전체 화면
 
 		if (current_stage == STAGE::STAGE_1) {
+			RECT r;
 			for (int i = 0; i < blocks_stage1.size(); ++i) { //블럭 그리기
-				blocks_stage1[i].print(mDC, i, 1);
+				if (IntersectRect(&r, &viewRect, &blocks_stage1[i].rect)) {
+					blocks_stage1[i].print(mDC);
+				}
 			}
 		}
 	}
@@ -54,49 +57,16 @@ void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float
 
 	blocks_stage1.clear();
 
-	/*for (int i = 0; i < (game_rect.right / BLOCK_SIZE) + 1; ++i) {
+	for (int i = 0; i < (viewRect.right / BLOCK_SIZE) + 1; ++i) {
 		for (int j = 0; j < h; ++j) {
 			Block block;
-			block.cImage->Load(path_block);
+			block.color = RGB(62, 141, 215);
 			block.rect = { i * BLOCK_SIZE, j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE, (j + 1) * BLOCK_SIZE };
-			OffsetRect(&block.rect, 0, this->game_rect.bottom * size);
-			blocks_stage1.push_back(std::move(block));
-		}
-	}*/
-
-	for (int i = 0; i < (game_rect.right / BLOCK_SIZE) + 1; ++i) {
-		for (int j = 0; j < h; ++j) {
-			Block block;
-			block.cImage->Load(path_block);
-			block.rect = { i * BLOCK_SIZE, j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE, (j + 1) * BLOCK_SIZE };
-			OffsetRect(&block.rect, 0, this->game_rect.bottom * size-j*(BLOCK_SIZE*7));
-			blocks_stage1.push_back(std::move(block));
+			OffsetRect(&block.rect, 0, 50);
+			blocks_stage1.push_back(block);
 		}
 	}
 
-	RECT rect_side_blocks[2] = { //옆 벽면
-		{-70,0,0,game_rect.bottom},
-		{game_rect.right,0,game_rect.right + 70,game_rect.bottom}
-	};
-
-	/*for (int i = 0; i < (game_rect.right / BLOCK_SIZE) + 1; ++i) {
-		if (i < 5 || (i % 7 == 1 || i % 3 == 1)) {
-			for (int j = 0; j < h; ++j) {
-				Block block;
-				block.cImage->Load(path_block);
-				block.rect = { i * BLOCK_SIZE, j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE, (j + 1) * BLOCK_SIZE };
-
-				if (i < 5) {
-					OffsetRect(&block.rect, 0, this->game_rect.bottom / 10 * (10 - i));
-				}
-				else if (i % 7 == 1 || i % 3 == 1) {
-					OffsetRect(&block.rect, 0, this->game_rect.bottom / 2);
-				}
-
-				blocks_stage1.push_back(std::move(block));
-			}
-		}
-	}*/
 }
 
 void StageManager::setLMBtnDown(LPARAM lParam) {
@@ -105,7 +75,7 @@ void StageManager::setLMBtnDown(LPARAM lParam) {
 	mP.y = HIWORD(lParam);
 
 	if (PtInRect(&startBtn, mP)) {
-		setBlock(2, Block::path_stage1, 0.98); //block create
+		setBlock(1, Block::path_stage1, 0.98); //block create
 		current_stage = STAGE::STAGE_1;
 		setBackground_img(background_img_path[0]);
 	}

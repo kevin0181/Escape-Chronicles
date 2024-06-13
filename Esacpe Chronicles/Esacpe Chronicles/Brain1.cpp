@@ -61,7 +61,7 @@ void Brain1::move(const StageManager& stageManager) {
 	RECT temprect = rect;
 	gravity.UpdatePhysics(rect);
 
-	if (CheckBlockCollision(rect, stageManager.blocks_stage1))
+	if (CheckBlockCollision(rect, stageManager))
 		rect = temprect;
 
 	//ÀÌ¹ÌÁö

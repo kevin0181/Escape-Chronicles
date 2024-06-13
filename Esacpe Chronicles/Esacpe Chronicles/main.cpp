@@ -2,7 +2,11 @@
 #include <string>
 #include <atlimage.h>
 #include <vector>
+#include <gdiplus.h>
 
+#pragma comment (lib, "gdiplus.lib")
+
+using namespace Gdiplus;
 // ------------------
 #include "GlobalVariables.h"
 
@@ -27,6 +31,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	MSG Message;
 	WNDCLASSEX WndClass;
 	g_hInst = hInstance;
+
+	// GDI+ 초기화
+	GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR gdiplusToken;
+	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
 	WndClass.cbSize = sizeof(WndClass);
 	WndClass.style = CS_HREDRAW | CS_VREDRAW;
@@ -56,6 +65,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 		DispatchMessage(&Message);
 	}
 
+	// GDI+ 해제
+	GdiplusShutdown(gdiplusToken);
+
 	return static_cast<int>(Message.wParam);
 }
 
@@ -67,6 +79,8 @@ vector<Brain1> brain1;
 vector<Brain2> brain2;
 vector<Boss> boss;
 
+StageManager stageManager;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 	static RECT rect; // 화면 전체 크기
@@ -75,8 +89,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	HDC hDC, mDC;
 	HBITMAP hBitmap;
 	HBITMAP hOldBitmap;
-
-	static StageManager stageManager;
+	 
 	static Player player;
 
 	static CImage cursorImage;
@@ -96,6 +109,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		GetClientRect(hWnd, &rect);
 		stageManager.setBackground_img(stageManager.intro_img_path[0]);
 		stageManager.game_rect = rect;
+		stageManager.game_rect.bottom -= 10;
 		stageManager.game_rect.right = (rect.right - rect.left) * 3;
 		stageManager.viewRect = rect;
 
@@ -123,6 +137,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		if (stageManager.getCurrent_stage() == STAGE::MAIN)
 			stageManager.setLMBtnDown(lParam);
 
+		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
+			stageManager.getCurrent_stage() == STAGE::STAGE_3) {
+			player.mouse_p.x = LOWORD(lParam);
+			player.mouse_p.y = HIWORD(lParam);
+			player.press_m_l = true;
+		}
+
+		break;
+	case WM_MOUSEMOVE:
+
+		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
+			stageManager.getCurrent_stage() == STAGE::STAGE_3) {
+			if (player.press_m_l) {
+				player.mouse_p.x = LOWORD(lParam);
+				player.mouse_p.y = HIWORD(lParam);
+			}
+		}
+
+		break;
+	case WM_LBUTTONUP:
+
+		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
+			stageManager.getCurrent_stage() == STAGE::STAGE_3) {
+			player.press_m_l = false;
+			player.press_cnt = 0;
+		}
 		break;
     case WM_KEYDOWN:
 
@@ -179,6 +219,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		//zombie3[i].print(mDC);
 		//brain1[i].print(mDC);
 		//brain2[i].print(mDC);
+		
+		
 		//커서 이미지 그리기
 		cursorImage.Draw(mDC, cursorPos.x - 40, cursorPos.y - 40, 80, 80, 0, 0, cursorWidth, cursorHeight);
 
@@ -194,6 +236,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	}
 	case WM_TIMER:
 		if (wParam == 1) {
+
+			if (player.press_m_l) { // 몇 초 누르고 있는지 확인
+				player.press_cnt++;
+			}
 
 			switch (stageManager.getCurrent_stage())
 			{

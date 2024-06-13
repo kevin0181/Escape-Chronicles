@@ -41,6 +41,31 @@ int Player::getCimageSize() const{
 void Player::print(HDC& mDC) const {
     if (!cImage->IsNull()) {
 		cImage->Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
+		if (press_m_l && weapon != 1) {
+			Gdiplus::Graphics graphics(mDC);
+			Gdiplus::Rect destRect(weapon_rect.left, weapon_rect.top, weapon_rect.right - weapon_rect.left, weapon_rect.bottom - weapon_rect.top);
+
+			// 렌더링 품질 설정
+			graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQualityBicubic);
+			graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+
+			// 이미지 중심 계산
+			Gdiplus::PointF center(static_cast<Gdiplus::REAL>(weapon_rect.left + (weapon_rect.right - weapon_rect.left) / 2),
+				static_cast<Gdiplus::REAL>(weapon_rect.top + (weapon_rect.bottom - weapon_rect.top) / 2));
+
+			// 마우스 위치 기준 각도 계산
+			float dx = static_cast<float>(mouse_p.x) - center.X;
+			float dy = static_cast<float>(mouse_p.y) - center.Y;
+			float angle = std::atan2(dy, dx) * 180.0f / 3.14159265f; // 라디안을 도로 변환
+
+			// 회전 변환 설정
+			graphics.TranslateTransform(center.X, center.Y);
+			graphics.RotateTransform(angle);
+			graphics.TranslateTransform(-center.X, -center.Y);
+
+			// 회전된 이미지 그리기
+			graphics.DrawImage(weapon_img, destRect);
+		}
     }
     else {
         MessageBox(NULL, L"유효하지 않은 캐릭터 이미지", L"오류", MB_OK);
@@ -54,13 +79,41 @@ int Player::getImgNum()const {
 void Player::setImg(int img_num) {
 	this->img_num = img_num;
 
-	
 	// main character
 	if (img_num >= getCimageSize()) {
 		this->img_num = 0;
 	}
 
-	cImage->Destroy();
+	cImage->Destroy(); // 이미지 삭제
+	
+	if (press_m_l && weapon == 2) { // 마우스 좌 클릭 누르고 있을때. // bow
+
+
+		if (weapon_img) {
+			delete weapon_img;
+		}
+
+		if (press_cnt >= 20) {
+			weapon_img = new Gdiplus::Image(_bow_r[1]);
+		}
+		else {
+			weapon_img = new Gdiplus::Image(_bow_r[0]);
+		}
+
+		if (mouse_p.x <= rect.right) { // left
+			cImage->Load(_bow_default_l[0]);
+			weapon_rect = rect;
+			InflateRect(&weapon_rect, -10, -10);
+			OffsetRect(&weapon_rect, -10, 0);
+		}
+		else if (mouse_p.x >= rect.right) { // right
+			cImage->Load(_bow_default_r[0]);
+			weapon_rect = rect;
+			InflateRect(&weapon_rect, -10, -10);
+			OffsetRect(&weapon_rect, 10, 0);
+		}
+		return;
+	}
 
 	switch (status)
 	{
@@ -161,6 +214,15 @@ void Player::setKeyDown(WPARAM wParam) {
 	
 	switch (wParam)
 	{
+	case 49: // 1번 -> sword
+		weapon = 1;
+		break;
+	case 50: // 2번 -> bow
+		weapon = 2;
+		break;
+	case 51: // 3번 -> gun
+		weapon = 3;
+		break;
 	case 65: //a
 		status = PlayerStatus::LEFT;
 		direction = PlayerStatus::LEFT;
@@ -180,7 +242,14 @@ void Player::setKeyDown(WPARAM wParam) {
 		break;
 	case 32: //spacebar
 	{
-		saveStatus = status;
+		img_num = 0;
+
+		if (weapon != 1)
+			return;
+	
+		if (status != PlayerStatus::ATTACK) //공격 아닐때만 저장 (연속으로 공격 방지)
+			saveStatus = status;
+
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<> attck_dis(0, 4);
@@ -188,7 +257,7 @@ void Player::setKeyDown(WPARAM wParam) {
 		status = PlayerStatus::ATTACK;
 		attack_sword = attck_dis(gen);
 
-		img_num = 0;
+	
 		break;
 	}
 	default:
@@ -243,7 +312,12 @@ bool Player::checkPosition(const StageManager& stageManager, const int r, bool s
 
 void Player::move(StageManager& stageManager) {
 
-	RECT tempRect = rect; // 현재 위치를 임시로 저장
+	if (press_m_l && weapon != 1) { // 공격 모션 중이면 못 움직이게
+		return;
+	}
+
+	weapon_rect = rect;
+	saveRect = rect;
 
 	switch (status)
 	{
@@ -263,15 +337,15 @@ void Player::move(StageManager& stageManager) {
 			
 			moveMonster(false);
 
-			if (crash_check_block(rect, stageManager.blocks_stage1) || checkPosition(stageManager, rect.right, false)) {
-				rect = tempRect; // 충돌하면 원래 위치로 되돌림
+			if (checkPosition(stageManager, rect.right, false)) { //카메라 이동
+				OffsetRect(&rect, speed, 0); // player 이동
 			}
+
+			
 		}
 		else {
 			OffsetRect(&rect, -speed, 0);
-			if (crash_check_block(rect, stageManager.blocks_stage1)) {
-				rect = tempRect; // 충돌하면 원래 위치로 되돌림
-			}
+			OffsetRect(&rect, check_side(), 0);
 		}
 
 		break;
@@ -286,15 +360,14 @@ void Player::move(StageManager& stageManager) {
 
 			moveMonster(true);
 
-			if (crash_check_block(rect, stageManager.blocks_stage1) || checkPosition(stageManager, rect.left, true)) {
-				rect = tempRect; // 충돌하면 원래 위치로 되돌림
+			if (checkPosition(stageManager, rect.left, true)) {
+				OffsetRect(&rect, -speed, 0); // player 이동
 			}
+
 		}
 		else {
 			OffsetRect(&rect, speed, 0);
-			if (crash_check_block(rect, stageManager.blocks_stage1)) {
-				rect = tempRect; // 충돌하면 원래 위치로 되돌림
-			}
+			OffsetRect(&rect, -check_side(), 0);
 		}
 		break;
 	case ATTACK:
@@ -327,17 +400,20 @@ void Player::setSaveRect(RECT rect) {
 	this->saveRect = rect;
 }
 
-bool Player::crash_check_block(const RECT& rect, const std::vector<Block>& blocks) { //
-	RECT crossRect;
-	for (auto& block : blocks) {
-		if (IntersectRect(&crossRect, &rect, &block.rect)) {
-			isOnGround = true; // 땅에 닿았을 때
-			isJumping = false; // 점프 중이 아님
-			return true;
-		}
+bool Player::check_bottom() { 
+	if (rect.bottom >= stageManager.game_rect.bottom) {
+		isOnGround = true; // 땅에 닿았을 때
+		isJumping = false; // 점프 중이 아님
+		return true;
 	}
 	isOnGround = false; // 충돌이 없으면 공중에 있음
 	return false;
+}
+
+int Player::check_side() {
+	if (rect.left <= stageManager.viewRect.left || rect.right >= stageManager.viewRect.right)
+		return speed;
+	return 0;
 }
 
 void Player::TIMER(StageManager& stageManager) {
@@ -353,7 +429,7 @@ void Player::TIMER(StageManager& stageManager) {
 	// 중력 돌 충도 체크
 	setSaveRect(rect);
 	gravity.UpdatePhysics(rect);
-	if (crash_check_block(rect, stageManager.blocks_stage1)) {
+	if (check_bottom()) { // 바닥 충돌 체크
 		rect = saveRect;
 	}
 }

@@ -1,14 +1,14 @@
 #include "collision.h"
 
-bool CheckBlockCollision(const RECT& rect, const std::vector<Block>& blocks) { //
-	RECT crossRect;
-	for (auto& block : blocks) {
-		if (IntersectRect(&crossRect, &rect, &block.rect)) {
-			return true;
-		}
-	}
-	return false;
-}
+//bool CheckBlockCollision(const RECT& rect, const std::vector<Block>& blocks) { //
+//	RECT crossRect;
+//	for (auto& block : blocks) {
+//		if (IntersectRect(&crossRect, &rect, &block.rect)) {
+//			return true;
+//		}
+//	}
+//	return false;
+//}
 
 void CheckClientRect(const StageManager& stageManager, const RECT rect, bool& left) {
 	if (rect.left <= stageManager.rect.left)
@@ -23,3 +23,9 @@ void CheckClientRect(const StageManager& stageManager, const RECT rect, bool& le
 	}
 }
 
+int CheckBlockCollision(const RECT& rect, const StageManager& stageManager){
+	if (rect.bottom >= stageManager.game_rect.bottom) {
+		return true;
+	}
+	return false;
+}
