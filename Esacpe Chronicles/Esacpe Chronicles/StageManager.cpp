@@ -67,15 +67,7 @@ void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float
 	//	}
 	//}
 
-	for (int i = 0; i < 5; ++i) {
-		Block block;
-		block.cImage->Load(path_block);
-		block.rect = { i * BLOCK_SIZE, 0, (i + 1) * BLOCK_SIZE, BLOCK_SIZE };
-
-		OffsetRect(&block.rect, 0, this->game_rect.bottom / 10 * (10 - i));
-		blocks_stage1.push_back(std::move(block));
-	}
-
+	
 }
 
 void StageManager::setLMBtnDown(LPARAM lParam) {
