@@ -5,6 +5,11 @@
 #include <vector>
 #include <cmath> // abs 함수가 포함된 헤더 파일
 #include <random>
+#include <gdiplus.h>
+
+#pragma comment (lib, "gdiplus.lib")
+
+using namespace Gdiplus;
 
 #include "PlayerStatus.h"
 #include "Gravity.h"
@@ -41,9 +46,7 @@ class Player {
 	int img_num;
 	std::unique_ptr<CImage> cImage;
 
-	std::unique_ptr<CImage> weapon_cImage;
-
-	std::vector<Bullet> bullets;
+	Gdiplus::Image* weapon_img = nullptr;
 
 	LPCTSTR _default_r[5] = {
 		L"img/character/main/stay/stay_1.png",
@@ -192,8 +195,8 @@ class Player {
 	};
 
 	LPCTSTR _bow_r[2] = {
-		L"img/character/main/weapon/bow/bow1.png",
-		L"img/character/main/weapon/bow/bow2.png"
+		L"img/character/main/weapon/bow/bow1_v2.png",
+		L"img/character/main/weapon/bow/bow2_v2.png"
 	};
 
 	LPCTSTR _bow_l[2] = {
@@ -213,7 +216,9 @@ public:
 	int press_cnt = 0;
 	POINT mouse_p;
 
-	Player() : weapon_cImage(std::make_unique<CImage>()), cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
+	std::vector<Bullet> bullets;
+
+	Player() : cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
 		rect = { 0,0,90,120 };
 		//OffsetRect(&rect, 0, 770);
 		OffsetRect(&rect, 100, 500);
@@ -223,10 +228,13 @@ public:
 			MessageBox(NULL, L"캐릭터 이미지 로드 실패", L"오류", MB_OK);
 		}
 
-		HRESULT hr2 = weapon_cImage->Load(_bow_r[0]);
+		Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+		ULONG_PTR gdiplusToken;
+		GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
 
-		if (FAILED(hr2)) {
-			MessageBox(NULL, L"무기 이미지 로드 실패", L"오류", MB_OK);
+		weapon_img = new Gdiplus::Image(_bow_r[0]);
+		if (!weapon_img) {
+			MessageBox(NULL, L"무기 이미지 로드 실패", L"Error", MB_OK | MB_ICONERROR);
 		}
 
 	};
@@ -254,4 +262,10 @@ public:
 	int check_side();
 	bool checkPosition(const StageManager& stageManager, const int rect,const bool status);
 	void moveMonster(bool status);
+	void shootArrow();
+	void moveBullet();
+
+	int getWeapon() const {
+		return weapon;
+	}
 };

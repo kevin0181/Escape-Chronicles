@@ -42,8 +42,68 @@ void Player::print(HDC& mDC) const {
     if (!cImage->IsNull()) {
 		cImage->Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
 		if (press_m_l && weapon != 1) {
-			weapon_cImage->Draw(mDC, weapon_rect.left, weapon_rect.top, weapon_rect.right - weapon_rect.left, weapon_rect.bottom - weapon_rect.top,
-				0, 0, weapon_cImage->GetWidth(), weapon_cImage->GetHeight());
+			Gdiplus::Graphics graphics(mDC);
+			Gdiplus::Rect destRect(weapon_rect.left, weapon_rect.top, weapon_rect.right - weapon_rect.left, weapon_rect.bottom - weapon_rect.top);
+
+			int bullets_size = bullets.size() - 1;
+
+			Gdiplus::Rect destRect2(bullets[bullets_size].rect.left, bullets[bullets_size].rect.top, 
+				bullets[bullets_size].rect.right - bullets[bullets_size].rect.left, bullets[bullets_size].rect.bottom - bullets[bullets_size].rect.top);
+
+			// 렌더링 품질 설정
+			graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQualityBicubic);
+			graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+
+			// 이미지 중심 계산
+			Gdiplus::PointF center(static_cast<Gdiplus::REAL>(weapon_rect.left + (weapon_rect.right - weapon_rect.left) / 2),
+				static_cast<Gdiplus::REAL>(weapon_rect.top + (weapon_rect.bottom - weapon_rect.top) / 2));
+
+			// 마우스 위치 기준 각도 계산
+			float dx = static_cast<float>(mouse_p.x) - center.X;
+			float dy = static_cast<float>(mouse_p.y) - center.Y;
+			float angle = std::atan2(dy, dx) * 180.0f / 3.14159265f; // 라디안을 도로 변환
+
+			// 회전 변환 설정
+			graphics.TranslateTransform(center.X, center.Y);
+			graphics.RotateTransform(angle);
+			graphics.TranslateTransform(-center.X, -center.Y);
+
+			// 회전된 이미지 그리기
+			graphics.DrawImage(weapon_img, destRect);
+
+			if (bullets.size() != 0)
+				graphics.DrawImage(bullets[bullets_size].img, destRect2);
+
+		}
+
+		if (bullets.size() != 0) {
+			for (int i = 0; i < bullets.size(); ++i) {
+				if (bullets[i].status) {
+					Gdiplus::Graphics graphics(mDC);
+					Gdiplus::Rect destRect(bullets[i].rect.left, bullets[i].rect.top, bullets[i].rect.right - bullets[i].rect.left, bullets[i].rect.bottom - bullets[i].rect.top);
+
+					// 이미지 중심 계산
+					Gdiplus::PointF bulletCenter(static_cast<Gdiplus::REAL>(bullets[i].rect.left + (bullets[i].rect.right - bullets[i].rect.left) / 2),
+						static_cast<Gdiplus::REAL>(bullets[i].rect.top + (bullets[i].rect.bottom - bullets[i].rect.top) / 2));
+
+					// 회전 변환 설정
+					graphics.TranslateTransform(bulletCenter.X, bulletCenter.Y);
+
+					// 상하 반전 설정 (화살이 떨어질 때)
+					if (bullets[i].vy > 0) {
+						graphics.ScaleTransform(1.0f, -1.0f);
+					}
+
+					graphics.RotateTransform(bullets[i].angle * 180.0f / 3.14159265f); // 라디안을 도로 변환
+					graphics.TranslateTransform(-bulletCenter.X, -bulletCenter.Y);
+
+					// 회전된 이미지 그리기
+					graphics.DrawImage(bullets[i].img, destRect);
+
+					// 원래 변환 상태로 복원
+					graphics.ResetTransform();
+				}
+			}
 		}
     }
     else {
@@ -67,39 +127,24 @@ void Player::setImg(int img_num) {
 	
 	if (press_m_l && weapon == 2) { // 마우스 좌 클릭 누르고 있을때. // bow
 
-		weapon_cImage->Destroy(); // 무기 이미지 삭제
+		if (weapon_img) {
+			delete weapon_img;
+		}
 
-		if (mouse_p.x < rect.right) { // left
-			if (press_cnt >= 20) {
-				weapon_cImage->Load(_bow_l[1]);
+		if (press_cnt >= 30) {
+			weapon_img = new Gdiplus::Image(_bow_r[1]);
+		}
+		else {
+			weapon_img = new Gdiplus::Image(_bow_r[0]);
+		}
 
-				// 활 추가
-
-
-			}
-			else {
-				weapon_cImage->Load(_bow_l[0]);
-			}
+		if (mouse_p.x <= rect.right) { // left
 			cImage->Load(_bow_default_l[0]);
 			weapon_rect = rect;
 			InflateRect(&weapon_rect, -10, -10);
 			OffsetRect(&weapon_rect, -10, 0);
 		}
-		else if (mouse_p.x > rect.right) { // right
-			if (press_cnt >= 20) {
-				weapon_cImage->Load(_bow_r[1]);
-				
-				// 활 추가
-
-				Bullet bullet;
-				bullet.cImage->Load(bullet._arrow_r[0]);
-				bullet.rect = weapon_rect;
-				bullets.push_back(std::move(bullet));
-
-			}
-			else {
-				weapon_cImage->Load(_bow_r[0]);
-			}
+		else if (mouse_p.x >= rect.right) { // right
 			cImage->Load(_bow_default_r[0]);
 			weapon_rect = rect;
 			InflateRect(&weapon_rect, -10, -10);
@@ -327,6 +372,10 @@ void Player::move(StageManager& stageManager) {
 			for (int i = 0; i < stageManager.blocks_stage1.size(); ++i) { // 블럭이동
 				OffsetRect(&stageManager.blocks_stage1[i].rect, 10, 0);
 			}
+
+			for (auto& bullet : bullets) {
+				OffsetRect(&bullet.rect, 10, 0);
+			}
 			
 			moveMonster(false);
 
@@ -349,6 +398,10 @@ void Player::move(StageManager& stageManager) {
 
 			for (int i = 0; i < stageManager.blocks_stage1.size(); ++i) {
 				OffsetRect(&stageManager.blocks_stage1[i].rect, -10, 0);
+			}
+
+			for (auto& bullet : bullets) { //총알 카메라이동
+				OffsetRect(&bullet.rect, -10, 0);
 			}
 
 			moveMonster(true);
@@ -418,6 +471,7 @@ void Player::TIMER(StageManager& stageManager) {
 		setImg(img_num + 1);
 
 	move(stageManager);
+	moveBullet();
 
 	// 중력 돌 충도 체크
 	setSaveRect(rect);
@@ -438,5 +492,42 @@ void Player::moveMonster(bool status) {
 		for (auto& slime : slimes) {
 			OffsetRect(&slime.getRect(), 10, 0);
 		}
+	}
+}
+
+void Player::moveBullet() {
+	for (auto& bullet : bullets) {
+		// 중력 가속도를 vy에 더함
+
+		bullet.vy += bullet.gravity;
+
+		bullet.rect.left += static_cast<LONG>(bullet.vx);
+		bullet.rect.right += static_cast<LONG>(bullet.vx);
+		bullet.rect.top += static_cast<LONG>(bullet.vy);
+		bullet.rect.bottom += static_cast<LONG>(bullet.vy);
+	}
+}
+
+void Player::shootArrow() {
+	if (weapon == 2) { // 무기가 활일 때
+
+		// 마우스 위치 기준 각도 계산
+		Gdiplus::PointF center(static_cast<Gdiplus::REAL>(bullets[bullets.size() - 1].rect.left + (bullets[bullets.size() - 1].rect.right - bullets[bullets.size() - 1].rect.left) / 2),
+			static_cast<Gdiplus::REAL>(bullets[bullets.size() - 1].rect.top + (bullets[bullets.size() - 1].rect.bottom - bullets[bullets.size() - 1].rect.top) / 2));
+
+		float dx = static_cast<float>(mouse_p.x) - center.X;
+		float dy = static_cast<float>(mouse_p.y) - center.Y;
+		float angle = std::atan2(dy, dx);
+
+		// 속도 설정 (속도 값을 조정하여 화살의 속도를 변경할 수 있습니다)
+		float speed = 11.0f;
+		float vx = speed * std::cos(angle);
+		float vy = speed * std::sin(angle);
+
+		// 화살을 벡터에 추가
+		bullets[bullets.size() - 1].vx = vx;
+		bullets[bullets.size() - 1].vy = vy;
+		bullets[bullets.size() - 1].angle = angle;
+		bullets[bullets.size() - 1].gravity = 0.07;
 	}
 }

@@ -202,6 +202,7 @@
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Brain1.h" />
     <ClInclude Include="Brain2.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="Gravity.h" />

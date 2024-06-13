@@ -57,15 +57,15 @@ void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float
 
 	blocks_stage1.clear();
 
-	//for (int i = 0; i < (viewRect.right / BLOCK_SIZE) + 1; ++i) {
-	//	for (int j = 0; j < h; ++j) {
-	//		Block block;
-	//		block.cImage->Load(path_block);
-	//		block.rect = { i * BLOCK_SIZE, j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE, (j + 1) * BLOCK_SIZE };
-	//		OffsetRect(&block.rect, 0, this->game_rect.bottom * size);
-	//		blocks_stage1.push_back(std::move(block));
-	//	}
-	//}
+	for (int i = 0; i < (viewRect.right / BLOCK_SIZE) + 1; ++i) {
+		for (int j = 0; j < h; ++j) {
+			Block block;
+			block.color = RGB(62, 141, 215);
+			block.rect = { i * BLOCK_SIZE, j * BLOCK_SIZE, (i + 1) * BLOCK_SIZE, (j + 1) * BLOCK_SIZE };
+			OffsetRect(&block.rect, 0, 50);
+			blocks_stage1.push_back(block);
+		}
+	}
 
 	
 }

@@ -2,7 +2,11 @@
 #include <string>
 #include <atlimage.h>
 #include <vector>
+#include <gdiplus.h>
 
+#pragma comment (lib, "gdiplus.lib")
+
+using namespace Gdiplus;
 // ------------------
 #include "GlobalVariables.h"
 
@@ -27,6 +31,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	MSG Message;
 	WNDCLASSEX WndClass;
 	g_hInst = hInstance;
+
+	// GDI+ 초기화
+	GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR gdiplusToken;
+	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
 	WndClass.cbSize = sizeof(WndClass);
 	WndClass.style = CS_HREDRAW | CS_VREDRAW;
@@ -55,6 +64,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 		TranslateMessage(&Message);
 		DispatchMessage(&Message);
 	}
+
+	// GDI+ 해제
+	GdiplusShutdown(gdiplusToken);
 
 	return static_cast<int>(Message.wParam);
 }
@@ -127,9 +139,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
 			stageManager.getCurrent_stage() == STAGE::STAGE_3) {
+
+			if (player.getWeapon() == 2 && !player.press_m_l) {
+				Bullet bullet;
+				bullet.rect = player.getRECT();
+				bullet.weapon_status = 2;
+				bullet.img = new Gdiplus::Image(bullet._arrow_r[0]);
+				InflateRect(&bullet.rect, -5, -40);
+				OffsetRect(&bullet.rect, 0, -5);
+				player.bullets.push_back(bullet);
+			}
+
 			player.mouse_p.x = LOWORD(lParam);
 			player.mouse_p.y = HIWORD(lParam);
 			player.press_m_l = true;
+			
+			
+
 		}
 
 		break;
@@ -149,6 +175,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
 			stageManager.getCurrent_stage() == STAGE::STAGE_3) {
 			player.press_m_l = false;
+			if (player.bullets.size() != 0) {
+				if (player.press_cnt >= 30) { //2.5초 정도 넘으면 발사 가능.
+					player.bullets[player.bullets.size() - 1].status = true;
+					player.shootArrow();
+				}
+				else { //아니면 지우기
+					player.bullets.pop_back();
+				}
+			}
 			player.press_cnt = 0;
 		}
 		break;
