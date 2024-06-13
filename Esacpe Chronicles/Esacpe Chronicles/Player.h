@@ -34,6 +34,8 @@ class Player {
 	int currentJumpHeight;
 	int initialY; // 점프 전 Y 좌표 저장
 	
+	int press_speed_cnt = 0;
+	int low_speed = 5;
 	int speed;
 	RECT rect;
 	RECT saveRect;

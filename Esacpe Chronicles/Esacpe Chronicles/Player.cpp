@@ -308,6 +308,7 @@ void Player::setKeyUp(WPARAM wParam) {
 	{
 	case 65: //a
 		status = PlayerStatus::DEFAULT_L;
+		press_speed_cnt = 0;
 		break;
 	case 87: //w
 		break;
@@ -315,6 +316,7 @@ void Player::setKeyUp(WPARAM wParam) {
 		break;
 	case 68: //d
 		status = PlayerStatus::DEFAULT_R;
+		press_speed_cnt = 0;
 		break;
 	default:
 		break;
@@ -364,11 +366,14 @@ void Player::move(StageManager& stageManager) {
 	case DEFAULT_L:
 		break;
 	case LEFT:
+	{
+		press_speed_cnt++;
+		int now_speed = press_speed_cnt >= 50 ? speed : low_speed;
 
 		if (stageManager.rect.left < 0) {
-			OffsetRect(&rect, -speed, 0); // player 이동
+			OffsetRect(&rect, -now_speed, 0); // player 이동
 			OffsetRect(&stageManager.rect, stageManager.camera_move_speed, 0); // 뒷배경 이동 <-
-			
+
 			for (int i = 0; i < stageManager.blocks_stage1.size(); ++i) { // 블럭이동
 				OffsetRect(&stageManager.blocks_stage1[i].rect, 10, 0);
 			}
@@ -376,24 +381,29 @@ void Player::move(StageManager& stageManager) {
 			for (auto& bullet : bullets) {
 				OffsetRect(&bullet.rect, 10, 0);
 			}
-			
+
 			moveMonster(false);
 
 			if (checkPosition(stageManager, rect.right, false)) { //카메라 이동
-				OffsetRect(&rect, speed, 0); // player 이동
+				OffsetRect(&rect, now_speed, 0); // player 이동
 			}
 
-			
+
 		}
 		else {
-			OffsetRect(&rect, -speed, 0);
+			OffsetRect(&rect, -now_speed, 0);
 			OffsetRect(&rect, check_side(), 0);
 		}
 
 		break;
+	}
 	case RIGHT:
+	{
+		press_speed_cnt++;
+		int now_speed = press_speed_cnt >= 50 ? speed : low_speed;
+
 		if (std::abs(stageManager.rect.right) + std::abs(stageManager.rect.left) < stageManager.game_rect.right) { //카메라 우측이동
-			OffsetRect(&rect, speed, 0);
+			OffsetRect(&rect, now_speed, 0);
 			OffsetRect(&stageManager.rect, -stageManager.camera_move_speed, 0); // 뒷배경 이동 ->
 
 			for (int i = 0; i < stageManager.blocks_stage1.size(); ++i) {
@@ -407,15 +417,16 @@ void Player::move(StageManager& stageManager) {
 			moveMonster(true);
 
 			if (checkPosition(stageManager, rect.left, true)) {
-				OffsetRect(&rect, -speed, 0); // player 이동
+				OffsetRect(&rect, -now_speed, 0); // player 이동
 			}
 
 		}
 		else {
-			OffsetRect(&rect, speed, 0);
+			OffsetRect(&rect, now_speed, 0);
 			OffsetRect(&rect, -check_side(), 0);
 		}
 		break;
+	}
 	case ATTACK:
 		break;
 	case DEFENSE:
