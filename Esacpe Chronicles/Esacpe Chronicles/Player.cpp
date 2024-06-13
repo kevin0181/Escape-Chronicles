@@ -82,13 +82,26 @@ void Player::print(HDC& mDC) const {
 					Gdiplus::Graphics graphics(mDC);
 					Gdiplus::Rect destRect(bullets[i].rect.left, bullets[i].rect.top, bullets[i].rect.right - bullets[i].rect.left, bullets[i].rect.bottom - bullets[i].rect.top);
 
+					// 이미지 중심 계산
+					Gdiplus::PointF bulletCenter(static_cast<Gdiplus::REAL>(bullets[i].rect.left + (bullets[i].rect.right - bullets[i].rect.left) / 2),
+						static_cast<Gdiplus::REAL>(bullets[i].rect.top + (bullets[i].rect.bottom - bullets[i].rect.top) / 2));
+
 					// 회전 변환 설정
-					graphics.TranslateTransform(destRect.X + destRect.Width / 2, destRect.Y + destRect.Height / 2);
+					graphics.TranslateTransform(bulletCenter.X, bulletCenter.Y);
+
+					// 상하 반전 설정 (화살이 떨어질 때)
+					if (bullets[i].vy > 0) {
+						graphics.ScaleTransform(1.0f, -1.0f);
+					}
+
 					graphics.RotateTransform(bullets[i].angle * 180.0f / 3.14159265f); // 라디안을 도로 변환
-					graphics.TranslateTransform(-destRect.X - destRect.Width / 2, -destRect.Y - destRect.Height / 2);
+					graphics.TranslateTransform(-bulletCenter.X, -bulletCenter.Y);
 
 					// 회전된 이미지 그리기
 					graphics.DrawImage(bullets[i].img, destRect);
+
+					// 원래 변환 상태로 복원
+					graphics.ResetTransform();
 				}
 			}
 		}
@@ -476,6 +489,10 @@ void Player::moveMonster(bool status) {
 
 void Player::moveBullet() {
 	for (auto& bullet : bullets) {
+		// 중력 가속도를 vy에 더함
+
+		bullet.vy += bullet.gravity;
+
 		bullet.rect.left += static_cast<LONG>(bullet.vx);
 		bullet.rect.right += static_cast<LONG>(bullet.vx);
 		bullet.rect.top += static_cast<LONG>(bullet.vy);
@@ -503,5 +520,6 @@ void Player::shootArrow() {
 		bullets[bullets.size() - 1].vx = vx;
 		bullets[bullets.size() - 1].vy = vy;
 		bullets[bullets.size() - 1].angle = angle;
+		bullets[bullets.size() - 1].gravity = 0.07;
 	}
 }

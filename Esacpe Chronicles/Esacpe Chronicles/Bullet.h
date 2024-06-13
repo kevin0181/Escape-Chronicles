@@ -20,4 +20,5 @@ public:
 	float vy;
 	int weapon_status = 0;
 	float angle;
+	float gravity;
 };
