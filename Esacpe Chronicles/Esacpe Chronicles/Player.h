@@ -48,8 +48,6 @@ class Player {
 
 	Gdiplus::Image* weapon_img = nullptr;
 
-	std::vector<Bullet> bullets;
-
 	LPCTSTR _default_r[5] = {
 		L"img/character/main/stay/stay_1.png",
 		L"img/character/main/stay/stay_2.png",
@@ -217,6 +215,8 @@ public:
 	int press_cnt = 0;
 	POINT mouse_p;
 
+	std::vector<Bullet> bullets;
+
 	Player() : cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
 		rect = { 0,0,90,120 };
 		//OffsetRect(&rect, 0, 770);
@@ -261,4 +261,8 @@ public:
 	int check_side();
 	bool checkPosition(const StageManager& stageManager, const int rect,const bool status);
 	void moveMonster(bool status);
+
+	int getWeapon() const {
+		return weapon;
+	}
 };

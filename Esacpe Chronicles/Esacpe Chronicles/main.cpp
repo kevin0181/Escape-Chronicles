@@ -139,9 +139,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
 			stageManager.getCurrent_stage() == STAGE::STAGE_3) {
+
+			if (player.getWeapon() == 2 && !player.press_m_l) {
+				Bullet bullet;
+				bullet.rect = player.getRECT();
+				bullet.img = new Gdiplus::Image(bullet._arrow_r[0]);
+				InflateRect(&bullet.rect, -5, -40);
+				OffsetRect(&bullet.rect, 0, -5);
+				player.bullets.push_back(bullet);
+			}
+
 			player.mouse_p.x = LOWORD(lParam);
 			player.mouse_p.y = HIWORD(lParam);
 			player.press_m_l = true;
+			
+			
+
 		}
 
 		break;

@@ -45,6 +45,11 @@ void Player::print(HDC& mDC) const {
 			Gdiplus::Graphics graphics(mDC);
 			Gdiplus::Rect destRect(weapon_rect.left, weapon_rect.top, weapon_rect.right - weapon_rect.left, weapon_rect.bottom - weapon_rect.top);
 
+			int bullets_size = bullets.size() - 1;
+
+			Gdiplus::Rect destRect2(bullets[bullets_size].rect.left, bullets[bullets_size].rect.top, 
+				bullets[bullets_size].rect.right - bullets[bullets_size].rect.left, bullets[bullets_size].rect.bottom - bullets[bullets_size].rect.top);
+
 			// 렌더링 품질 설정
 			graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQualityBicubic);
 			graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
@@ -65,6 +70,20 @@ void Player::print(HDC& mDC) const {
 
 			// 회전된 이미지 그리기
 			graphics.DrawImage(weapon_img, destRect);
+
+			if (bullets.size() != 0)
+				graphics.DrawImage(bullets[bullets_size].img, destRect2);
+
+		}
+
+		if (bullets.size() != 0) {
+			for (int i = 0; i < bullets.size() - 1; ++i) {
+				Gdiplus::Graphics graphics(mDC);
+				Gdiplus::Rect destRect(bullets[i].rect.left, bullets[i].rect.top, bullets[i].rect.right - bullets[i].rect.left, bullets[i].rect.bottom - bullets[i].rect.top);
+
+				// 회전된 이미지 그리기
+				graphics.DrawImage(bullets[i].img, destRect);
+			}
 		}
     }
     else {
@@ -88,12 +107,11 @@ void Player::setImg(int img_num) {
 	
 	if (press_m_l && weapon == 2) { // 마우스 좌 클릭 누르고 있을때. // bow
 
-
 		if (weapon_img) {
 			delete weapon_img;
 		}
 
-		if (press_cnt >= 20) {
+		if (press_cnt >= 30) {
 			weapon_img = new Gdiplus::Image(_bow_r[1]);
 		}
 		else {
