@@ -2,7 +2,11 @@
 #include <string>
 #include <atlimage.h>
 #include <vector>
+#include <gdiplus.h>
 
+#pragma comment (lib, "gdiplus.lib")
+
+using namespace Gdiplus;
 // ------------------
 #include "GlobalVariables.h"
 
@@ -27,6 +31,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	MSG Message;
 	WNDCLASSEX WndClass;
 	g_hInst = hInstance;
+
+	// GDI+ 초기화
+	GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR gdiplusToken;
+	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
 	WndClass.cbSize = sizeof(WndClass);
 	WndClass.style = CS_HREDRAW | CS_VREDRAW;
@@ -55,6 +64,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 		TranslateMessage(&Message);
 		DispatchMessage(&Message);
 	}
+
+	// GDI+ 해제
+	GdiplusShutdown(gdiplusToken);
 
 	return static_cast<int>(Message.wParam);
 }

@@ -42,8 +42,6 @@ void Player::print(HDC& mDC) const {
     if (!cImage->IsNull()) {
 		cImage->Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
 		if (press_m_l && weapon != 1) {
-			weapon_cImage->Draw(mDC, weapon_rect.left, weapon_rect.top, weapon_rect.right - weapon_rect.left, weapon_rect.bottom - weapon_rect.top,
-				0, 0, weapon_cImage->GetWidth(), weapon_cImage->GetHeight());
 		}
     }
     else {
@@ -67,18 +65,10 @@ void Player::setImg(int img_num) {
 	
 	if (press_m_l && weapon == 2) { // 마우스 좌 클릭 누르고 있을때. // bow
 
-		weapon_cImage->Destroy(); // 무기 이미지 삭제
-
 		if (mouse_p.x < rect.right) { // left
 			if (press_cnt >= 20) {
-				weapon_cImage->Load(_bow_l[1]);
-
-				// 활 추가
-
-
 			}
 			else {
-				weapon_cImage->Load(_bow_l[0]);
 			}
 			cImage->Load(_bow_default_l[0]);
 			weapon_rect = rect;
@@ -87,18 +77,8 @@ void Player::setImg(int img_num) {
 		}
 		else if (mouse_p.x > rect.right) { // right
 			if (press_cnt >= 20) {
-				weapon_cImage->Load(_bow_r[1]);
-				
-				// 활 추가
-
-				Bullet bullet;
-				bullet.cImage->Load(bullet._arrow_r[0]);
-				bullet.rect = weapon_rect;
-				bullets.push_back(std::move(bullet));
-
 			}
 			else {
-				weapon_cImage->Load(_bow_r[0]);
 			}
 			cImage->Load(_bow_default_r[0]);
 			weapon_rect = rect;

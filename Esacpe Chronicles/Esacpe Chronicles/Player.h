@@ -41,7 +41,7 @@ class Player {
 	int img_num;
 	std::unique_ptr<CImage> cImage;
 
-	std::unique_ptr<CImage> weapon_cImage;
+
 
 	std::vector<Bullet> bullets;
 
@@ -212,7 +212,7 @@ public:
 	int press_cnt = 0;
 	POINT mouse_p;
 
-	Player() : weapon_cImage(std::make_unique<CImage>()), cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
+	Player() : cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {
 		rect = { 0,0,90,120 };
 		//OffsetRect(&rect, 0, 770);
 		OffsetRect(&rect, 100, 500);
@@ -220,12 +220,6 @@ public:
 
 		if (FAILED(hr)) {
 			MessageBox(NULL, L"캐릭터 이미지 로드 실패", L"오류", MB_OK);
-		}
-
-		HRESULT hr2 = weapon_cImage->Load(_bow_r[0]);
-
-		if (FAILED(hr2)) {
-			MessageBox(NULL, L"무기 이미지 로드 실패", L"오류", MB_OK);
 		}
 
 	};
