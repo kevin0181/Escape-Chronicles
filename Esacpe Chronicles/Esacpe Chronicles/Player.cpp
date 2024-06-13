@@ -372,6 +372,10 @@ void Player::move(StageManager& stageManager) {
 			for (int i = 0; i < stageManager.blocks_stage1.size(); ++i) { // 블럭이동
 				OffsetRect(&stageManager.blocks_stage1[i].rect, 10, 0);
 			}
+
+			for (auto& bullet : bullets) {
+				OffsetRect(&bullet.rect, 10, 0);
+			}
 			
 			moveMonster(false);
 
@@ -394,6 +398,10 @@ void Player::move(StageManager& stageManager) {
 
 			for (int i = 0; i < stageManager.blocks_stage1.size(); ++i) {
 				OffsetRect(&stageManager.blocks_stage1[i].rect, -10, 0);
+			}
+
+			for (auto& bullet : bullets) { //총알 카메라이동
+				OffsetRect(&bullet.rect, -10, 0);
 			}
 
 			moveMonster(true);
@@ -512,7 +520,7 @@ void Player::shootArrow() {
 		float angle = std::atan2(dy, dx);
 
 		// 속도 설정 (속도 값을 조정하여 화살의 속도를 변경할 수 있습니다)
-		float speed = 10.0f;
+		float speed = 11.0f;
 		float vx = speed * std::cos(angle);
 		float vy = speed * std::sin(angle);
 
