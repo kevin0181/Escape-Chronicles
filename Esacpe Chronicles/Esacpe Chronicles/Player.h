@@ -5,6 +5,11 @@
 #include <vector>
 #include <cmath> // abs 함수가 포함된 헤더 파일
 #include <random>
+#include <gdiplus.h>
+
+#pragma comment (lib, "gdiplus.lib")
+
+using namespace Gdiplus;
 
 #include "PlayerStatus.h"
 #include "Gravity.h"
@@ -41,7 +46,7 @@ class Player {
 	int img_num;
 	std::unique_ptr<CImage> cImage;
 
-
+	Gdiplus::Image* weapon_img = nullptr;
 
 	std::vector<Bullet> bullets;
 
@@ -192,8 +197,8 @@ class Player {
 	};
 
 	LPCTSTR _bow_r[2] = {
-		L"img/character/main/weapon/bow/bow1.png",
-		L"img/character/main/weapon/bow/bow2.png"
+		L"img/character/main/weapon/bow/bow1_v2.png",
+		L"img/character/main/weapon/bow/bow2_v2.png"
 	};
 
 	LPCTSTR _bow_l[2] = {
@@ -220,6 +225,15 @@ public:
 
 		if (FAILED(hr)) {
 			MessageBox(NULL, L"캐릭터 이미지 로드 실패", L"오류", MB_OK);
+		}
+
+		Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+		ULONG_PTR gdiplusToken;
+		GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
+
+		weapon_img = new Gdiplus::Image(_bow_r[0]);
+		if (!weapon_img) {
+			MessageBox(NULL, L"무기 이미지 로드 실패", L"Error", MB_OK | MB_ICONERROR);
 		}
 
 	};

@@ -42,6 +42,29 @@ void Player::print(HDC& mDC) const {
     if (!cImage->IsNull()) {
 		cImage->Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, cImage->GetWidth(), cImage->GetHeight());
 		if (press_m_l && weapon != 1) {
+			Gdiplus::Graphics graphics(mDC);
+			Gdiplus::Rect destRect(weapon_rect.left, weapon_rect.top, weapon_rect.right - weapon_rect.left, weapon_rect.bottom - weapon_rect.top);
+
+			// 렌더링 품질 설정
+			graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQualityBicubic);
+			graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+
+			// 이미지 중심 계산
+			Gdiplus::PointF center(static_cast<Gdiplus::REAL>(weapon_rect.left + (weapon_rect.right - weapon_rect.left) / 2),
+				static_cast<Gdiplus::REAL>(weapon_rect.top + (weapon_rect.bottom - weapon_rect.top) / 2));
+
+			// 마우스 위치 기준 각도 계산
+			float dx = static_cast<float>(mouse_p.x) - center.X;
+			float dy = static_cast<float>(mouse_p.y) - center.Y;
+			float angle = std::atan2(dy, dx) * 180.0f / 3.14159265f; // 라디안을 도로 변환
+
+			// 회전 변환 설정
+			graphics.TranslateTransform(center.X, center.Y);
+			graphics.RotateTransform(angle);
+			graphics.TranslateTransform(-center.X, -center.Y);
+
+			// 회전된 이미지 그리기
+			graphics.DrawImage(weapon_img, destRect);
 		}
     }
     else {
@@ -65,21 +88,26 @@ void Player::setImg(int img_num) {
 	
 	if (press_m_l && weapon == 2) { // 마우스 좌 클릭 누르고 있을때. // bow
 
-		if (mouse_p.x < rect.right) { // left
-			if (press_cnt >= 20) {
-			}
-			else {
-			}
+
+		if (weapon_img) {
+			delete weapon_img;
+		}
+
+		if (press_cnt >= 20) {
+			weapon_img = new Gdiplus::Image(_bow_r[1]);
+		}
+		else {
+			weapon_img = new Gdiplus::Image(_bow_r[0]);
+		}
+
+		if (mouse_p.x <= rect.right) { // left
 			cImage->Load(_bow_default_l[0]);
 			weapon_rect = rect;
 			InflateRect(&weapon_rect, -10, -10);
 			OffsetRect(&weapon_rect, -10, 0);
 		}
-		else if (mouse_p.x > rect.right) { // right
-			if (press_cnt >= 20) {
-			}
-			else {
-			}
+		else if (mouse_p.x >= rect.right) { // right
+			
 			cImage->Load(_bow_default_r[0]);
 			weapon_rect = rect;
 			InflateRect(&weapon_rect, -10, -10);
