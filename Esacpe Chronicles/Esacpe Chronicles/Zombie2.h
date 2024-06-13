@@ -1,6 +1,4 @@
 #pragma once
-#include <atlimage.h>
-
 #include "Monster.h"
 
 class Zombie2 : public Monster {
@@ -71,6 +69,8 @@ public:
 	RECT& getRect() override {
 		return rect;
 	}
+	void MonsterPlayerCollision(Player& p) override; //플레이어랑 충돌했을 때 함수
+	void Collisionplayer(const Player& p) override; //플레이어랑 충돌했을때 몬스터의 대처
 };
 
 

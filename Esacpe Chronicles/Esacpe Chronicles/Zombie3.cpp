@@ -90,3 +90,31 @@ void Zombie3::move(const StageManager& stageManager) {
 	if (status != DIE_ || imageNum != 25)
 		insert();
 }
+
+void Zombie3::MonsterPlayerCollision(Player& p) {
+	RECT intersectRect;
+	if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
+		Collisionplayer(p);
+		//player의 충돌했을 때 대처? 반응? 함수를 부르기
+	}
+	else {
+
+		status = MOVE_;
+	}
+}
+
+void Zombie3::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터의 대처
+	switch (p.status) {
+	case ATTACK:
+		if (p.direction == PlayerStatus::RIGHT)
+			OffsetRect(&rect, +20, -20);
+		else
+			OffsetRect(&rect, -20, -20);
+
+		hp -= 10;
+		break;
+	default:
+		status = ATTACK_;
+		break;
+	}
+}

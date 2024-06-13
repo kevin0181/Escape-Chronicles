@@ -20,7 +20,7 @@ class Player {
 	bool defense;*/
 
 	PlayerStatus saveStatus;
-	PlayerStatus direction = PlayerStatus::RIGHT;
+	
 
 	bool isOnGround = true; //¶¥¿¡ ´ê¾Ò´ÂÁö Ã¼Å©
 	bool isJumping = false;
@@ -204,6 +204,7 @@ class Player {
 
 public:
 	PlayerStatus status;
+	PlayerStatus direction = PlayerStatus::RIGHT;
 
 	int player_i = 0;
 	Gravity gravity;

@@ -1,7 +1,4 @@
 #pragma once
-#pragma once
-#include <atlimage.h>
-
 #include "Monster.h"
 
 class Brain1 : public Monster {
@@ -74,7 +71,6 @@ class Brain1 : public Monster {
 public:
 	Brain1();
 
-	RECT getRect() const; //충돌 체크할 때 필요할까봐 해둠
 
 	void insert() override; // 움직일 때(사진 바꿀 때)도 쓴다
 	void print(const HDC& mDC) override;
@@ -82,6 +78,8 @@ public:
 	RECT& getRect() override {
 		return rect;
 	}
+	void MonsterPlayerCollision(Player& p) override; //플레이어랑 충돌했을 때 함수
+	void Collisionplayer(const Player& p) override; //플레이어랑 충돌했을때 몬스터의 대처
 };
 
 
