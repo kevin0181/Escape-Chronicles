@@ -107,7 +107,6 @@ void Player::setImg(int img_num) {
 			OffsetRect(&weapon_rect, -10, 0);
 		}
 		else if (mouse_p.x >= rect.right) { // right
-			
 			cImage->Load(_bow_default_r[0]);
 			weapon_rect = rect;
 			InflateRect(&weapon_rect, -10, -10);
