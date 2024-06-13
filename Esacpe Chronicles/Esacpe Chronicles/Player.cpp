@@ -77,12 +77,19 @@ void Player::print(HDC& mDC) const {
 		}
 
 		if (bullets.size() != 0) {
-			for (int i = 0; i < bullets.size() - 1; ++i) {
-				Gdiplus::Graphics graphics(mDC);
-				Gdiplus::Rect destRect(bullets[i].rect.left, bullets[i].rect.top, bullets[i].rect.right - bullets[i].rect.left, bullets[i].rect.bottom - bullets[i].rect.top);
+			for (int i = 0; i < bullets.size(); ++i) {
+				if (bullets[i].status) {
+					Gdiplus::Graphics graphics(mDC);
+					Gdiplus::Rect destRect(bullets[i].rect.left, bullets[i].rect.top, bullets[i].rect.right - bullets[i].rect.left, bullets[i].rect.bottom - bullets[i].rect.top);
 
-				// 회전된 이미지 그리기
-				graphics.DrawImage(bullets[i].img, destRect);
+					// 회전 변환 설정
+					graphics.TranslateTransform(destRect.X + destRect.Width / 2, destRect.Y + destRect.Height / 2);
+					graphics.RotateTransform(bullets[i].angle * 180.0f / 3.14159265f); // 라디안을 도로 변환
+					graphics.TranslateTransform(-destRect.X - destRect.Width / 2, -destRect.Y - destRect.Height / 2);
+
+					// 회전된 이미지 그리기
+					graphics.DrawImage(bullets[i].img, destRect);
+				}
 			}
 		}
     }
@@ -443,6 +450,7 @@ void Player::TIMER(StageManager& stageManager) {
 		setImg(img_num + 1);
 
 	move(stageManager);
+	moveBullet();
 
 	// 중력 돌 충도 체크
 	setSaveRect(rect);
@@ -463,5 +471,37 @@ void Player::moveMonster(bool status) {
 		for (auto& slime : slimes) {
 			OffsetRect(&slime.getRect(), 10, 0);
 		}
+	}
+}
+
+void Player::moveBullet() {
+	for (auto& bullet : bullets) {
+		bullet.rect.left += static_cast<LONG>(bullet.vx);
+		bullet.rect.right += static_cast<LONG>(bullet.vx);
+		bullet.rect.top += static_cast<LONG>(bullet.vy);
+		bullet.rect.bottom += static_cast<LONG>(bullet.vy);
+	}
+}
+
+void Player::shootArrow() {
+	if (weapon == 2) { // 무기가 활일 때
+
+		// 마우스 위치 기준 각도 계산
+		Gdiplus::PointF center(static_cast<Gdiplus::REAL>(bullets[bullets.size() - 1].rect.left + (bullets[bullets.size() - 1].rect.right - bullets[bullets.size() - 1].rect.left) / 2),
+			static_cast<Gdiplus::REAL>(bullets[bullets.size() - 1].rect.top + (bullets[bullets.size() - 1].rect.bottom - bullets[bullets.size() - 1].rect.top) / 2));
+
+		float dx = static_cast<float>(mouse_p.x) - center.X;
+		float dy = static_cast<float>(mouse_p.y) - center.Y;
+		float angle = std::atan2(dy, dx);
+
+		// 속도 설정 (속도 값을 조정하여 화살의 속도를 변경할 수 있습니다)
+		float speed = 10.0f;
+		float vx = speed * std::cos(angle);
+		float vy = speed * std::sin(angle);
+
+		// 화살을 벡터에 추가
+		bullets[bullets.size() - 1].vx = vx;
+		bullets[bullets.size() - 1].vy = vy;
+		bullets[bullets.size() - 1].angle = angle;
 	}
 }

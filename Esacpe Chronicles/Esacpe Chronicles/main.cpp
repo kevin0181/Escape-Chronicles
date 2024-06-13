@@ -143,6 +143,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			if (player.getWeapon() == 2 && !player.press_m_l) {
 				Bullet bullet;
 				bullet.rect = player.getRECT();
+				bullet.weapon_status = 2;
 				bullet.img = new Gdiplus::Image(bullet._arrow_r[0]);
 				InflateRect(&bullet.rect, -5, -40);
 				OffsetRect(&bullet.rect, 0, -5);
@@ -174,6 +175,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
 			stageManager.getCurrent_stage() == STAGE::STAGE_3) {
 			player.press_m_l = false;
+			if (player.bullets.size() != 0) {
+				if (player.press_cnt >= 30) { //2.5초 정도 넘으면 발사 가능.
+					player.bullets[player.bullets.size() - 1].status = true;
+					player.shootArrow();
+				}
+				else { //아니면 지우기
+					player.bullets.pop_back();
+				}
+			}
 			player.press_cnt = 0;
 		}
 		break;

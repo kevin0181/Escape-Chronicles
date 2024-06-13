@@ -15,5 +15,9 @@ public:
 
 	Gdiplus::Image* img = nullptr;
 	RECT rect;
-
+	bool status = false;
+	float vx;
+	float vy;
+	int weapon_status = 0;
+	float angle;
 };

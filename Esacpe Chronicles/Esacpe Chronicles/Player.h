@@ -261,6 +261,8 @@ public:
 	int check_side();
 	bool checkPosition(const StageManager& stageManager, const int rect,const bool status);
 	void moveMonster(bool status);
+	void shootArrow();
+	void moveBullet();
 
 	int getWeapon() const {
 		return weapon;
