@@ -8,7 +8,7 @@ Slime::Slime() : Monster() {
 	hp = 500; // 나중에 확정되면 바꾸기
 	imageNum = 0;
 	rect.left = 200 * (rand() % 7); //rand() % (stageManager.rect.right + 1);
-	rect = { rect.left, 300, rect.left + 200, 420 };
+	rect = { rect.left, 300, rect.left + 100, 420 };
 	left = true;
 	status = MOVE_;
 }
@@ -109,13 +109,15 @@ bool Slime::checkBlock(const StageManager& stageManager) {
 
 void Slime::MonsterPlayerCollision(Player& p) {
 	RECT intersectRect;
-	if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
-		Collisionplayer(p);
-		//player의 충돌했을 때 모션~~적어주세요!!!~~
-		p.collisionMonster(this);
-	}
-	else {
-		status = MOVE_;
+	if(status != MonsterStatus::DIE_){
+		if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
+			Collisionplayer(p);
+			//player의 충돌했을 때 모션~~적어주세요!!!~~
+			p.collisionMonster(this);
+		}
+		else {
+			status = MOVE_;
+		}
 	}
 }
 

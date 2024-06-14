@@ -1,28 +1,29 @@
 #pragma once
 #include "Monster.h"
 
-class Slime : public Monster {
+class Eye : public Monster {
 	int hp;
-	CImage slime_img; 
+	CImage eye_img;
 	int imageNum;
 	RECT rect;
 	bool left; // 슬라임의 이동 방향
 	MonsterStatus status;
 	Gravity gravity;
 
-	LPCTSTR slime_img_path_L[9] = { // 그냥 움직임 L
-		L"img/monster/slime_L_v2/Slime_move(1).png",
-		L"img/monster/slime_L_v2/Slime_move(2).png",
-		L"img/monster/slime_L_v2/Slime_move(3).png",
-		L"img/monster/slime_L_v2/Slime_move(4).png",
-		L"img/monster/slime_L_v2/Slime_move(5).png",
-		L"img/monster/slime_L_v2/Slime_move(6).png",
-		L"img/monster/slime_L_v2/Slime_move(7).png",
-		L"img/monster/slime_L_v2/Slime_move(8).png",
-		L"img/monster/slime_L_v2/Slime_move(9).png"
+	LPCTSTR eye_img_path_L[10] = { // 그냥 움직임 L
+		L"img/monster/eye_L/eye_walk_1.png",
+		L"img/monster/eye_L/eye_walk_2.png",
+		L"img/monster/eye_L/eye_walk_3.png",
+		L"img/monster/eye_L/eye_walk_4.png",
+		L"img/monster/eye_L/eye_walk_5.png",
+		L"img/monster/eye_L/eye_walk_6.png",
+		L"img/monster/eye_L/eye_walk_7.png",
+		L"img/monster/eye_L/eye_walk_8.png",
+		L"img/monster/eye_L/eye_walk_9.png",
+		L"img/monster/eye_L/eye_walk_10.png"
 	};
 
-	LPCTSTR slime_attack_img_path_L[9] = { // 공격 시 움직임 L
+	LPCTSTR eye_attack_img_path_L[9] = { // 공격 시 움직임 L
 		L"img/monster/slime_L_v2/Slime_attack(1).png",
 		L"img/monster/slime_L_v2/Slime_attack(2).png",
 		L"img/monster/slime_L_v2/Slime_attack(3).png",
@@ -34,7 +35,7 @@ class Slime : public Monster {
 		L"img/monster/slime_L_v2/Slime_attack(9).png"
 	};
 
-	LPCTSTR slime_die_img_path_L[9] = { // L
+	LPCTSTR eye_die_img_path_L[9] = { // L
 		L"img/monster/slime_L_v2/Slime_die(1).png",
 		L"img/monster/slime_L_v2/Slime_die(2).png",
 		L"img/monster/slime_L_v2/Slime_die(3).png",
@@ -46,7 +47,7 @@ class Slime : public Monster {
 		L"img/monster/slime_L_v2/Slime_die(9).png",
 	};
 
-	LPCTSTR slime_img_path_R[9] = { // 그냥 움직임 R
+	LPCTSTR eye_img_path_R[9] = { // 그냥 움직임 R
 		L"img/monster/slime_R_v2/Slime_move(1).png",
 		L"img/monster/slime_R_v2/Slime_move(2).png",
 		L"img/monster/slime_R_v2/Slime_move(3).png",
@@ -58,7 +59,7 @@ class Slime : public Monster {
 		L"img/monster/slime_R_v2/Slime_move(9).png"
 	};
 
-	LPCTSTR slime_attack_img_path_R[9] = { // 공격 시 움직임 R
+	LPCTSTR eye_attack_img_path_R[9] = { // 공격 시 움직임 R
 		L"img/monster/slime_R_v2/Slime_attack(1).png",
 		L"img/monster/slime_R_v2/Slime_attack(2).png",
 		L"img/monster/slime_R_v2/Slime_attack(3).png",
@@ -70,7 +71,7 @@ class Slime : public Monster {
 		L"img/monster/slime_R_v2/Slime_attack(9).png"
 	};
 
-	LPCTSTR slime_die_img_path_R[9] = { // R
+	LPCTSTR eye_die_img_path_R[9] = { // R
 		L"img/monster/slime_R_v2/Slime_die(1).png",
 		L"img/monster/slime_R_v2/Slime_die(2).png",
 		L"img/monster/slime_R_v2/Slime_die(3).png",
@@ -83,7 +84,7 @@ class Slime : public Monster {
 	};
 
 public:
-	Slime();
+	Eye();
 
 	void insert() override; // 움직일 때(사진 바꿀 때)도 쓴다
 	void print(const HDC& mDC) override;
@@ -93,8 +94,6 @@ public:
 	RECT& getRect() override;
 	void MonsterPlayerCollision(Player& p) override; //플레이어랑 충돌했을 때 함수
 	void Collisionplayer(const Player& p) override; //플레이어랑 충돌했을때 몬스터의 대처
-	bool checkBlock(const StageManager& stageManager); // slime & block
-
 };
 
 

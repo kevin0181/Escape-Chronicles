@@ -15,6 +15,7 @@ using namespace Gdiplus;
 #include "StageManager.h"
 #include "Block.h"
 #include "Player.h"
+#include "Ui.h"
 
 #define BLOCK_SIZE 70
 
@@ -82,6 +83,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 vector<std::unique_ptr<Monster>> monsters;
 
 StageManager stageManager;
+Ui ui;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
@@ -98,6 +100,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	static int cursorWidth, cursorHeight;
 	// 마우스 위치 가져오기
 	static POINT cursorPos;
+
+	static int collision_num = 0;
 
     switch (uMsg) {
 	case WM_CREATE:
@@ -250,6 +254,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 				monster->print(mDC);
 			}
             player.print(mDC);
+
+			ui.print(mDC,player);
         }
 
 		// ------------------------------------------------
@@ -284,9 +290,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			{
 			case STAGE::STAGE_1:
 			{
+				++collision_num;
+				
 				for (auto&  monster: monsters) {
 					monster->move(stageManager);
-					monster->MonsterPlayerCollision(player);
+					
+					if(collision_num%20==0){
+						monster->MonsterPlayerCollision(player);
+					}
 				}
 				
 				//zombie1.move(stageManager);
