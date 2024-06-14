@@ -16,6 +16,9 @@ using namespace Gdiplus;
 #include "Block.h"
 #include "StageManager.h"
 #include "Bullet.h"
+#include "Monster.h"
+
+class Monster;  // Monster 클래스를 전방 선언
 
 class Player {
 	/*bool left;
@@ -188,6 +191,13 @@ class Player {
 		L"img/character/main/attack5(sword)/attack7_l.png",
 	};
 
+	LPCTSTR _hit_r[4] = {
+		L"img/character/main/hit/hit1.png",
+		L"img/character/main/hit/hit2.png",
+		L"img/character/main/hit/hit3.png",
+		L"img/character/main/hit/hit4.png",
+	};
+
 	LPCTSTR _bow_default_r[1] = {
 		L"img/character/main/weapon/default.png"
 	};
@@ -220,10 +230,13 @@ public:
 
 	int player_i = 0;
 	Gravity gravity;
-
+	int power = 10;
+	int hp = 200;
 	bool press_m_l = false;
 	int press_cnt = 0;
 	POINT mouse_p;
+
+	bool getDamage = false;
 
 	std::vector<Bullet> bullets;
 
@@ -273,6 +286,8 @@ public:
 	void moveMonster(bool status);
 	void shootArrow();
 	void moveBullet();
+	void collisionMonster(Monster* monster);
+	bool checkBlock(const StageManager& stageManager);
 
 	int getWeapon() const {
 		return weapon;

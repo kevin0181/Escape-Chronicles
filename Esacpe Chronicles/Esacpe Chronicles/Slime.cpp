@@ -17,6 +17,10 @@ RECT& Slime::getRect() {
 	return rect;
 }
 
+MonsterStatus Slime::getStatus() const{
+	return status;
+}
+
 void Slime::insert() {
 	if (!slime_img.IsNull()) {
 		slime_img.Destroy();
@@ -91,9 +95,9 @@ void Slime::MonsterPlayerCollision(Player& p) {
 	if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
 		Collisionplayer(p);
 		//player의 충돌했을 때 모션~~적어주세요!!!~~
+		p.collisionMonster(this);
 	}
 	else {
-
 		status = MOVE_;
 	}
 }
@@ -106,7 +110,7 @@ void Slime::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터의 
 		else
 			OffsetRect(&rect, -20, -20);
 
-		hp -= 10;
+		hp -= p.power;
 		break;
 	default:
 		status = ATTACK_;

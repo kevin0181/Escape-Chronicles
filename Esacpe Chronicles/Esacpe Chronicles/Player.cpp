@@ -1,7 +1,13 @@
 #include"Player.h"
 #include "GlobalVariables.h"
+#include "Monster.h"  // Monster 클래스의 헤더 파일 포함
 
 int Player::getCimageSize() const{ 
+
+	if (getDamage) {
+		return sizeof(_hit_r) / sizeof(_hit_r[0]);
+	}
+
 	switch (status)
 	{
 	case DEFAULT_R:
@@ -180,6 +186,22 @@ void Player::setImg(int img_num) {
 			OffsetRect(&weapon_rect, 15, 10);
 		}
 
+		return;
+	}
+
+	if (getDamage) {
+		if (direction == PlayerStatus::LEFT || status == PlayerStatus::DEFAULT_L)
+			cImage->Load(_hit_r[this->img_num]);
+		else if (direction == PlayerStatus::RIGHT || status == PlayerStatus::DEFAULT_R)
+			cImage->Load(_hit_r[this->img_num]);
+
+		if (img_num == 4) {
+			if (direction == PlayerStatus::LEFT)
+				status = saveStatus;
+			else if (direction == PlayerStatus::RIGHT)
+				status = saveStatus;
+			getDamage = false;
+		}
 		return;
 	}
 
@@ -425,6 +447,7 @@ void Player::move(StageManager& stageManager) {
 			}
 
 
+
 		}
 		else {
 			OffsetRect(&rect, -now_speed, 0);
@@ -475,6 +498,7 @@ void Player::move(StageManager& stageManager) {
 		jump();
 	}
 
+	checkBlock(stageManager);
 }
 
 void Player::setRECT(RECT rect) {
@@ -526,18 +550,37 @@ void Player::TIMER(StageManager& stageManager) {
 	if (check_bottom()) { // 바닥 충돌 체크
 		rect = saveRect;
 	}
+
+	if (checkBlock(stageManager)) {
+		OffsetRect(&rect, 0, -speed);
+	}
+
+}
+
+bool Player::checkBlock(const StageManager& stageManager) {
+	RECT r;
+	for (auto& block : stageManager.blocks_stage1) {
+		if (IntersectRect(&r, &block.rect, &rect)) {
+			//if (rect.bottom <= block.rect.top) {
+				isJumping = false;
+				isOnGround = true;
+				return true;
+			//}
+		}
+	}
+	return false;
 }
 
 void Player::moveMonster(bool status) {
 
 	if (status) { // ->
-		for (auto& slime : slimes) {
-			OffsetRect(&slime.getRect(), -10, 0);
+		for (auto& monster : monsters) {
+			OffsetRect(&monster->getRect(), -10, 0);
 		}
 	}
 	else { // <-
-		for (auto& slime : slimes) {
-			OffsetRect(&slime.getRect(), 10, 0);
+		for (auto& monster : monsters) {
+			OffsetRect(&monster->getRect(), 10, 0);
 		}
 	}
 }
@@ -578,5 +621,19 @@ void Player::shootArrow() {
 		bullets[bullets.size() - 1].vy = vy;
 		bullets[bullets.size() - 1].angle = angle;
 		bullets[bullets.size() - 1].gravity = 0.07;
+	}
+}
+
+void Player::collisionMonster(Monster* monster) {
+	switch (monster->getStatus()) {
+	case MonsterStatus::ATTACK_:
+		if (this->status != PlayerStatus::ATTACK && monster->getStatus() == MonsterStatus::ATTACK_) {
+			hp -= 10;
+			this->getDamage = true;
+		}
+		break;
+	default:
+		hp++;
+		break;
 	}
 }
