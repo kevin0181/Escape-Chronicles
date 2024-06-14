@@ -153,8 +153,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			player.mouse_p.x = LOWORD(lParam);
 			player.mouse_p.y = HIWORD(lParam);
 			player.press_m_l = true;
-			
-			
 
 		}
 
