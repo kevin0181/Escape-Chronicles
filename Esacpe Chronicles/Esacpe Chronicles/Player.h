@@ -205,6 +205,26 @@ class Player {
 		L"img/character/main/hit/hit4_l.png",
 	};
 
+	LPCTSTR _Death_l[7] = {
+		L"img/character/main/death/death1_l.png",
+		L"img/character/main/death/death2_l.png",
+		L"img/character/main/death/death3_l.png",
+		L"img/character/main/death/death4_l.png",
+		L"img/character/main/death/death5_l.png",
+		L"img/character/main/death/death6_l.png",
+		L"img/character/main/death/death7_l.png",
+	};
+
+	LPCTSTR _Death_r[7] = {
+		L"img/character/main/death/death1.png",
+		L"img/character/main/death/death2.png",
+		L"img/character/main/death/death3.png",
+		L"img/character/main/death/death4.png",
+		L"img/character/main/death/death5.png",
+		L"img/character/main/death/death6.png",
+		L"img/character/main/death/death7.png",
+	};
+
 	LPCTSTR _bow_default_r[1] = {
 		L"img/character/main/weapon/default.png"
 	};

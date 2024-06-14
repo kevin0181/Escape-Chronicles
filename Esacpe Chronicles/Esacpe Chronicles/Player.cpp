@@ -22,6 +22,9 @@ int Player::getCimageSize() const{
 	case RIGHT:
 		return sizeof(_right) / sizeof(_right[0]);
 		break;
+	case DEATH:
+		return sizeof(_Death_l) / sizeof(_Death_l[0]);
+		break;
 	case ATTACK:
 		switch (attack_sword)
 		{
@@ -189,7 +192,7 @@ void Player::setImg(int img_num) {
 		return;
 	}
 
-	if (getDamage) {
+	if (getDamage && status != PlayerStatus::DEATH) {
 		if (direction == PlayerStatus::LEFT || status == PlayerStatus::DEFAULT_L)
 			cImage->Load(_hit_l[this->img_num]);
 		else if (direction == PlayerStatus::RIGHT || status == PlayerStatus::DEFAULT_R)
@@ -218,6 +221,23 @@ void Player::setImg(int img_num) {
 		break;
 	case RIGHT:
 		cImage->Load(_right[this->img_num]);
+		break;
+	case DEATH:
+		if (direction == PlayerStatus::LEFT)
+			cImage->Load(_Death_l[this->img_num]);
+		else if (direction == PlayerStatus::RIGHT)
+			cImage->Load(_Death_r[this->img_num]);
+
+		if (img_num == 7) {
+			stageManager.setCurrent_stage(STAGE::MAIN);
+			stageManager.setBackground_img(stageManager.main_img_path[2]);
+			stageManager.blocks_stage1.clear();
+			stageManager.rect = stageManager.viewRect;
+			monsters.clear();
+			hp = 200;
+			status = PlayerStatus::DEFAULT_R;
+			rect = { 0,0,90,120 };
+		}
 		break;
 	case ATTACK:
 
@@ -671,6 +691,7 @@ void Player::collisionMonster(Monster* monster) {
 			this->getDamage = true;
 			if (hp <= 0) {
 				status = PlayerStatus::DEATH;
+				getDamage = false;
 			}
 		}
 		break;
