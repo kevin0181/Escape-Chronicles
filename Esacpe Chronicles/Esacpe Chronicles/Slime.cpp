@@ -106,7 +106,7 @@ void Slime::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터의 
 		else
 			OffsetRect(&rect, -20, -20);
 
-		hp -= 10;
+		hp -= p.power;
 		break;
 	default:
 		status = ATTACK_;

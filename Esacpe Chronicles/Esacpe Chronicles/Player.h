@@ -220,6 +220,7 @@ public:
 
 	int player_i = 0;
 	Gravity gravity;
+	int power = 10;
 
 	bool press_m_l = false;
 	int press_cnt = 0;
