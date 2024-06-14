@@ -115,12 +115,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		// 시작버튼
 		stageManager.startBtn = { rect.right - 300, rect.bottom - 150, rect.right - 200, rect.bottom - 50 };
 		stageManager.rect = rect;
-     
-		for (int i = 0; i < 5;++i) {// 원하는 개수만큼 반복
-			auto slime = std::make_unique<Slime>();
-			slime->insert();
-			monsters.push_back(std::move(slime));
-		}
 
 		SetTimer(hWnd, 1, 1, FALSE);
 		break;

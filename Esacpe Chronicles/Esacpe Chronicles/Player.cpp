@@ -321,7 +321,9 @@ void Player::setImg(int img_num) {
 }
 
 void Player::setKeyDown(WPARAM wParam) {
-	
+	if (status == PlayerStatus::DEATH) {
+		return;
+	}
 	switch (wParam)
 	{
 	case 49: // 1¹ø -> sword
