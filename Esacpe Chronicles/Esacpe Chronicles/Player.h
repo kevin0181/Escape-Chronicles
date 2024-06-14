@@ -32,7 +32,7 @@ class Player {
 
 	bool isOnGround = true; //땅에 닿았는지 체크
 	bool isJumping = false;
-	int jumpHeight = 150;
+	int jumpHeight = 200;
 	int jumpSpeed = 30;
 	int currentJumpHeight;
 	int initialY; // 점프 전 Y 좌표 저장
