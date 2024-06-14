@@ -324,12 +324,39 @@ void Player::setKeyDown(WPARAM wParam) {
 		direction = PlayerStatus::LEFT;
 		break;
 	case 87: //w
+	{
+		RECT r;
+		RECT potal_r = { stageManager.viewRect.right - 100, stageManager.viewRect.bottom - 300, 
+			stageManager.viewRect.right,stageManager.viewRect.bottom };
+		
+		if (IntersectRect(&r, &rect, &potal_r)) {
+			bool monster_status = true;
+			for (const auto& monster : monsters) {
+				if (monster->getStatus() != MonsterStatus::DIE_) {
+					monster_status = false;
+				}
+			}
+
+			if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_1) {
+				monsters.clear();
+				stageManager.rect = stageManager.viewRect;
+				stageManager.setCurrent_stage(STAGE::STAGE_2);
+				stageManager.setBackground_img(stageManager.background_img_path[1]);
+			}else if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_2) {
+				monsters.clear();
+				stageManager.rect = stageManager.viewRect;
+				stageManager.setCurrent_stage(STAGE::STAGE_3);
+				stageManager.setBackground_img(stageManager.background_img_path[2]);
+			}
+		}
+
 		if (!isJumping && isOnGround) {
 			isJumping = true;
 			isOnGround = false; // 점프 시작 시 땅에 있지 않음으로 설정
 			initialY = rect.top;
 		}
 		break;
+	}
 	case 83: //s
 		break;
 	case 68: //d
@@ -498,7 +525,6 @@ void Player::move(StageManager& stageManager) {
 		jump();
 	}
 
-	//checkBlock(stageManager);
 }
 
 void Player::setRECT(RECT rect) {
