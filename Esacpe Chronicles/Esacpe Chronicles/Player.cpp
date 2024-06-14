@@ -538,7 +538,7 @@ void Player::TIMER(StageManager& stageManager) {
 	static int timer_player = 0;
 	timer_player++;
 	
-	if (timer_player % 2 == 0)
+	if (timer_player % 10 == 0)
 		setImg(img_num + 1);
 
 	move(stageManager);
