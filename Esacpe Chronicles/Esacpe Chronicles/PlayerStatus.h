@@ -7,4 +7,5 @@ enum PlayerStatus {
 	RIGHT,
 	ATTACK,
 	DEFENSE,
+	DEATH
 };

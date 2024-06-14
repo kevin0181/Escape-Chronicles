@@ -191,7 +191,7 @@ void Player::setImg(int img_num) {
 
 	if (getDamage) {
 		if (direction == PlayerStatus::LEFT || status == PlayerStatus::DEFAULT_L)
-			cImage->Load(_hit_r[this->img_num]);
+			cImage->Load(_hit_l[this->img_num]);
 		else if (direction == PlayerStatus::RIGHT || status == PlayerStatus::DEFAULT_R)
 			cImage->Load(_hit_r[this->img_num]);
 
@@ -669,6 +669,9 @@ void Player::collisionMonster(Monster* monster) {
 		if (this->status != PlayerStatus::ATTACK && monster->getStatus() == MonsterStatus::ATTACK_) {
 			hp -= 10;
 			this->getDamage = true;
+			if (hp <= 0) {
+				status = PlayerStatus::DEATH;
+			}
 		}
 		break;
 	default:
