@@ -342,17 +342,21 @@ void Player::setKeyDown(WPARAM wParam) {
 				stageManager.rect = stageManager.viewRect;
 				stageManager.setCurrent_stage(STAGE::STAGE_2);
 				stageManager.setBackground_img(stageManager.background_img_path[1]);
-
+				stageManager.setBlock(20, RGB(255, 255, 255));
+				stageManager.game_rect.bottom = stageManager.game_rect.bottom * 80 / 100;
+				rect = { 0,0,90,120 };
 				for (int i = 0; i < 5; ++i) { // 원하는 개수만큼 반복
-					auto eye = std::make_unique<Eye>();
+				/*	auto eye = std::make_unique<Eye>();
 					eye->insert();
-					monsters.push_back(std::move(eye));
+					monsters.push_back(std::move(eye));*/
 				}
 			}else if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_2) { //2->3
 				monsters.clear();
 				stageManager.rect = stageManager.viewRect;
 				stageManager.setCurrent_stage(STAGE::STAGE_3);
 				stageManager.setBackground_img(stageManager.background_img_path[2]);
+				stageManager.setBlock(2, RGB(255, 255, 255));
+				rect = { 0,0,90,120 };
 			}
 		}
 
