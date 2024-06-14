@@ -72,13 +72,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	return static_cast<int>(Message.wParam);
 }
 
-//vector<Slime> slimes;
-//vector<Zombie1> zombie1;
-//vector<Zombie2> zombie2;
-//vector<Zombie3> zombie3;
-//vector<Brain1> brain1;
-//vector<Brain2> brain2;
-//vector<Boss> boss;
 
 vector<std::unique_ptr<Monster>> monsters;
 
@@ -93,7 +86,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	HDC hDC, mDC;
 	HBITMAP hBitmap;
 	HBITMAP hOldBitmap;
-	 
+
 	static Player player;
 
 	static CImage cursorImage;
@@ -103,7 +96,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 	static int collision_num = 0;
 
-    switch (uMsg) {
+	switch (uMsg) {
 	case WM_CREATE:
 	{
 		// 기본 커서 숨기기
@@ -122,22 +115,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		// 시작버튼
 		stageManager.startBtn = { rect.right - 300, rect.bottom - 150, rect.right - 200, rect.bottom - 50 };
 		stageManager.rect = rect;
-     
-		for (int i = 0; i < 5;++i) {// 원하는 개수만큼 반복
-			auto slime = std::make_unique<Slime>();
-			slime->insert();
-			monsters.push_back(std::move(slime));
-		}
-        //zombie1.insert();
-        //zombie2.insert();
-        //zombie3.insert();
+
+		//for (int i = 0; i < 5; ++i) {// 원하는 개수만큼 반복
+		//	auto slime = std::make_unique<Slime>();
+		//	slime->insert();
+		//	monsters.push_back(std::move(slime));
+		//}
+		//zombie1.insert();
+		//zombie2.insert();
+		//zombie3.insert();
 		//brain1.insert();
 		//brain2.insert();
 		//boss.insert();
 
-        SetTimer(hWnd, 1, 1, FALSE);
-        break;
-    }
+		SetTimer(hWnd, 1, 1, FALSE);
+		break;
+	}
 	case WM_LBUTTONDOWN:
 
 		if (stageManager.getCurrent_stage() == STAGE::MAIN)
@@ -207,7 +200,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			player.press_cnt = 0;
 		}
 		break;
-    case WM_KEYDOWN:
+	case WM_KEYDOWN:
 
 		if (stageManager.getCurrent_stage() == STAGE::INTRO)
 			stageManager.setKeyDown(wParam);
@@ -232,31 +225,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 		FillRect(mDC, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
 
-        /*
-        intro
-         스토리 이미지
-        */
-        if (STAGE::INTRO == stageManager.getCurrent_stage()) {
+		/*
+		intro
+		 스토리 이미지
+		*/
+		if (STAGE::INTRO == stageManager.getCurrent_stage()) {
 			stageManager.DrawBackground_img(mDC, 1);
-        }
+		}
 		if (STAGE::MAIN == stageManager.getCurrent_stage()) {
 			stageManager.DrawBackground_img(mDC, 1);
 			stageManager.setMainBackGround(mDC, rect);
 		}
 
-        /*
-        stage 1
-            플레이어, 슬라임, 파란색 벽돌
-        */
-        if (STAGE::STAGE_1 == stageManager.getCurrent_stage()) {
-            stageManager.DrawBackground_img(mDC, 3);
+		/*
+		stage 1
+			플레이어, 슬라임, 파란색 벽돌
+		*/
+		if (STAGE::STAGE_1 == stageManager.getCurrent_stage()) {
+			stageManager.DrawBackground_img(mDC, 3);
 			for (auto& monster : monsters) {
 				monster->print(mDC);
 			}
-            player.print(mDC);
+			player.print(mDC);
 
-			ui.print(mDC,player);
-        }
+			ui.print(mDC, player);
+		}
 
 		/*
 	   stage 2
@@ -268,6 +261,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 				monster->print(mDC);
 			}
 			player.print(mDC);
+
+			ui.print(mDC, player);
 		}
 
 		/*
@@ -280,6 +275,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 				monster->print(mDC);
 			}
 			player.print(mDC);
+
+			ui.print(mDC, player);
 		}
 
 		// ------------------------------------------------
@@ -288,8 +285,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		//zombie3[i].print(mDC);
 		//brain1[i].print(mDC);
 		//brain2[i].print(mDC);
-		
-		
+
+
 		//커서 이미지 그리기
 		cursorImage.Draw(mDC, cursorPos.x - 40, cursorPos.y - 40, 80, 80, 0, 0, cursorWidth, cursorHeight);
 
@@ -312,20 +309,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 			switch (stageManager.getCurrent_stage())
 			{
-			case STAGE::STAGE_2:
+			case STAGE::STAGE_2:{}
 			case STAGE::STAGE_3:
 			case STAGE::STAGE_1:
 			{
 				++collision_num;
-				
-				for (auto&  monster: monsters) {
+
+				for (auto& monster : monsters) {
 					monster->move(stageManager);
-					
-					if(collision_num%20==0){
+
+					if (collision_num % 20 == 0) {
 						monster->MonsterPlayerCollision(player);
 					}
 				}
-				
+
 				//zombie1.move(stageManager);
 				//zombie2.move(stageManager);
 				//zombie3.move(stageManager);
