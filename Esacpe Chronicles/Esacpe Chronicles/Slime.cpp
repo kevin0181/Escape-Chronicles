@@ -68,6 +68,10 @@ void Slime::move(const StageManager& stageManager) {
 	if (CheckBlockCollision(rect, stageManager))
 		rect = temprect;
 
+	if (checkBlock(stageManager)) {
+		rect = temprect;
+	}
+
 	//ÀÌ¹ÌÁö
 	if (status != DIE_ || imageNum != 27)
 		++imageNum;
@@ -89,6 +93,19 @@ void Slime::move(const StageManager& stageManager) {
 	if (status != DIE_ || imageNum != 27)
 		insert();
 }
+
+bool Slime::checkBlock(const StageManager& stageManager) {
+	RECT r;
+	for (auto& block : stageManager.blocks_stage1) {
+		if (IntersectRect(&r, &block.rect, &rect)) {
+			if (rect.bottom <= block.rect.top + 20) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 
 void Slime::MonsterPlayerCollision(Player& p) {
 	RECT intersectRect;
