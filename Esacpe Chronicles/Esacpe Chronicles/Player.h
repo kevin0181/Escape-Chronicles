@@ -34,6 +34,8 @@ class Player {
 	int currentJumpHeight;
 	int initialY; // 점프 전 Y 좌표 저장
 	
+	int press_speed_cnt = 0;
+	int low_speed = 5;
 	int speed;
 	RECT rect;
 	RECT saveRect;
@@ -204,6 +206,13 @@ class Player {
 		L"img/character/main/weapon/bow/bow2_l.png"
 	};
 
+	LPCTSTR _gun_r[1] = {
+		L"img/character/main/weapon/gun/gun1.png",
+	};
+
+	LPCTSTR _gun_l[1] = {
+		L"img/character/main/weapon/gun/gun1_v2.png",
+	};
 
 public:
 	PlayerStatus status;
