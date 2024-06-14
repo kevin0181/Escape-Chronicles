@@ -191,6 +191,7 @@
     <ClCompile Include="Gravity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="Ui.cpp" />
     <ClCompile Include="Zombie1.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="PlayerStatus.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StageManager.h" />
     <ClCompile Include="Slime.cpp" />
     <ClInclude Include="Ui.h" />

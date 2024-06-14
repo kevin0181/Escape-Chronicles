@@ -16,6 +16,7 @@ using namespace Gdiplus;
 #include "Block.h"
 #include "Player.h"
 #include "Ui.h"
+#include "SoundManager.h"
 
 #define BLOCK_SIZE 70
 
@@ -74,7 +75,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 
 
 vector<std::unique_ptr<Monster>> monsters;
-
+SoundManager* soundManager;
 StageManager stageManager;
 Ui ui;
 
