@@ -32,6 +32,9 @@ int Player::getCimageSize() const{
 			break;
 		}
 		break;
+	case DAMAGE:
+		return sizeof(_hit_r) / sizeof(_hit_r[0]);
+		break;
 	case DEFENSE:
 		break;
 	default:
@@ -197,6 +200,12 @@ void Player::setImg(int img_num) {
 		break;
 	case RIGHT:
 		cImage->Load(_right[this->img_num]);
+		break;
+	case DAMAGE:
+		cImage->Load(_hit_r[this->img_num]);
+		if (img_num == 4) {
+			status = saveStatus;
+		}
 		break;
 	case ATTACK:
 

@@ -191,6 +191,13 @@ class Player {
 		L"img/character/main/attack5(sword)/attack7_l.png",
 	};
 
+	LPCTSTR _hit_r[4] = {
+		L"img/character/main/hit/hit1.png",
+		L"img/character/main/hit/hit2.png",
+		L"img/character/main/hit/hit3.png",
+		L"img/character/main/hit/hit4.png",
+	};
+
 	LPCTSTR _bow_default_r[1] = {
 		L"img/character/main/weapon/default.png"
 	};
