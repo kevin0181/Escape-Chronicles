@@ -187,10 +187,12 @@
     <ClCompile Include="Brain1.cpp" />
     <ClCompile Include="Brain2.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Eye.cpp" />
     <ClCompile Include="Gravity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="StageManager.cpp" />
+    <ClCompile Include="Ui.cpp" />
     <ClCompile Include="Zombie1.cpp" />
     <ClCompile Include="Zombie2.cpp" />
     <ClCompile Include="Zombie3.cpp" />
@@ -204,6 +206,7 @@
     <ClInclude Include="Brain2.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="Eye.h" />
     <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="Gravity.h" />
     <ClInclude Include="PlayerStatus.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="StageManager.h" />
     <ClCompile Include="Slime.cpp" />
+    <ClInclude Include="Ui.h" />
     <ClInclude Include="Zombie1.h" />
     <ClInclude Include="Zombie2.h" />
     <ClInclude Include="Zombie3.h" />

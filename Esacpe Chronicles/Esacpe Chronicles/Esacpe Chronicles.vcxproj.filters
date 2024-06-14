@@ -14,6 +14,8 @@
     <ClCompile Include="brain1.cpp" />
     <ClCompile Include="Brain2.cpp" />
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Ui.cpp" />
+    <ClCompile Include="Eye.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StageManager.h" />
@@ -32,6 +34,8 @@
     <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Ui.h" />
+    <ClInclude Include="Eye.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Stage.h" />

@@ -12,6 +12,7 @@
 #include "Brain1.h"
 #include "Brain2.h"
 #include "Boss.h"
+#include "Eye.h"
 
 // 전역 변수 선언
 //extern std::vector<Slime> slimes; 
