@@ -52,7 +52,7 @@ public:
 		startBtnImg.Load(main_img_path[0]);
 	};
 	
-	void setBlock(const int& h, const COLORREF color);
+	void setBlock(const int& h_percent, const COLORREF color);
 	void setCurrent_stage(STAGE stage); // 스테이지 변경
 	STAGE getCurrent_stage() const;
 	void setBackground_img(const LPCTSTR path); // 스테이지에 따른 뒷 배경 변경

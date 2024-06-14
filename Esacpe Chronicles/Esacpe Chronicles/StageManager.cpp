@@ -53,9 +53,11 @@ void StageManager::destroyImg() {
 }
 
 
-void StageManager::setBlock(const int& h, const COLORREF color) { // stageblock 바닥 1번생성!
+void StageManager::setBlock(const int& h_percent, const COLORREF color) { // stageblock 바닥 1번생성!
 
 	blocks_stage1.clear();
+
+	int h = this->viewRect.bottom * h_percent / 100;
 
 	for (int i = 0; i < (game_rect.right / BLOCK_SIZE) - 1; ++i) {
 		if(i%35 <3){
@@ -64,7 +66,7 @@ void StageManager::setBlock(const int& h, const COLORREF color) { // stageblock 
 			block.rect = { (i + 2) * BLOCK_SIZE, 0, (i + 3) * BLOCK_SIZE, BLOCK_SIZE };
 
 			OffsetRect(&block.rect, 0, this->game_rect.bottom / 10 * (9 - (i%35)));
-			OffsetRect(&block.rect, 0, h);
+			OffsetRect(&block.rect, 0, -h);
 			blocks_stage1.push_back(std::move(block));
 		}
 		else if (i % 7 != 1 && i % 11 != 1) {
@@ -73,11 +75,11 @@ void StageManager::setBlock(const int& h, const COLORREF color) { // stageblock 
 			block.rect = { (i + 2) * BLOCK_SIZE, 0, (i + 3) * BLOCK_SIZE, BLOCK_SIZE };
 			if(i % 17 < 7){
 				OffsetRect(&block.rect, 0, this->game_rect.bottom / 10 * 6);
-				OffsetRect(&block.rect, 0, h);
+				OffsetRect(&block.rect, 0, -h);
 			}
 			else {
 				OffsetRect(&block.rect, 0, this->game_rect.bottom / 10 * 5);
-				OffsetRect(&block.rect, 0, h);
+				OffsetRect(&block.rect, 0, -h);
 			}
 			blocks_stage1.push_back(std::move(block));
 		}
@@ -91,7 +93,7 @@ void StageManager::setLMBtnDown(LPARAM lParam) {
 	mP.y = HIWORD(lParam);
 
 	if (PtInRect(&startBtn, mP)) {
-		setBlock(1, RGB(62, 141, 215)); //block create
+		setBlock(0, RGB(62, 141, 215)); //block create
 		current_stage = STAGE::STAGE_1;
 		setBackground_img(background_img_path[0]);
 	}
