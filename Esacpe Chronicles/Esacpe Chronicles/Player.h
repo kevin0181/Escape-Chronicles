@@ -16,6 +16,9 @@ using namespace Gdiplus;
 #include "Block.h"
 #include "StageManager.h"
 #include "Bullet.h"
+#include "Monster.h"
+
+class Monster;  // Monster 클래스를 전방 선언
 
 class Player {
 	/*bool left;
@@ -221,7 +224,7 @@ public:
 	int player_i = 0;
 	Gravity gravity;
 	int power = 10;
-
+	int hp = 200;
 	bool press_m_l = false;
 	int press_cnt = 0;
 	POINT mouse_p;
@@ -274,7 +277,7 @@ public:
 	void moveMonster(bool status);
 	void shootArrow();
 	void moveBullet();
-	void collisionMonster();
+	void collisionMonster(Monster* monster);
 
 	int getWeapon() const {
 		return weapon;

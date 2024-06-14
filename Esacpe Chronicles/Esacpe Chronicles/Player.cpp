@@ -1,5 +1,6 @@
 #include"Player.h"
 #include "GlobalVariables.h"
+#include "Monster.h"  // Monster 클래스의 헤더 파일 포함
 
 int Player::getCimageSize() const{ 
 	switch (status)
@@ -581,6 +582,16 @@ void Player::shootArrow() {
 	}
 }
 
-void Player::collisionMonster() {
-
+void Player::collisionMonster(Monster* monster) {
+	switch (monster->getStatus()) {
+	case MonsterStatus::ATTACK_:
+		if (this->status != PlayerStatus::ATTACK && monster->getStatus() == MonsterStatus::ATTACK_) {
+			hp -= 10;
+			this->status = PlayerStatus::DAMAGE;
+		}
+		break;
+	default:
+		hp++;
+		break;
+	}
 }
