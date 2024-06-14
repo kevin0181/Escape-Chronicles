@@ -447,6 +447,7 @@ void Player::move(StageManager& stageManager) {
 			}
 
 
+
 		}
 		else {
 			OffsetRect(&rect, -now_speed, 0);
@@ -497,6 +498,7 @@ void Player::move(StageManager& stageManager) {
 		jump();
 	}
 
+	checkBlock(stageManager);
 }
 
 void Player::setRECT(RECT rect) {
@@ -548,6 +550,25 @@ void Player::TIMER(StageManager& stageManager) {
 	if (check_bottom()) { // 바닥 충돌 체크
 		rect = saveRect;
 	}
+
+	if (checkBlock(stageManager)) {
+		OffsetRect(&rect, 0, -speed);
+	}
+
+}
+
+bool Player::checkBlock(const StageManager& stageManager) {
+	RECT r;
+	for (auto& block : stageManager.blocks_stage1) {
+		if (IntersectRect(&r, &block.rect, &rect)) {
+			//if (rect.bottom <= block.rect.top) {
+				isJumping = false;
+				isOnGround = true;
+				return true;
+			//}
+		}
+	}
+	return false;
 }
 
 void Player::moveMonster(bool status) {

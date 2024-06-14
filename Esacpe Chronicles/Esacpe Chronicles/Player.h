@@ -287,6 +287,7 @@ public:
 	void shootArrow();
 	void moveBullet();
 	void collisionMonster(Monster* monster);
+	bool checkBlock(const StageManager& stageManager);
 
 	int getWeapon() const {
 		return weapon;
