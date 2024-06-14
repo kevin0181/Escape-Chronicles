@@ -5,7 +5,7 @@ using namespace std;
 
 
 Eye::Eye() : Monster() {
-	hp = 500; // 나중에 확정되면 바꾸기
+	hp = 50; // 나중에 확정되면 바꾸기
 	imageNum = 0;
 	rect.left = 200 * (rand() % 7); //rand() % (stageManager.rect.right + 1);
 	rect = { rect.left, 300, rect.left + 100, 420 };

@@ -337,12 +337,18 @@ void Player::setKeyDown(WPARAM wParam) {
 				}
 			}
 
-			if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_1) {
+			if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_1) { //1->2
 				monsters.clear();
 				stageManager.rect = stageManager.viewRect;
 				stageManager.setCurrent_stage(STAGE::STAGE_2);
 				stageManager.setBackground_img(stageManager.background_img_path[1]);
-			}else if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_2) {
+
+				for (int i = 0; i < 5; ++i) { // 원하는 개수만큼 반복
+					auto eye = std::make_unique<Eye>();
+					eye->insert();
+					monsters.push_back(std::move(eye));
+				}
+			}else if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_2) { //2->3
 				monsters.clear();
 				stageManager.rect = stageManager.viewRect;
 				stageManager.setCurrent_stage(STAGE::STAGE_3);
