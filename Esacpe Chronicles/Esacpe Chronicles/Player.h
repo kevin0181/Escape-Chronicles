@@ -274,6 +274,7 @@ public:
 	void moveMonster(bool status);
 	void shootArrow();
 	void moveBullet();
+	void collisionMonster();
 
 	int getWeapon() const {
 		return weapon;

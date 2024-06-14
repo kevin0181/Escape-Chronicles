@@ -531,13 +531,13 @@ void Player::TIMER(StageManager& stageManager) {
 void Player::moveMonster(bool status) {
 
 	if (status) { // ->
-		for (auto& slime : slimes) {
-			OffsetRect(&slime.getRect(), -10, 0);
+		for (auto& monster : monsters) {
+			OffsetRect(&monster->getRect(), -10, 0);
 		}
 	}
 	else { // <-
-		for (auto& slime : slimes) {
-			OffsetRect(&slime.getRect(), 10, 0);
+		for (auto& monster : monsters) {
+			OffsetRect(&monster->getRect(), 10, 0);
 		}
 	}
 }
@@ -579,4 +579,8 @@ void Player::shootArrow() {
 		bullets[bullets.size() - 1].angle = angle;
 		bullets[bullets.size() - 1].gravity = 0.07;
 	}
+}
+
+void Player::collisionMonster() {
+
 }

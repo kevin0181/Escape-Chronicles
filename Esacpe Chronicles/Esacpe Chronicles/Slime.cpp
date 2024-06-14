@@ -91,6 +91,7 @@ void Slime::MonsterPlayerCollision(Player& p) {
 	if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
 		Collisionplayer(p);
 		//player의 충돌했을 때 모션~~적어주세요!!!~~
+		
 	}
 	else {
 

@@ -71,13 +71,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	return static_cast<int>(Message.wParam);
 }
 
-vector<Slime> slimes;
-vector<Zombie1> zombie1;
-vector<Zombie2> zombie2;
-vector<Zombie3> zombie3;
-vector<Brain1> brain1;
-vector<Brain2> brain2;
-vector<Boss> boss;
+//vector<Slime> slimes;
+//vector<Zombie1> zombie1;
+//vector<Zombie2> zombie2;
+//vector<Zombie3> zombie3;
+//vector<Brain1> brain1;
+//vector<Brain2> brain2;
+//vector<Boss> boss;
+
+vector<std::unique_ptr<Monster>> monsters;
 
 StageManager stageManager;
 
@@ -118,9 +120,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		stageManager.rect = rect;
      
 		for (int i = 0; i < 5;++i) {// 원하는 개수만큼 반복
-			Slime slime;
-			slime.insert();
-			slimes.push_back(slime);
+			auto slime = std::make_unique<Slime>();
+			slime->insert();
+			monsters.push_back(std::move(slime));
 		}
         //zombie1.insert();
         //zombie2.insert();
@@ -244,8 +246,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
         */
         if (STAGE::STAGE_1 == stageManager.getCurrent_stage()) {
             stageManager.DrawBackground_img(mDC, 3);
-			for (auto& slime : slimes) {
-				slime.print(mDC);
+			for (auto& monster : monsters) {
+				monster->print(mDC);
 			}
             player.print(mDC);
         }
@@ -282,9 +284,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			{
 			case STAGE::STAGE_1:
 			{
-				for (auto& slime : slimes) {
-					slime.move(stageManager);
-					slime.MonsterPlayerCollision(player);
+				for (auto&  monster: monsters) {
+					monster->move(stageManager);
+					monster->MonsterPlayerCollision(player);
 				}
 				
 				//zombie1.move(stageManager);
