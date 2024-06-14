@@ -165,18 +165,19 @@ void Player::setImg(int img_num) {
 			delete weapon_img;
 		}
 
-		weapon_img = new Gdiplus::Image(_gun_r[0]);
 
 		weapon_rect = rect;
-		InflateRect(&weapon_rect, -10, -10);
+		InflateRect(&weapon_rect, 5, -30);
 
 		if (mouse_p.x <= rect.right) { // left
+			weapon_img = new Gdiplus::Image(_gun_l[0]);
 			cImage->Load(_bow_default_l[0]);
 			OffsetRect(&weapon_rect, -10, 0);
 		}
 		else if (mouse_p.x >= rect.right) { // right
+			weapon_img = new Gdiplus::Image(_gun_r[0]);
 			cImage->Load(_bow_default_r[0]);
-			OffsetRect(&weapon_rect, 10, 0);
+			OffsetRect(&weapon_rect, 15, 10);
 		}
 
 		return;
@@ -282,12 +283,18 @@ void Player::setKeyDown(WPARAM wParam) {
 	switch (wParam)
 	{
 	case 49: // 1¹ø -> sword
+		if (press_m_l)
+			break;
 		weapon = 1;
 		break;
 	case 50: // 2¹ø -> bow
+		if (press_m_l)
+			break;
 		weapon = 2;
 		break;
 	case 51: // 3¹ø -> gun
+		if (press_m_l)
+			break;
 		weapon = 3;
 		break;
 	case 65: //a

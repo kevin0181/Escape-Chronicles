@@ -155,7 +155,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 				bullet.rect = player.getRECT();
 				bullet.weapon_status = 3;
 				bullet.img = new Gdiplus::Image(bullet._bullet_r[0]);
-				InflateRect(&bullet.rect, -40, -50);
+				InflateRect(&bullet.rect, -35, -50);
 				OffsetRect(&bullet.rect, 0, -15);
 				player.bullets.push_back(bullet);
 			}
