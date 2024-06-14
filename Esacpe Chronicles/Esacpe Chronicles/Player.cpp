@@ -3,6 +3,11 @@
 #include "Monster.h"  // Monster 클래스의 헤더 파일 포함
 
 int Player::getCimageSize() const{ 
+
+	if (getDamage) {
+		return sizeof(_hit_r) / sizeof(_hit_r[0]);
+	}
+
 	switch (status)
 	{
 	case DEFAULT_R:
@@ -31,9 +36,6 @@ int Player::getCimageSize() const{
 		default:
 			break;
 		}
-		break;
-	case DAMAGE:
-		return sizeof(_hit_r) / sizeof(_hit_r[0]);
 		break;
 	case DEFENSE:
 		break;
@@ -187,6 +189,22 @@ void Player::setImg(int img_num) {
 		return;
 	}
 
+	if (getDamage) {
+		if (direction == PlayerStatus::LEFT || status == PlayerStatus::DEFAULT_L)
+			cImage->Load(_hit_r[this->img_num]);
+		else if (direction == PlayerStatus::RIGHT || status == PlayerStatus::DEFAULT_R)
+			cImage->Load(_hit_r[this->img_num]);
+
+		if (img_num == 4) {
+			if (direction == PlayerStatus::LEFT)
+				status = saveStatus;
+			else if (direction == PlayerStatus::RIGHT)
+				status = saveStatus;
+			getDamage = false;
+		}
+		return;
+	}
+
 	switch (status)
 	{
 	case DEFAULT_L:
@@ -200,19 +218,6 @@ void Player::setImg(int img_num) {
 		break;
 	case RIGHT:
 		cImage->Load(_right[this->img_num]);
-		break;
-	case DAMAGE:
-		if (direction == PlayerStatus::LEFT)
-			cImage->Load(_hit_r[this->img_num]);
-		else if (direction == PlayerStatus::RIGHT)
-			cImage->Load(_hit_r[this->img_num]);
-
-		if (img_num == 4) {
-			if (direction == PlayerStatus::LEFT)
-				status = saveStatus;
-			else if (direction == PlayerStatus::RIGHT)
-				status = saveStatus;
-		}
 		break;
 	case ATTACK:
 
@@ -603,7 +608,7 @@ void Player::collisionMonster(Monster* monster) {
 	case MonsterStatus::ATTACK_:
 		if (this->status != PlayerStatus::ATTACK && monster->getStatus() == MonsterStatus::ATTACK_) {
 			hp -= 10;
-			this->status = PlayerStatus::DAMAGE;
+			this->getDamage = true;
 		}
 		break;
 	default:

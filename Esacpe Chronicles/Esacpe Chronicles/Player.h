@@ -236,6 +236,8 @@ public:
 	int press_cnt = 0;
 	POINT mouse_p;
 
+	bool getDamage = false;
+
 	std::vector<Bullet> bullets;
 
 	Player() : cImage(std::make_unique<CImage>()), status(PlayerStatus::DEFAULT_R), speed(10), img_num(0), weapon(1) {

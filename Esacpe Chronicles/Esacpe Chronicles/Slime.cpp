@@ -98,7 +98,6 @@ void Slime::MonsterPlayerCollision(Player& p) {
 		p.collisionMonster(this);
 	}
 	else {
-
 		status = MOVE_;
 	}
 }
