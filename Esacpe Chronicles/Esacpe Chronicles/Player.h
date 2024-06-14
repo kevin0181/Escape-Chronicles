@@ -206,6 +206,9 @@ class Player {
 		L"img/character/main/weapon/bow/bow2_l.png"
 	};
 
+	LPCTSTR _gun_r[1] = {
+		L"img/character/main/weapon/gun/gun1.png",
+	};
 
 public:
 	PlayerStatus status;

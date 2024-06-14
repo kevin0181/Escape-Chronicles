@@ -45,34 +45,41 @@ void Player::print(HDC& mDC) const {
 			Gdiplus::Graphics graphics(mDC);
 			Gdiplus::Rect destRect(weapon_rect.left, weapon_rect.top, weapon_rect.right - weapon_rect.left, weapon_rect.bottom - weapon_rect.top);
 
-			int bullets_size = bullets.size() - 1;
+			if (bullets.size() != 0) {
+				int bullets_size = bullets.size() - 1;
 
-			Gdiplus::Rect destRect2(bullets[bullets_size].rect.left, bullets[bullets_size].rect.top, 
-				bullets[bullets_size].rect.right - bullets[bullets_size].rect.left, bullets[bullets_size].rect.bottom - bullets[bullets_size].rect.top);
+				Gdiplus::Rect destRect2(bullets[bullets_size].rect.left, bullets[bullets_size].rect.top,
+					bullets[bullets_size].rect.right - bullets[bullets_size].rect.left, bullets[bullets_size].rect.bottom - bullets[bullets_size].rect.top);
 
-			// 렌더링 품질 설정
-			graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQualityBicubic);
-			graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+				// 렌더링 품질 설정
+				graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQualityBicubic);
+				graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 
-			// 이미지 중심 계산
-			Gdiplus::PointF center(static_cast<Gdiplus::REAL>(weapon_rect.left + (weapon_rect.right - weapon_rect.left) / 2),
-				static_cast<Gdiplus::REAL>(weapon_rect.top + (weapon_rect.bottom - weapon_rect.top) / 2));
+				// 이미지 중심 계산
+				Gdiplus::PointF center(static_cast<Gdiplus::REAL>(weapon_rect.left + (weapon_rect.right - weapon_rect.left) / 2),
+					static_cast<Gdiplus::REAL>(weapon_rect.top + (weapon_rect.bottom - weapon_rect.top) / 2));
 
-			// 마우스 위치 기준 각도 계산
-			float dx = static_cast<float>(mouse_p.x) - center.X;
-			float dy = static_cast<float>(mouse_p.y) - center.Y;
-			float angle = std::atan2(dy, dx) * 180.0f / 3.14159265f; // 라디안을 도로 변환
+				// 마우스 위치 기준 각도 계산
+				float dx = static_cast<float>(mouse_p.x) - center.X;
+				float dy = static_cast<float>(mouse_p.y) - center.Y;
+				float angle = std::atan2(dy, dx) * 180.0f / 3.14159265f; // 라디안을 도로 변환
 
-			// 회전 변환 설정
-			graphics.TranslateTransform(center.X, center.Y);
-			graphics.RotateTransform(angle);
-			graphics.TranslateTransform(-center.X, -center.Y);
+				// 회전 변환 설정
+				graphics.TranslateTransform(center.X, center.Y);
+				graphics.RotateTransform(angle);
+				graphics.TranslateTransform(-center.X, -center.Y);
 
-			// 회전된 이미지 그리기
-			graphics.DrawImage(weapon_img, destRect);
+			
+				// 회전된 이미지 그리기
+				graphics.DrawImage(weapon_img, destRect);
 
-			if (bullets.size() != 0)
-				graphics.DrawImage(bullets[bullets_size].img, destRect2);
+				if (bullets.size() != 0) {
+					if (weapon == 2)
+						graphics.DrawImage(bullets[bullets_size].img, destRect2);
+					else if(weapon== 3 && bullets[bullets_size].status)
+						graphics.DrawImage(bullets[bullets_size].img, destRect2);
+				}
+			}
 
 		}
 
@@ -138,18 +145,40 @@ void Player::setImg(int img_num) {
 			weapon_img = new Gdiplus::Image(_bow_r[0]);
 		}
 
+		weapon_rect = rect;
+		InflateRect(&weapon_rect, -10, -10);
+
 		if (mouse_p.x <= rect.right) { // left
 			cImage->Load(_bow_default_l[0]);
-			weapon_rect = rect;
-			InflateRect(&weapon_rect, -10, -10);
 			OffsetRect(&weapon_rect, -10, 0);
 		}
 		else if (mouse_p.x >= rect.right) { // right
 			cImage->Load(_bow_default_r[0]);
-			weapon_rect = rect;
-			InflateRect(&weapon_rect, -10, -10);
 			OffsetRect(&weapon_rect, 10, 0);
 		}
+
+		return;
+	}
+
+	if (press_m_l && weapon == 3) { // gun
+		if (weapon_img) {
+			delete weapon_img;
+		}
+
+		weapon_img = new Gdiplus::Image(_gun_r[0]);
+
+		weapon_rect = rect;
+		InflateRect(&weapon_rect, -10, -10);
+
+		if (mouse_p.x <= rect.right) { // left
+			cImage->Load(_bow_default_l[0]);
+			OffsetRect(&weapon_rect, -10, 0);
+		}
+		else if (mouse_p.x >= rect.right) { // right
+			cImage->Load(_bow_default_r[0]);
+			OffsetRect(&weapon_rect, 10, 0);
+		}
+
 		return;
 	}
 
@@ -510,7 +539,9 @@ void Player::moveBullet() {
 	for (auto& bullet : bullets) {
 		// 중력 가속도를 vy에 더함
 
-		bullet.vy += bullet.gravity;
+		if (bullet.weapon_status == 2) {
+			bullet.vy += bullet.gravity;
+		}
 
 		bullet.rect.left += static_cast<LONG>(bullet.vx);
 		bullet.rect.right += static_cast<LONG>(bullet.vx);
@@ -520,7 +551,7 @@ void Player::moveBullet() {
 }
 
 void Player::shootArrow() {
-	if (weapon == 2) { // 무기가 활일 때
+	if (weapon == 2 || weapon == 3) { // 무기가 활일 때
 
 		// 마우스 위치 기준 각도 계산
 		Gdiplus::PointF center(static_cast<Gdiplus::REAL>(bullets[bullets.size() - 1].rect.left + (bullets[bullets.size() - 1].rect.right - bullets[bullets.size() - 1].rect.left) / 2),
