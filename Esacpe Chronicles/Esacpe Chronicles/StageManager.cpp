@@ -77,11 +77,11 @@ void StageManager::setBlock(const int& h, const LPCTSTR& path_block, const float
 			OffsetRect(&block.rect, 0, this->game_rect.bottom / 10 * (9 - (i%35)));
 			blocks_stage1.push_back(std::move(block));
 		}
-		else if (i%4!=1||i % 7 != 1 || i % 11 != 1) {
+		else if (i % 7 != 1 && i % 11 != 1) {
 			Block block;
 			block.color = RGB(62, 141, 215);
 			block.rect = { (i + 2) * BLOCK_SIZE, 0, (i + 3) * BLOCK_SIZE, BLOCK_SIZE };
-			if(i%7==2||i%7==0||i%11==2||i%11==0){
+			if(i % 17 < 7){
 				OffsetRect(&block.rect, 0, this->game_rect.bottom / 10 * 6);
 			}
 			else {
