@@ -13,6 +13,7 @@ public:
 	CImage background_img;
 	RECT viewRect; //모니터 화면크기
 	RECT rect; // 현재 보이는 이미지의 크기
+	RECT potal_rect;
 	int camera_move_speed = 10;
 
 	std::vector<Block> block_stage1_map; //지상

@@ -258,6 +258,30 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			ui.print(mDC,player);
         }
 
+		/*
+	   stage 2
+		   플레이어, 슬라임, red 벽돌
+	   */
+		if (STAGE::STAGE_2 == stageManager.getCurrent_stage()) {
+			stageManager.DrawBackground_img(mDC, 3);
+			for (auto& monster : monsters) {
+				monster->print(mDC);
+			}
+			player.print(mDC);
+		}
+
+		/*
+	   stage 3
+		   플레이어, 슬라임, red 벽돌
+	   */
+		if (STAGE::STAGE_3 == stageManager.getCurrent_stage()) {
+			stageManager.DrawBackground_img(mDC, 3);
+			for (auto& monster : monsters) {
+				monster->print(mDC);
+			}
+			player.print(mDC);
+		}
+
 		// ------------------------------------------------
 		//zombie1[i].print(mDC);
 		//zombie2[i].print(mDC);
@@ -288,6 +312,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 			switch (stageManager.getCurrent_stage())
 			{
+			case STAGE::STAGE_2:
+			case STAGE::STAGE_3:
 			case STAGE::STAGE_1:
 			{
 				++collision_num;

@@ -22,14 +22,14 @@ void StageManager::DrawBackground_img(HDC& mDC, const int& w) {
 
 		background_img.Draw(mDC, rect.left, rect.top, (rect.right - rect.left) * w, rect.bottom - rect.top, 0, 0, background_img.GetWidth(), background_img.GetHeight()); //이미지 전체 화면
 
-		if (current_stage == STAGE::STAGE_1) {
+		//if (current_stage == STAGE::STAGE_1) {
 			RECT r;
 			for (int i = 0; i < blocks_stage1.size(); ++i) { //블럭 그리기
 				if (IntersectRect(&r, &viewRect, &blocks_stage1[i].rect)) {
 					blocks_stage1[i].print(mDC);
 				}
 			}
-		}
+		//}
 	}
 	else {
 		throw std::runtime_error("Background image is not loaded.");
