@@ -202,9 +202,16 @@ void Player::setImg(int img_num) {
 		cImage->Load(_right[this->img_num]);
 		break;
 	case DAMAGE:
-		cImage->Load(_hit_r[this->img_num]);
+		if (direction == PlayerStatus::LEFT)
+			cImage->Load(_hit_r[this->img_num]);
+		else if (direction == PlayerStatus::RIGHT)
+			cImage->Load(_hit_r[this->img_num]);
+
 		if (img_num == 4) {
-			status = saveStatus;
+			if (direction == PlayerStatus::LEFT)
+				status = saveStatus;
+			else if (direction == PlayerStatus::RIGHT)
+				status = saveStatus;
 		}
 		break;
 	case ATTACK:
