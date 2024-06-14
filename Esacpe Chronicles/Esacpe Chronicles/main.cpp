@@ -15,6 +15,7 @@ using namespace Gdiplus;
 #include "StageManager.h"
 #include "Block.h"
 #include "Player.h"
+#include "Ui.h"
 
 #define BLOCK_SIZE 70
 
@@ -80,6 +81,7 @@ vector<Brain2> brain2;
 vector<Boss> boss;
 
 StageManager stageManager;
+Ui ui;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
@@ -248,6 +250,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 				slime.print(mDC);
 			}
             player.print(mDC);
+
+			ui.print(mDC);
         }
 
 		// ------------------------------------------------
