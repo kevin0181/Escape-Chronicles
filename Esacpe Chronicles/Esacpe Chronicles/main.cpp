@@ -101,6 +101,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	// 마우스 위치 가져오기
 	static POINT cursorPos;
 
+	static int collision_num = 0;
+
     switch (uMsg) {
 	case WM_CREATE:
 	{
@@ -122,9 +124,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		stageManager.rect = rect;
      
 		for (int i = 0; i < 5;++i) {// 원하는 개수만큼 반복
-			/*auto slime = std::make_unique<Slime>();
+			auto slime = std::make_unique<Slime>();
 			slime->insert();
-			monsters.push_back(std::move(slime));*/
+			monsters.push_back(std::move(slime));
 		}
         //zombie1.insert();
         //zombie2.insert();
@@ -253,7 +255,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			}
             player.print(mDC);
 
-			ui.print(mDC);
+			ui.print(mDC,player);
         }
 
 		// ------------------------------------------------
@@ -288,9 +290,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			{
 			case STAGE::STAGE_1:
 			{
+				++collision_num;
+				
 				for (auto&  monster: monsters) {
 					monster->move(stageManager);
-					monster->MonsterPlayerCollision(player);
+					
+					if(collision_num%20==0){
+						monster->MonsterPlayerCollision(player);
+					}
 				}
 				
 				//zombie1.move(stageManager);

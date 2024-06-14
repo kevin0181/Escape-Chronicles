@@ -187,6 +187,7 @@
     <ClCompile Include="Brain1.cpp" />
     <ClCompile Include="Brain2.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Eye.cpp" />
     <ClCompile Include="Gravity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Brain2.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="Eye.h" />
     <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="Gravity.h" />
     <ClInclude Include="PlayerStatus.h" />

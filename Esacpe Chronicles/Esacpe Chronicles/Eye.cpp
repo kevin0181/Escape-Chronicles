@@ -1,10 +1,10 @@
-#include "Slime.h"
+#include "Eye.h"
 
 using namespace std;
 
 
 
-Slime::Slime() : Monster() {
+Eye::Eye() : Monster() {
 	hp = 500; // 나중에 확정되면 바꾸기
 	imageNum = 0;
 	rect.left = 200 * (rand() % 7); //rand() % (stageManager.rect.right + 1);
@@ -13,54 +13,54 @@ Slime::Slime() : Monster() {
 	status = MOVE_;
 }
 
-RECT& Slime::getRect() {
+RECT& Eye::getRect() {
 	return rect;
 }
 
-MonsterStatus Slime::getStatus() const{
+MonsterStatus Eye::getStatus() const {
 	return status;
 }
 
-void Slime::insert() {
-	if (!slime_img.IsNull()) {
-		slime_img.Destroy();
+void Eye::insert() {
+	if (!eye_img.IsNull()) {
+		eye_img.Destroy();
 	}
 
 	if (left) {
 		switch (status) {
 		case MOVE_:
-			slime_img.Load(slime_img_path_L[imageNum / 3]);
+			eye_img.Load(eye_img_path_L[imageNum / 3]);
 			break;
 		case ATTACK_:
-			slime_img.Load(slime_attack_img_path_L[imageNum / 3]);
+			eye_img.Load(eye_attack_img_path_L[imageNum / 3]);
 			break;
 		case DIE_:
-			slime_img.Load(slime_die_img_path_L[imageNum / 3]);
+			eye_img.Load(eye_die_img_path_L[imageNum / 3]);
 			break;
 		}
 	}
 	else {
 		switch (status) {
 		case MOVE_:
-			slime_img.Load(slime_img_path_R[imageNum / 3]);
+			eye_img.Load(eye_img_path_R[imageNum / 3]);
 			break;
 		case ATTACK_:
-			slime_img.Load(slime_attack_img_path_R[imageNum / 3]);
+			eye_img.Load(eye_attack_img_path_R[imageNum / 3]);
 			break;
 		case DIE_:
-			slime_img.Load(slime_die_img_path_R[imageNum / 3]);
+			eye_img.Load(eye_die_img_path_R[imageNum / 3]);
 			break;
 		}
 	}
 }
 
-void Slime::print(const HDC& mDC) {
-	if (!slime_img.IsNull()) {
-		slime_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, slime_img.GetWidth(), slime_img.GetHeight());
+void Eye::print(const HDC& mDC) {
+	if (!eye_img.IsNull()) {
+		eye_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, eye_img.GetWidth(), eye_img.GetHeight());
 	}
 }
 
-void Slime::move(const StageManager& stageManager) {
+void Eye::move(const StageManager& stageManager) {
 	//중력
 	RECT temprect = rect;
 	gravity.UpdatePhysics(rect);
@@ -69,12 +69,12 @@ void Slime::move(const StageManager& stageManager) {
 		rect = temprect;
 
 	//이미지
-	if (status != DIE_ || imageNum != 27)
+	if (status != DIE_ || imageNum != 30)
 		++imageNum;
 
-	if (imageNum == 27) {
+	if (imageNum == 30) {
 		if (status == DIE_)
-			slime_img.Destroy();
+			eye_img.Destroy();
 		else
 			imageNum = 0;
 	}
@@ -86,13 +86,13 @@ void Slime::move(const StageManager& stageManager) {
 		CheckClientRect(stageManager, rect, left);
 	}
 
-	if (status != DIE_ || imageNum != 27)
+	if (status != DIE_ || imageNum != 30)
 		insert();
 }
 
-void Slime::MonsterPlayerCollision(Player& p) {
+void Eye::MonsterPlayerCollision(Player& p) {
 	RECT intersectRect;
-	if(status != MonsterStatus::DIE_){
+	if (status != MonsterStatus::DIE_) {
 		if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
 			Collisionplayer(p);
 			//player의 충돌했을 때 모션~~적어주세요!!!~~
@@ -104,7 +104,7 @@ void Slime::MonsterPlayerCollision(Player& p) {
 	}
 }
 
-void Slime::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터의 대처
+void Eye::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터의 대처
 	switch (p.status) {
 	case ATTACK:
 		if (p.direction == PlayerStatus::RIGHT)
