@@ -342,11 +342,16 @@ void Player::setKeyDown(WPARAM wParam) {
 				stageManager.rect = stageManager.viewRect;
 				stageManager.setCurrent_stage(STAGE::STAGE_2);
 				stageManager.setBackground_img(stageManager.background_img_path[1]);
+				stageManager.setBlock(-150, RGB(255, 255, 255));
+				stageManager.game_rect.bottom = 700;
+				rect = { 0,0,90,120 };
 			}else if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_2) {
 				monsters.clear();
 				stageManager.rect = stageManager.viewRect;
 				stageManager.setCurrent_stage(STAGE::STAGE_3);
 				stageManager.setBackground_img(stageManager.background_img_path[2]);
+				stageManager.setBlock(-70, RGB(255, 0, 255));
+				rect = { 0,0,90,120 };
 			}
 		}
 
