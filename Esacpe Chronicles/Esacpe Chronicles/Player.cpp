@@ -498,7 +498,7 @@ void Player::move(StageManager& stageManager) {
 		jump();
 	}
 
-	checkBlock(stageManager);
+	//checkBlock(stageManager);
 }
 
 void Player::setRECT(RECT rect) {
@@ -551,8 +551,13 @@ void Player::TIMER(StageManager& stageManager) {
 		rect = saveRect;
 	}
 
+	
 	if (checkBlock(stageManager)) {
-		OffsetRect(&rect, 0, -speed);
+		if (!isJumping) {
+			rect = saveRect;
+			isJumping = false;
+			isOnGround = true;
+		}
 	}
 
 }
@@ -561,11 +566,9 @@ bool Player::checkBlock(const StageManager& stageManager) {
 	RECT r;
 	for (auto& block : stageManager.blocks_stage1) {
 		if (IntersectRect(&r, &block.rect, &rect)) {
-			//if (rect.bottom <= block.rect.top) {
-				isJumping = false;
-				isOnGround = true;
+			if (rect.bottom <= block.rect.top + 20) {
 				return true;
-			//}
+			}
 		}
 	}
 	return false;
