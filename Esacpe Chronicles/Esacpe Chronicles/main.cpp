@@ -129,6 +129,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 	static int collision_num = 0;
 
+	static bool Pause = false;
+
 	switch (uMsg) {
 	case WM_CREATE:
 	{
@@ -228,6 +230,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		break;
 	case WM_KEYDOWN:
 
+		if (wParam == VK_ESCAPE) {
+			Pause = !Pause;
+		}
+
 		if (stageManager.getCurrent_stage() == STAGE::INTRO)
 			stageManager.setKeyDown(wParam);
 
@@ -322,33 +328,34 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	}
 	case WM_TIMER:
 		if (wParam == 1) {
-
-			if (player.press_m_l) { // 몇 초 누르고 있는지 확인
-				player.press_cnt++;
-			}
-
-			switch (stageManager.getCurrent_stage())
-			{
-			case STAGE::STAGE_2:{}
-			case STAGE::STAGE_3:
-			case STAGE::STAGE_1:
-			{
-				++collision_num;
-
-				for (auto& monster : monsters) {
-					monster->move(stageManager);
-
-					if (collision_num % 10 == 0) {
-						monster->MonsterPlayerCollision(player);
-					}
+			if (!Pause) {
+				if (player.press_m_l) { // 몇 초 누르고 있는지 확인
+					player.press_cnt++;
 				}
 
-				//player
-				player.TIMER(stageManager);
-				break;
-			}
-			default:
-				break;
+				switch (stageManager.getCurrent_stage())
+				{
+				case STAGE::STAGE_2: {}
+				case STAGE::STAGE_3:
+				case STAGE::STAGE_1:
+				{
+					++collision_num;
+
+					for (auto& monster : monsters) {
+						monster->move(stageManager);
+
+						if (collision_num % 10 == 0) {
+							monster->MonsterPlayerCollision(player);
+						}
+					}
+
+					//player
+					player.TIMER(stageManager);
+					break;
+				}
+				default:
+					break;
+				}
 			}
 			InvalidateRect(hWnd, NULL, false);
 		}
