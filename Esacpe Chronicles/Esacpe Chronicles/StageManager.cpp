@@ -98,6 +98,8 @@ void StageManager::setLMBtnDown(LPARAM lParam) {
 		current_stage = STAGE::STAGE_1;
 		setBackground_img(background_img_path[0]);
 
+		rect = viewRect;
+
 		for (int i = 0; i < 5; ++i) {// 원하는 개수만큼 반복
 			auto slime = std::make_unique<Slime>();
 			slime->insert();
