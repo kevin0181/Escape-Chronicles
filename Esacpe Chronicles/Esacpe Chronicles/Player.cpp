@@ -223,7 +223,7 @@ void Player::setImg(int img_num) {
 	case RIGHT:
 		cImage->Load(_right[this->img_num]);
 		break;
-	case DEATH:
+	case DEATH: // player Á×¾úÀ»¶§
 		if (direction == PlayerStatus::LEFT)
 			cImage->Load(_Death_l[this->img_num]);
 		else if (direction == PlayerStatus::RIGHT)
@@ -234,6 +234,8 @@ void Player::setImg(int img_num) {
 			stageManager.setBackground_img(stageManager.main_img_path[2]);
 			stageManager.blocks_stage1.clear();
 			stageManager.rect = stageManager.viewRect;
+			stageManager.game_rect.bottom = stageManager.viewRect.bottom;
+			stageManager.game_rect.bottom -= 10;
 			monsters.clear();
 			hp = 200;
 			status = PlayerStatus::DEFAULT_R;
@@ -361,6 +363,7 @@ void Player::setKeyDown(WPARAM wParam) {
 			}
 
 			if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_1) { //1->2
+				bullets.clear();
 				monsters.clear();
 				stageManager.rect = stageManager.viewRect;
 				stageManager.setCurrent_stage(STAGE::STAGE_2);
@@ -381,6 +384,7 @@ void Player::setKeyDown(WPARAM wParam) {
 					monsters.push_back(std::move(zombie3));
 				}
 			}else if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_2) { //2->3
+				bullets.clear();
 				monsters.clear();
 				stageManager.rect = stageManager.viewRect;
 				stageManager.setCurrent_stage(STAGE::STAGE_3);
