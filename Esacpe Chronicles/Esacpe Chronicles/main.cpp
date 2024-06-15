@@ -156,7 +156,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	}
 	case WM_LBUTTONDOWN:
 
-		if (stageManager.getCurrent_stage() == STAGE::MAIN)
+		if (stageManager.getCurrent_stage() == STAGE::MAIN || stageManager.getCurrent_stage() == STAGE::CLEAR)
 			stageManager.setLMBtnDown(lParam);
 
 		if (stageManager.getCurrent_stage() == STAGE::STAGE_1 || stageManager.getCurrent_stage() == STAGE::STAGE_2 ||
@@ -309,6 +309,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			player.print(mDC);
 
 			ui.print(mDC, player);
+		}
+
+		/*
+			clear
+	   */
+		if (STAGE::CLEAR == stageManager.getCurrent_stage()) {
+			stageManager.DrawBackground_img(mDC, 1);
+			stageManager.setMainBackGround(mDC, rect);
 		}
 
 		// ------------------------------------------------
