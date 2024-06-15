@@ -418,14 +418,15 @@ void Player::setKeyDown(WPARAM wParam) {
 		break;
 	case 32: //spacebar
 	{
-		soundManager.PlaySoundW(L"sword", false);
-		soundManager.SetVolume(L"sword", -1000); // 배경음악 볼륨 조절 (50%)
 
 		img_num = 0;
 
 		if (weapon != 1)
 			return;
-	
+
+		soundManager.PlaySoundW(L"sword", false);
+		soundManager.SetVolume(L"sword", -1000); // 배경음악 볼륨 조절 (50%)
+
 		if (status != PlayerStatus::ATTACK) //공격 아닐때만 저장 (연속으로 공격 방지)
 			saveStatus = status;
 
