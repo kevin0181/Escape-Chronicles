@@ -3,12 +3,13 @@
 
 class Slime : public Monster {
 	int hp;
-	CImage slime_img; 
+	CImage slime_img;
 	int imageNum;
 	RECT rect;
 	bool left; // 슬라임의 이동 방향
 	MonsterStatus status;
 	Gravity gravity;
+	
 
 	LPCTSTR slime_img_path_L[9] = { // 그냥 움직임 L
 		L"img/monster/slime_L_v2/Slime_move(1).png",

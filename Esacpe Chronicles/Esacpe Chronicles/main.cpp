@@ -148,7 +148,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		// 시작버튼
 		stageManager.startBtn = { rect.right - 300, rect.bottom - 150, rect.right - 200, rect.bottom - 50 };
 		stageManager.rect = rect;
-
+/*
+		for (int i = 0; i < 5; ++i) {// 원하는 개수만큼 반복
+			auto slime = std::make_unique<Slime>();
+			slime->insert();
+			monsters.push_back(std::move(slime));
+			auto eye = std::make_unique<Eye>();
+			eye->insert();
+			monsters.push_back(std::move(eye));
+		}
+		*/
 		SetTimer(hWnd, 1, 1, FALSE);
 		break;
 	}
@@ -183,7 +192,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			player.mouse_p.x = LOWORD(lParam);
 			player.mouse_p.y = HIWORD(lParam);
 			player.press_m_l = true;
-
 		}
 
 		break;
@@ -307,12 +315,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		}
 
 		// ------------------------------------------------
-		//zombie1[i].print(mDC);
-		//zombie2[i].print(mDC);
-		//zombie3[i].print(mDC);
-		//brain1[i].print(mDC);
-		//brain2[i].print(mDC);
-
 
 		//커서 이미지 그리기
 		cursorImage.Draw(mDC, cursorPos.x - 40, cursorPos.y - 40, 80, 80, 0, 0, cursorWidth, cursorHeight);
@@ -345,17 +347,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 				for (auto& monster : monsters) {
 					monster->move(stageManager);
 
-					if (collision_num % 20 == 0) {
+					if (collision_num % 10 == 0) {
 						monster->MonsterPlayerCollision(player);
 					}
 				}
-
-				//zombie1.move(stageManager);
-				//zombie2.move(stageManager);
-				//zombie3.move(stageManager);
-				//brain1.move(stageManager);
-				//brain2.move(stageManager);
-				//boss.move(stageManager);
 
 				//player
 				player.TIMER(stageManager);
