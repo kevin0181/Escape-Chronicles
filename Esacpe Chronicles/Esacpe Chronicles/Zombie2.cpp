@@ -57,6 +57,9 @@ void Zombie2::print(const HDC& mDC) {
 		}
 		zombie2_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, zombie2_img.GetWidth(), zombie2_img.GetHeight());
 	}
+	else {
+		MessageBox(NULL, L"유효하지 않은 좀비 이미지", L"오류", MB_OK);
+	}
 }
 
 void Zombie2::move(const StageManager& stageManager) {
