@@ -751,7 +751,7 @@ void Player::collisionMonster(Monster* monster) {
 		}
 		break;
 	default:
-		hp++;
+		//hp++;
 		break;
 	}
 }
