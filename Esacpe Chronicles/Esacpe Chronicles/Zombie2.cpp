@@ -4,7 +4,7 @@ using namespace std;
 
 
 Zombie2::Zombie2() : Monster() {
-	hp = 40; // 나중에 확정되면 바꾸기
+	hp = 80; // 나중에 확정되면 바꾸기
 	imageNum = 0;
 	rect.left = 1500 + 200 * (rand() % 14);
 	rect = { rect.left, 300, rect.left+200, 500 };

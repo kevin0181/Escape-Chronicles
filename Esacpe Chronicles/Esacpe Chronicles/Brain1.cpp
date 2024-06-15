@@ -3,7 +3,7 @@ using namespace std;
 
 
 Brain1::Brain1() : Monster() {
-	hp = 50; // 나중에 확정되면 바꾸기
+	hp = 100; // 나중에 확정되면 바꾸기
 	imageNum = 0;
 	rect.left = 200 * (rand() % 14);
 	rect = {rect.left, 300, rect.left+250, 550 };

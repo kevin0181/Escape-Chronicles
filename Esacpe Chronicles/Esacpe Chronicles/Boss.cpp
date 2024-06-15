@@ -3,7 +3,7 @@
 using namespace std;
 
 Boss::Boss() : Monster() {
-	hp = 100; // 나중에 확정되면 바꾸기
+	hp = 500; // 나중에 확정되면 바꾸기
 	imageNum = 0;
 	rect = { 3000, 300, 3209, 501 };
 	left = false;

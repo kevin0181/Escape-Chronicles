@@ -215,11 +215,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 					}
 				}
 				else if (player.getWeapon() == 3) {
-					soundManager.PlaySoundW(L"Gunshot", false); // 총 브금
-					soundManager.SetVolume(L"Gunshot", -1000);
+					if (player.press_cnt >= 20) { //2.5초 정도 넘으면 발사 가능.
+						soundManager.PlaySoundW(L"Gunshot", false); // 총 브금
+						soundManager.SetVolume(L"Gunshot", -1000);
 
-					player.bullets[player.bullets.size() - 1].status = true;
-					player.shootArrow();
+						player.bullets[player.bullets.size() - 1].status = true;
+						player.shootArrow();
+					}
 				}
 				else { //아니면 지우기
 					player.bullets.pop_back();
