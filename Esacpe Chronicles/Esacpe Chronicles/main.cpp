@@ -85,6 +85,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 		return -1;
 	}
 
+	if (!soundManager.LoadWaveFile(L"sound/arrow-sound.wav", L"arrow")) {
+		MessageBox(hWnd, L"Could not load Sword sound.", L"Error", MB_OK);
+		return -1;
+	}
+
 	soundManager.PlaySoundW(L"BGM", true); // 배경음악 재생
 	soundManager.SetVolume(L"BGM", -2000); // 배경음악 볼륨 조절 (50%)
 
@@ -200,12 +205,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 			player.press_m_l = false;
 			if (player.bullets.size() != 0) {
 				if (player.getWeapon() == 2) {
+
 					if (player.press_cnt >= 30) { //2.5초 정도 넘으면 발사 가능.
+						soundManager.PlaySoundW(L"arrow", false); // 총 브금
+						soundManager.SetVolume(L"arrow", -1000);
 						player.bullets[player.bullets.size() - 1].status = true;
 						player.shootArrow();
 					}
 				}
 				else if (player.getWeapon() == 3) {
+					soundManager.PlaySoundW(L"Gunshot", false); // 총 브금
+					soundManager.SetVolume(L"Gunshot", -1000);
+
 					player.bullets[player.bullets.size() - 1].status = true;
 					player.shootArrow();
 				}
