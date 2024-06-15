@@ -26,6 +26,8 @@ HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Escape Chronicles";
 LPCTSTR lpszWindowName = L"Escape Chronicles";
 
+SoundManager soundManager;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow) {
@@ -62,10 +64,31 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
+	// SoundManager 초기화 및 사운드 파일 로드
+	if (!soundManager.Initialize(hWnd)) {
+		MessageBox(hWnd, L"Could not initialize DirectSound.", L"Error", MB_OK);
+		return -1;
+	}
+
+	if (!soundManager.LoadWaveFile(L"sound/background_sound.wav", L"BGM")) {
+		MessageBox(hWnd, L"Could not load BGM sound.", L"Error", MB_OK);
+		return -1;
+	}
+
+	/*if (!soundManager.LoadWaveFile(L"sound/gunshot.wav", L"Gunshot")) {
+		MessageBox(hWnd, L"Could not load Gunshot sound.", L"Error", MB_OK);
+		return -1;
+	}*/
+
+	soundManager.PlaySoundW(L"BGM", true); // 배경음악 재생
+	soundManager.SetVolume(L"BGM", -2000); // 배경음악 볼륨 조절 (50%)
+
 	while (GetMessage(&Message, NULL, 0, 0)) {
 		TranslateMessage(&Message);
 		DispatchMessage(&Message);
 	}
+
+	soundManager.Shutdown(); // SoundManager 종료
 
 	// GDI+ 해제
 	GdiplusShutdown(gdiplusToken);
@@ -75,8 +98,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 
 
 vector<std::unique_ptr<Monster>> monsters;
-SoundManager* soundManager;
-SoundManager* backgoundSoundManager;
 StageManager stageManager;
 Ui ui;
 

@@ -1,149 +1,167 @@
 #include "SoundManager.h"
 #include <stdexcept>
+#include <iostream>
 #include <fstream>
 
-SoundManager::SoundManager(HWND hWnd) : directSound(nullptr), primaryBuffer(nullptr), bgmBuffer(nullptr), hWnd(hWnd) {}
+SoundManager::SoundManager() : directSound(nullptr), primaryBuffer(nullptr) {}
 
 SoundManager::~SoundManager() {
-    if (primaryBuffer) {
-        primaryBuffer->Release();
-        primaryBuffer = nullptr;
-    }
-    if (bgmBuffer) {
-        bgmBuffer->Release();
-        bgmBuffer = nullptr;
-    }
-    if (directSound) {
-        directSound->Release();
-        directSound = nullptr;
-    }
+    Shutdown();
 }
 
-bool SoundManager::Initialize() {
-    if (FAILED(DirectSoundCreate8(NULL, &directSound, NULL))) {
+bool SoundManager::Initialize(HWND hwnd) {
+    if (!InitializeDirectSound(hwnd)) {
         return false;
     }
-    if (FAILED(directSound->SetCooperativeLevel(hWnd, DSSCL_PRIORITY))) {
+    return true;
+}
+
+void SoundManager::Shutdown() {
+    for (auto& sound : soundMap) {
+        ShutdownWaveFile(sound.second);
+    }
+    ShutdownDirectSound();
+}
+
+bool SoundManager::LoadWaveFile(const std::wstring& filename, const std::wstring& soundName) {
+    std::ifstream file(filename, std::ios::binary);
+    if (!file) {
+        std::wcerr << L"Could not open file: " << filename << std::endl;
         return false;
     }
-    DSBUFFERDESC bufferDesc;
-    ZeroMemory(&bufferDesc, sizeof(DSBUFFERDESC));
-    bufferDesc.dwSize = sizeof(DSBUFFERDESC);
-    bufferDesc.dwFlags = DSBCAPS_PRIMARYBUFFER;
-    if (FAILED(directSound->CreateSoundBuffer(&bufferDesc, &primaryBuffer, NULL))) {
-        return false;
-    }
+
+    // Read the wave file header
     WAVEFORMATEX waveFormat;
-    ZeroMemory(&waveFormat, sizeof(WAVEFORMATEX));
+    DSBUFFERDESC bufferDesc;
+    unsigned char* waveData;
+    unsigned long waveSize;
+    LPDIRECTSOUNDBUFFER tempBuffer;
+    file.seekg(0, std::ios::end);
+    waveSize = file.tellg();
+    waveData = new unsigned char[waveSize];
+    file.seekg(0, std::ios::beg);
+    file.read(reinterpret_cast<char*>(waveData), waveSize);
+    file.close();
+
+    // Fill the wave format structure
     waveFormat.wFormatTag = WAVE_FORMAT_PCM;
     waveFormat.nSamplesPerSec = 44100;
     waveFormat.wBitsPerSample = 16;
     waveFormat.nChannels = 2;
     waveFormat.nBlockAlign = (waveFormat.wBitsPerSample / 8) * waveFormat.nChannels;
     waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
-    if (FAILED(primaryBuffer->SetFormat(&waveFormat))) {
-        return false;
-    }
-    return true;
-}
+    waveFormat.cbSize = 0;
 
-void SoundManager::PlayBGM(const std::wstring& filePath) {
-    if (bgmBuffer) {
-        bgmBuffer->Release();
-        bgmBuffer = nullptr;
-    }
-    if (LoadWaveFile(filePath, &bgmBuffer)) {
-        PlaySoundBuffer(bgmBuffer);
-    }
-}
-
-void SoundManager::StopBGM() {
-    if (bgmBuffer) {
-        bgmBuffer->Stop();
-        bgmBuffer->Release();
-        bgmBuffer = nullptr;
-    }
-}
-
-void SoundManager::PlayEffect(const std::wstring& filePath) {
-    IDirectSoundBuffer8* effectBuffer;
-    if (LoadWaveFile(filePath, &effectBuffer)) {
-        PlaySoundBuffer(effectBuffer);
-        effectBuffer->Release();
-    }
-}
-
-bool SoundManager::LoadWaveFile(const std::wstring& filePath, IDirectSoundBuffer8** buffer) {
-    std::ifstream file(filePath, std::ios::binary);
-    if (!file) {
-        return false;
-    }
-
-    char chunkId[4];
-    file.read(chunkId, 4);
-    if (strncmp(chunkId, "RIFF", 4) != 0) {
-        return false;
-    }
-
-    file.seekg(22);
-    uint16_t numChannels;
-    file.read(reinterpret_cast<char*>(&numChannels), sizeof(numChannels));
-
-    uint32_t sampleRate;
-    file.read(reinterpret_cast<char*>(&sampleRate), sizeof(sampleRate));
-
-    file.seekg(34);
-    uint16_t bitsPerSample;
-    file.read(reinterpret_cast<char*>(&bitsPerSample), sizeof(bitsPerSample));
-
-    file.seekg(40);
-    uint32_t dataSize;
-    file.read(reinterpret_cast<char*>(&dataSize), sizeof(dataSize));
-
-    std::vector<char> waveData(dataSize);
-    file.read(waveData.data(), dataSize);
-
-    WAVEFORMATEX waveFormat;
-    ZeroMemory(&waveFormat, sizeof(WAVEFORMATEX));
-    waveFormat.wFormatTag = WAVE_FORMAT_PCM;
-    waveFormat.nSamplesPerSec = sampleRate;
-    waveFormat.wBitsPerSample = bitsPerSample;
-    waveFormat.nChannels = numChannels;
-    waveFormat.nBlockAlign = (waveFormat.wBitsPerSample / 8) * waveFormat.nChannels;
-    waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
-
-    DSBUFFERDESC bufferDesc;
-    ZeroMemory(&bufferDesc, sizeof(DSBUFFERDESC));
+    // Set the buffer description
     bufferDesc.dwSize = sizeof(DSBUFFERDESC);
     bufferDesc.dwFlags = DSBCAPS_CTRLVOLUME;
-    bufferDesc.dwBufferBytes = dataSize;
+    bufferDesc.dwBufferBytes = waveSize;
+    bufferDesc.dwReserved = 0;
     bufferDesc.lpwfxFormat = &waveFormat;
 
-    IDirectSoundBuffer* tempBuffer;
-    if (FAILED(directSound->CreateSoundBuffer(&bufferDesc, &tempBuffer, NULL))) {
+    // Create a temporary sound buffer
+    HRESULT result = directSound->CreateSoundBuffer(&bufferDesc, &tempBuffer, nullptr);
+    if (FAILED(result)) {
+        delete[] waveData;
         return false;
     }
 
-    if (FAILED(tempBuffer->QueryInterface(IID_IDirectSoundBuffer8, (void**)buffer))) {
-        tempBuffer->Release();
-        return false;
-    }
-    tempBuffer->Release();
-
-    void* bufferPtr;
-    DWORD bufferSize;
-    if (FAILED((*buffer)->Lock(0, dataSize, &bufferPtr, &bufferSize, NULL, NULL, 0))) {
-        (*buffer)->Release();
+    // Lock the buffer
+    unsigned char* bufferPtr;
+    unsigned long bufferSize;
+    result = tempBuffer->Lock(0, waveSize, (void**)&bufferPtr, &bufferSize, nullptr, 0, 0);
+    if (FAILED(result)) {
+        delete[] waveData;
         return false;
     }
 
-    memcpy(bufferPtr, waveData.data(), dataSize);
-    (*buffer)->Unlock(bufferPtr, bufferSize, NULL, 0);
+    // Copy the wave data into the buffer
+    memcpy(bufferPtr, waveData, waveSize);
+    tempBuffer->Unlock(bufferPtr, bufferSize, nullptr, 0);
+    delete[] waveData;
+
+    // Store the buffer in the map
+    soundMap[soundName] = tempBuffer;
+    return true;
+}
+
+void SoundManager::PlaySoundW(const std::wstring& soundName, bool loop) {
+    auto it = soundMap.find(soundName);
+    if (it == soundMap.end()) {
+        std::wcerr << L"Sound not found: " << soundName << std::endl;
+        return;
+    }
+
+    DWORD flags = 0;
+    if (loop) {
+        flags = DSBPLAY_LOOPING;
+    }
+    it->second->SetCurrentPosition(0);
+    it->second->Play(0, 0, flags);
+}
+
+void SoundManager::SetVolume(const std::wstring& soundName, LONG volume) {
+    auto it = soundMap.find(soundName);
+    if (it != soundMap.end()) {
+        it->second->SetVolume(volume);
+    }
+}
+
+bool SoundManager::InitializeDirectSound(HWND hwnd) {
+    HRESULT result = DirectSoundCreate8(nullptr, &directSound, nullptr);
+    if (FAILED(result)) {
+        return false;
+    }
+
+    result = directSound->SetCooperativeLevel(hwnd, DSSCL_PRIORITY);
+    if (FAILED(result)) {
+        return false;
+    }
+
+    DSBUFFERDESC bufferDesc;
+    bufferDesc.dwSize = sizeof(DSBUFFERDESC);
+    bufferDesc.dwFlags = DSBCAPS_PRIMARYBUFFER;
+    bufferDesc.dwBufferBytes = 0;
+    bufferDesc.dwReserved = 0;
+    bufferDesc.lpwfxFormat = nullptr;
+
+    result = directSound->CreateSoundBuffer(&bufferDesc, &primaryBuffer, nullptr);
+    if (FAILED(result)) {
+        return false;
+    }
+
+    WAVEFORMATEX waveFormat;
+    waveFormat.wFormatTag = WAVE_FORMAT_PCM;
+    waveFormat.nSamplesPerSec = 44100;
+    waveFormat.wBitsPerSample = 16;
+    waveFormat.nChannels = 2;
+    waveFormat.nBlockAlign = (waveFormat.wBitsPerSample / 8) * waveFormat.nChannels;
+    waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
+    waveFormat.cbSize = 0;
+
+    result = primaryBuffer->SetFormat(&waveFormat);
+    if (FAILED(result)) {
+        return false;
+    }
 
     return true;
 }
 
-void SoundManager::PlaySoundBuffer(IDirectSoundBuffer8* buffer) {
-    buffer->SetCurrentPosition(0);
-    buffer->Play(0, 0, DSBPLAY_LOOPING);
+void SoundManager::ShutdownDirectSound() {
+    if (primaryBuffer) {
+        primaryBuffer->Release();
+        primaryBuffer = nullptr;
+    }
+
+    if (directSound) {
+        directSound->Release();
+        directSound = nullptr;
+    }
+}
+
+void SoundManager::ShutdownWaveFile(LPDIRECTSOUNDBUFFER& buffer) {
+    if (buffer) {
+        buffer->Release();
+        buffer = nullptr;
+    }
 }
