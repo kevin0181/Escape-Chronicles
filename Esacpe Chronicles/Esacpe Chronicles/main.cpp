@@ -75,10 +75,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 		return -1;
 	}
 
-	/*if (!soundManager.LoadWaveFile(L"sound/gunshot.wav", L"Gunshot")) {
+	if (!soundManager.LoadWaveFile(L"sound/shoot-4-102361.wav", L"Gunshot")) {
 		MessageBox(hWnd, L"Could not load Gunshot sound.", L"Error", MB_OK);
 		return -1;
-	}*/
+	}
+
+	if (!soundManager.LoadWaveFile(L"sound/sword-sound-2-36274.wav", L"sword")) {
+		MessageBox(hWnd, L"Could not load Sword sound.", L"Error", MB_OK);
+		return -1;
+	}
 
 	soundManager.PlaySoundW(L"BGM", true); // 배경음악 재생
 	soundManager.SetVolume(L"BGM", -2000); // 배경음악 볼륨 조절 (50%)

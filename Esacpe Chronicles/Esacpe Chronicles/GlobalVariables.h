@@ -14,6 +14,9 @@
 #include "Boss.h"
 #include "Eye.h"
 
+// SoundManager 클래스 전방 선언
+class SoundManager;
+
 // 전역 변수 선언
 //extern std::vector<Slime> slimes; 
 //extern std::vector<Zombie1> zombie1;
@@ -24,5 +27,6 @@
 //extern std::vector<Boss> boss;
 extern StageManager stageManager;
 extern std::vector<std::unique_ptr<Monster>> monsters;
+extern SoundManager soundManager; // 포인터로 선언
 
 #endif // GLOBALVARIABLES_H
