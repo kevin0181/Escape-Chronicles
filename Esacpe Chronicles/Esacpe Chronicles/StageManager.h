@@ -25,10 +25,11 @@ public:
 	CImage startBtnImg;
 	RECT startBtn;
 
-	LPCTSTR main_img_path[3] = {
+	LPCTSTR main_img_path[4] = {
 		L"img/main/start button.png", //start button
 		L"img/main/extraction.png", //background
-		L"img/main/Escape_Chronicles_logo.png"
+		L"img/main/Escape_Chronicles_logo.png",
+		L"img/main/extraction.png"
 	};
 
 	LPCTSTR intro_img_path[5] = {
