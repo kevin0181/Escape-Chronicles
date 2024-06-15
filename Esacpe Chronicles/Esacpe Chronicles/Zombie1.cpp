@@ -5,9 +5,8 @@ using namespace std;
 Zombie1::Zombie1() : Monster() {
 	hp = 40; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	srand(static_cast<unsigned int>(time(NULL)));
 	rect.left = 200 * (rand() %14);
-	rect = { rect.left, 300, rect.left+300, 600 };
+	rect = { rect.left, 300, rect.left+200, 500 };
 	left = true;
 	status = MOVE_;
 }
@@ -114,6 +113,7 @@ bool Zombie1::checkBlock(const StageManager& stageManager) {
 }
 
 void Zombie1::MonsterPlayerCollision(Player& p) {
+	if (status != MonsterStatus::DIE_) {
 	RECT intersectRect;
 	if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
 		Collisionplayer(p);
@@ -145,6 +145,7 @@ void Zombie1::MonsterPlayerCollision(Player& p) {
 			++it;
 		}
 	}
+	}
 }
 
 void Zombie1::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터의 대처
@@ -156,7 +157,7 @@ void Zombie1::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터�
 		else
 			OffsetRect(&rect, -20, -20);
 
-		hp -= p.power;
+  		hp -= p.power;
 		attacksize = p.power;
 		if (hp <= 0) {
 			status = DIE_;

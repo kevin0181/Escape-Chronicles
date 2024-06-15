@@ -8,7 +8,7 @@ Eye::Eye() : Monster() {
 	hp = 40; // 나중에 확정되면 바꾸기
 	imageNum = 0;
 	rect.left = 1500 + 200 * (rand() % 14); //rand() % (stageManager.rect.right + 1);
-	rect = { rect.left, 400, rect.left + 150, 560 };
+	rect = { rect.left, 300, rect.left + 150, 460 };
 	left = true;
 	status = MOVE_;
 }

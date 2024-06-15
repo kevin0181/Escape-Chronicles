@@ -104,6 +104,9 @@ void StageManager::setLMBtnDown(LPARAM lParam) {
 			auto slime = std::make_unique<Slime>();
 			slime->insert();
 			monsters.push_back(std::move(slime));
+			auto eye = std::make_unique<Eye>();
+			eye->insert();
+			monsters.push_back(std::move(eye));
 		}
 
 	}
