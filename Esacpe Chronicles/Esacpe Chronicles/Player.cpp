@@ -366,12 +366,13 @@ void Player::setKeyDown(WPARAM wParam) {
 			}
 
 			if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_1) { //1->2
+				default_power += 5;
 				bullets.clear();
 				monsters.clear();
 				stageManager.rect = stageManager.viewRect;
 				stageManager.setCurrent_stage(STAGE::STAGE_2);
 				stageManager.setBackground_img(stageManager.background_img_path[1]);
-				stageManager.setBlock(20, RGB(255, 255, 255));
+				stageManager.setBlock(20, RGB(19, 21, 25));
 				stageManager.game_rect.bottom = stageManager.game_rect.bottom * 80 / 100;
 				rect = { 0,0,90,120 };
 
@@ -388,6 +389,7 @@ void Player::setKeyDown(WPARAM wParam) {
 				}
 
 			}else if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_2) { //2->3
+				default_power += 10;
 				bullets.clear();
 				monsters.clear();
 				stageManager.rect = stageManager.viewRect;
@@ -406,7 +408,7 @@ void Player::setKeyDown(WPARAM wParam) {
 				boss->insert();
 				monsters.push_back(std::move(boss));
 
-				stageManager.setBlock(2, RGB(255, 255, 255));
+				stageManager.setBlock(2, RGB(29, 58, 67));
 				rect = { 0,0,90,120 };
 			}
 			else if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_3) {
