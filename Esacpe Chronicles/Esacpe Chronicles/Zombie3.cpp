@@ -4,8 +4,7 @@ using namespace std;
 Zombie3::Zombie3() : Monster() {
 	hp = 40; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	rect.left = 1500 + 200 * (rand() % 14);
-	rect = { rect.left, 300, rect.left+300, 600 };
+	rect = { rect.left, 300, rect.left+200, 500 };
 	left = false;
 	status = MOVE_;
 }
@@ -108,34 +107,36 @@ bool Zombie3::checkBlock(const StageManager& stageManager) {
 }
 
 void Zombie3::MonsterPlayerCollision(Player& p) {
-	RECT intersectRect;
-	if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
-		Collisionplayer(p);
-		p.collisionMonster(this);
-	}
-	else {
-		status = MOVE_;
-		attacked = false;
-	}
-	intersectRect = {};
-	for (auto it = p.bullets.begin(); it != p.bullets.end(); ) {
-		if (IntersectRect(&intersectRect, &it->rect, &rect)) {
-			attacked = true;
-			if (p.direction == PlayerStatus::RIGHT)
-				OffsetRect(&rect, +20, -20);
-			else
-				OffsetRect(&rect, -20, -20);
-			it = p.bullets.erase(it); // 해당 총알, 화살 제거
-
-			hp -= p.power;
-			attacksize = p.power;
-			if (hp <= 0) {
-				status = DIE_;
-				imageNum = 0;
-			}
+	if (status != MonsterStatus::DIE_) {
+		RECT intersectRect;
+		if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
+			Collisionplayer(p);
+			p.collisionMonster(this);
 		}
 		else {
-			++it;
+			status = MOVE_;
+			attacked = false;
+		}
+		intersectRect = {};
+		for (auto it = p.bullets.begin(); it != p.bullets.end(); ) {
+			if (IntersectRect(&intersectRect, &it->rect, &rect)) {
+				attacked = true;
+				if (p.direction == PlayerStatus::RIGHT)
+					OffsetRect(&rect, +20, -20);
+				else
+					OffsetRect(&rect, -20, -20);
+				it = p.bullets.erase(it); // 해당 총알, 화살 제거
+
+				hp -= p.power;
+				attacksize = p.power;
+				if (hp <= 0) {
+					status = DIE_;
+					imageNum = 0;
+				}
+			}
+			else {
+				++it;
+			}
 		}
 	}
 }

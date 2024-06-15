@@ -391,17 +391,17 @@ void Player::setKeyDown(WPARAM wParam) {
 				stageManager.setCurrent_stage(STAGE::STAGE_3);
 				stageManager.setBackground_img(stageManager.background_img_path[2]);
 
-				//for (int i = 0; i < 5; ++i) { // brain
-				//	auto brain1 = std::make_unique<Brain1>();
-				//	brain1->insert();
-				//	monsters.push_back(std::move(brain1));
-				//	auto brain2 = std::make_unique<Brain2>();
-				//	brain2->insert();
-				//	monsters.push_back(std::move(brain2));
-				//}
-				//auto boss = std::make_unique<Boss>(); // 보스
-				//boss->insert();
-				//monsters.push_back(std::move(boss));
+				for (int i = 0; i < 5; ++i) { // brain
+					auto brain1 = std::make_unique<Brain1>();
+					brain1->insert();
+					monsters.push_back(std::move(brain1));
+					auto brain2 = std::make_unique<Brain2>();
+					brain2->insert();
+					monsters.push_back(std::move(brain2));
+				}
+				auto boss = std::make_unique<Boss>(); // 보스
+				boss->insert();
+				monsters.push_back(std::move(boss));
 
 				stageManager.setBlock(2, RGB(255, 255, 255));
 				rect = { 0,0,90,120 };

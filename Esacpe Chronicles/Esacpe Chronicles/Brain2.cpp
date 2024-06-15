@@ -7,7 +7,7 @@ Brain2::Brain2() : Monster() {
 	imageNum = 0;
 	rect.left = 1500 + 200 * (rand() % 14);
 	rect = { rect.left, 300, rect.left+150, 450 };
-	left = false;
+	left = true;
 	status = MOVE_;
 }
 
@@ -113,6 +113,7 @@ bool Brain2::checkBlock(const StageManager& stageManager) {
 }
 
 void Brain2::MonsterPlayerCollision(Player& p) {
+	if (status != MonsterStatus::DIE_) {
 	RECT intersectRect;
 	if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
 		Collisionplayer(p);
@@ -143,6 +144,7 @@ void Brain2::MonsterPlayerCollision(Player& p) {
 		else {
 			++it;
 		}
+	}
 	}
 }
 
