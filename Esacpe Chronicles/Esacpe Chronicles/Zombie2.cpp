@@ -9,7 +9,7 @@ Zombie2::Zombie2() : Monster() {
 	srand(static_cast<unsigned int>(time(NULL)));
 	rect.left = 1500 + 200 * (rand() % 14);
 	rect = { rect.left, 300, rect.left+300, 600 };
-	left = false;
+	left = true;
 	status = MOVE_;
 }
 

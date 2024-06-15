@@ -22,6 +22,9 @@ int Player::getCimageSize() const{
 	case RIGHT:
 		return sizeof(_right) / sizeof(_right[0]);
 		break;
+	case DEATH:
+		return sizeof(_Death_l) / sizeof(_Death_l[0]);
+		break;
 	case ATTACK:
 		switch (attack_sword)
 		{
@@ -189,9 +192,9 @@ void Player::setImg(int img_num) {
 		return;
 	}
 
-	if (getDamage) {
+	if (getDamage && status != PlayerStatus::DEATH) {
 		if (direction == PlayerStatus::LEFT || status == PlayerStatus::DEFAULT_L)
-			cImage->Load(_hit_r[this->img_num]);
+			cImage->Load(_hit_l[this->img_num]);
 		else if (direction == PlayerStatus::RIGHT || status == PlayerStatus::DEFAULT_R)
 			cImage->Load(_hit_r[this->img_num]);
 
@@ -218,6 +221,23 @@ void Player::setImg(int img_num) {
 		break;
 	case RIGHT:
 		cImage->Load(_right[this->img_num]);
+		break;
+	case DEATH:
+		if (direction == PlayerStatus::LEFT)
+			cImage->Load(_Death_l[this->img_num]);
+		else if (direction == PlayerStatus::RIGHT)
+			cImage->Load(_Death_r[this->img_num]);
+
+		if (img_num == 7) {
+			stageManager.setCurrent_stage(STAGE::MAIN);
+			stageManager.setBackground_img(stageManager.main_img_path[2]);
+			stageManager.blocks_stage1.clear();
+			stageManager.rect = stageManager.viewRect;
+			monsters.clear();
+			hp = 200;
+			status = PlayerStatus::DEFAULT_R;
+			rect = { 0,0,90,120 };
+		}
 		break;
 	case ATTACK:
 
@@ -301,7 +321,9 @@ void Player::setImg(int img_num) {
 }
 
 void Player::setKeyDown(WPARAM wParam) {
-	
+	if (status == PlayerStatus::DEATH) {
+		return;
+	}
 	switch (wParam)
 	{
 	case 49: // 1번 -> sword
@@ -342,6 +364,9 @@ void Player::setKeyDown(WPARAM wParam) {
 				stageManager.rect = stageManager.viewRect;
 				stageManager.setCurrent_stage(STAGE::STAGE_2);
 				stageManager.setBackground_img(stageManager.background_img_path[1]);
+				stageManager.setBlock(20, RGB(255, 255, 255));
+				stageManager.game_rect.bottom = stageManager.game_rect.bottom * 80 / 100;
+				rect = { 0,0,90,120 };
 
 				for (int i = 0; i < 5; ++i) { // 좀비들
 					auto zombie1 = std::make_unique<Zombie1>();
@@ -371,6 +396,9 @@ void Player::setKeyDown(WPARAM wParam) {
 				auto boss = std::make_unique<Boss>(); // 보스
 				boss->insert();
 				monsters.push_back(std::move(boss));
+
+				stageManager.setBlock(2, RGB(255, 255, 255));
+				rect = { 0,0,90,120 };
 			}
 		}
 
@@ -683,6 +711,10 @@ void Player::collisionMonster(Monster* monster) {
 		if (this->status != PlayerStatus::ATTACK && monster->getStatus() == MonsterStatus::ATTACK_) {
 			hp -= 10;
 			this->getDamage = true;
+			if (hp <= 0) {
+				status = PlayerStatus::DEATH;
+				getDamage = false;
+			}
 		}
 		break;
 	default:
