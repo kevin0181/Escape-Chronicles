@@ -16,6 +16,7 @@ using namespace Gdiplus;
 #include "Block.h"
 #include "Player.h"
 #include "Ui.h"
+#include "SoundManager.h"
 
 #define BLOCK_SIZE 70
 
@@ -24,6 +25,8 @@ using namespace std;
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = L"Escape Chronicles";
 LPCTSTR lpszWindowName = L"Escape Chronicles";
+
+SoundManager soundManager;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);
 
@@ -61,10 +64,31 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
+	// SoundManager 초기화 및 사운드 파일 로드
+	if (!soundManager.Initialize(hWnd)) {
+		MessageBox(hWnd, L"Could not initialize DirectSound.", L"Error", MB_OK);
+		return -1;
+	}
+
+	if (!soundManager.LoadWaveFile(L"sound/background_sound.wav", L"BGM")) {
+		MessageBox(hWnd, L"Could not load BGM sound.", L"Error", MB_OK);
+		return -1;
+	}
+
+	/*if (!soundManager.LoadWaveFile(L"sound/gunshot.wav", L"Gunshot")) {
+		MessageBox(hWnd, L"Could not load Gunshot sound.", L"Error", MB_OK);
+		return -1;
+	}*/
+
+	soundManager.PlaySoundW(L"BGM", true); // 배경음악 재생
+	soundManager.SetVolume(L"BGM", -2000); // 배경음악 볼륨 조절 (50%)
+
 	while (GetMessage(&Message, NULL, 0, 0)) {
 		TranslateMessage(&Message);
 		DispatchMessage(&Message);
 	}
+
+	soundManager.Shutdown(); // SoundManager 종료
 
 	// GDI+ 해제
 	GdiplusShutdown(gdiplusToken);
@@ -74,7 +98,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 
 
 vector<std::unique_ptr<Monster>> monsters;
-
 StageManager stageManager;
 Ui ui;
 
@@ -115,12 +138,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		// 시작버튼
 		stageManager.startBtn = { rect.right - 300, rect.bottom - 150, rect.right - 200, rect.bottom - 50 };
 		stageManager.rect = rect;
-     
-		for (int i = 0; i < 5;++i) {// 원하는 개수만큼 반복
-			/*auto slime = std::make_unique<Slime>();
-			slime->insert();
-			monsters.push_back(std::move(slime));*/
-		}
 
 		SetTimer(hWnd, 1, 1, FALSE);
 		break;

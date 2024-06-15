@@ -1,5 +1,6 @@
 ﻿#include "StageManager.h"
 #include <stdexcept>
+#include "GlobalVariables.h"
 
 #define BLOCK_SIZE 70
 
@@ -96,6 +97,13 @@ void StageManager::setLMBtnDown(LPARAM lParam) {
 		setBlock(0, RGB(62, 141, 215)); //block create
 		current_stage = STAGE::STAGE_1;
 		setBackground_img(background_img_path[0]);
+
+		for (int i = 0; i < 5; ++i) {// 원하는 개수만큼 반복
+			auto slime = std::make_unique<Slime>();
+			slime->insert();
+			monsters.push_back(std::move(slime));
+		}
+
 	}
 }
 
