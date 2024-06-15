@@ -195,9 +195,6 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="Ui.cpp" />
-    <ClCompile Include="Zombie1.cpp" />
-    <ClCompile Include="Zombie2.cpp" />
-    <ClCompile Include="Zombie3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Stage.h" />
@@ -218,9 +215,6 @@
     <ClInclude Include="StageManager.h" />
     <ClCompile Include="Slime.cpp" />
     <ClInclude Include="Ui.h" />
-    <ClInclude Include="Zombie1.h" />
-    <ClInclude Include="Zombie2.h" />
-    <ClInclude Include="Zombie3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Monster.h" />

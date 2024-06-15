@@ -5,8 +5,8 @@ using namespace std;
 Brain2::Brain2() : Monster() {
 	hp = 120; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	rect.left = 1500 + 200 * (rand() % 14);
-	rect = { rect.left, 300, rect.left+150, 450 };
+	rect.left = 200 * (rand() % 14);
+	rect = { rect.left, 200, rect.left+150, 350 };
 	left = true;
 	status = MOVE_;
 }
