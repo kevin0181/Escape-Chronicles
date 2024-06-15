@@ -128,9 +128,9 @@ void Eye::MonsterPlayerCollision(Player& p) {
 			if (IntersectRect(&intersectRect, &it->rect, &rect)) {
 				attacked = true;
 				if (p.direction == PlayerStatus::RIGHT)
-					OffsetRect(&rect, +20, -20);
+					OffsetRect(&rect, +30, -30);
 				else
-					OffsetRect(&rect, -20, -20);
+					OffsetRect(&rect, -30, -30);
 				it = p.bullets.erase(it); // 해당 총알, 화살 제거
 
 				hp -= p.power;
@@ -152,9 +152,9 @@ void Eye::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터의 대
 	case ATTACK:
 		attacked = true;
 		if (p.direction == PlayerStatus::RIGHT)
-			OffsetRect(&rect, +20, -20);
+			OffsetRect(&rect, +30, -30);
 		else
-			OffsetRect(&rect, -20, -20);
+			OffsetRect(&rect, -30, -30);
 
 		hp -= p.power;
 		attacksize = p.power;
