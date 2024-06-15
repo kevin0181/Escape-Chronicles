@@ -193,6 +193,22 @@ void Player::setImg(int img_num) {
 		return;
 	}
 
+	if (getDamage && status != PlayerStatus::DEATH) {
+		if (direction == PlayerStatus::LEFT || status == PlayerStatus::DEFAULT_L)
+			cImage->Load(_hit_l[this->img_num]);
+		else if (direction == PlayerStatus::RIGHT || status == PlayerStatus::DEFAULT_R)
+			cImage->Load(_hit_r[this->img_num]);
+
+		if (img_num == 4) {
+			if (direction == PlayerStatus::LEFT)
+				status = saveStatus;
+			else if (direction == PlayerStatus::RIGHT)
+				status = saveStatus;
+			getDamage = false;
+		}
+		return;
+	}
+
 	switch (status)
 	{
 	case DEFAULT_L:
@@ -303,23 +319,6 @@ void Player::setImg(int img_num) {
 		break;
 	default:
 		break;
-	}
-
-
-	if (getDamage && status != PlayerStatus::DEATH) {
-		if (direction == PlayerStatus::LEFT || status == PlayerStatus::DEFAULT_L)
-			cImage->Load(_hit_l[this->img_num]);
-		else if (direction == PlayerStatus::RIGHT || status == PlayerStatus::DEFAULT_R)
-			cImage->Load(_hit_r[this->img_num]);
-
-		if (img_num == 4) {
-			if (direction == PlayerStatus::LEFT)
-				status = saveStatus;
-			else if (direction == PlayerStatus::RIGHT)
-				status = saveStatus;
-			getDamage = false;
-		}
-		return;
 	}
 
 }
