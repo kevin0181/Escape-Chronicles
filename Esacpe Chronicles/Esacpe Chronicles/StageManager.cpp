@@ -100,7 +100,7 @@ void StageManager::setLMBtnDown(LPARAM lParam) {
 
 		rect = viewRect;
 
-		for (int i = 0; i < 5; ++i) {// 원하는 개수만큼 반복
+		for (int i = 0; i < 10; ++i) {// 원하는 개수만큼 반복
 			auto slime = std::make_unique<Slime>();
 			slime->insert();
 			monsters.push_back(std::move(slime));
