@@ -7,8 +7,8 @@ using namespace std;
 Slime::Slime() : Monster() {
 	hp = 30; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	rect.left = 200 * (rand() % 7); //rand() % (stageManager.rect.right + 1);
-	rect = { rect.left, 300, rect.left + 100, 420 };
+	rect.left = 200 * (rand() % 14); //rand() % (stageManager.rect.right + 1);
+	rect = { rect.left, 400, rect.left + 100, 520 };
 	left = true;
 	status = MOVE_;
 }
