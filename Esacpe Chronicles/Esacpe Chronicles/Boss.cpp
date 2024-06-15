@@ -22,26 +22,26 @@ void Boss::insert() {
 	if (left) {
 		switch (status) {
 		case MOVE_:
-			boss_img.Load(boss_img_path_L[imageNum/5]);
+			boss_img.Load(boss_img_path_L[imageNum / 5]);
 			break;
 		case ATTACK_:
-			boss_img.Load(boss_attack_img_path_L[imageNum/5]);
+			boss_img.Load(boss_attack_img_path_L[imageNum / 5]);
 			break;
 		case DIE_:
-			boss_img.Load(boss_die_img_path_L[imageNum/5]);
+			boss_img.Load(boss_die_img_path_L[imageNum / 5]);
 			break;
 		}
 	}
 	else {
 		switch (status) {
 		case MOVE_:
-			boss_img.Load(boss_img_path_R[imageNum/5]);
+			boss_img.Load(boss_img_path_R[imageNum / 5]);
 			break;
 		case ATTACK_:
-			boss_img.Load(boss_attack_img_path_R[imageNum/5]);
+			boss_img.Load(boss_attack_img_path_R[imageNum / 5]);
 			break;
 		case DIE_:
-			boss_img.Load(boss_die_img_path_R[imageNum/5]);
+			boss_img.Load(boss_die_img_path_R[imageNum / 5]);
 			break;
 		}
 	}
@@ -104,35 +104,37 @@ bool Boss::checkBlock(const StageManager& stageManager) {
 }
 
 void Boss::MonsterPlayerCollision(Player& p) {
-	RECT intersectRect;
-	if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
-		Collisionplayer(p);
-		p.collisionMonster(this);
-	}
-	else {
-		status = MOVE_;
-		attacked = false;
-	}
-
-	intersectRect = {};
-	for (auto it = p.bullets.begin(); it != p.bullets.end(); ) {
-		if (IntersectRect(&intersectRect, &it->rect, &rect)) {
-			attacked = true;
-			if (p.direction == PlayerStatus::RIGHT)
-				OffsetRect(&rect, +20, -20);
-			else
-				OffsetRect(&rect, -20, -20);
-			it = p.bullets.erase(it); // 해당 총알, 화살 제거
-
-			hp -= p.power;
-			attacksize = p.power;
-			if (hp <= 0) {
-				status = DIE_;
-				imageNum = 0;
-			}
+	if (status != MonsterStatus::DIE_) {
+		RECT intersectRect;
+		if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
+			Collisionplayer(p);
+			p.collisionMonster(this);
 		}
 		else {
-			++it;
+			status = MOVE_;
+			attacked = false;
+		}
+
+		intersectRect = {};
+		for (auto it = p.bullets.begin(); it != p.bullets.end(); ) {
+			if (IntersectRect(&intersectRect, &it->rect, &rect)) {
+				attacked = true;
+				if (p.direction == PlayerStatus::RIGHT)
+					OffsetRect(&rect, +20, -20);
+				else
+					OffsetRect(&rect, -20, -20);
+				it = p.bullets.erase(it); // 해당 총알, 화살 제거
+
+				hp -= p.power;
+				attacksize = p.power;
+				if (hp <= 0) {
+					status = DIE_;
+					imageNum = 0;
+				}
+			}
+			else {
+				++it;
+			}
 		}
 	}
 }
