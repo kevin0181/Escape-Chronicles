@@ -3,13 +3,17 @@ using namespace std;
 
 
 Brain1::Brain1() : Monster() {
-	hp = 0; // 나중에 확정되면 바꾸기
+	hp = 50; // 나중에 확정되면 바꾸기
 	imageNum = 0;
 	srand(static_cast<unsigned int>(time(NULL)));
-	rect.left = 200 * (rand() % 7);
+	rect.left = 200 * (rand() % 14);
 	rect = {rect.left, 500, rect.left+250, 750 };
 	left = false;
 	status = MOVE_;
+}
+
+MonsterStatus Brain1::getStatus() const {
+	return status;
 }
 
 void Brain1::insert() {
@@ -47,6 +51,10 @@ void Brain1::insert() {
 
 void Brain1::print(const HDC& mDC) {
 	if (!brain1_img.IsNull() ) {
+		if (attacked) {
+			attacked_img.Draw(mDC, rect.left, rect.top - 56, 84, 56, 0, 0, attacked_img.GetWidth(), attacked_img.GetHeight());
+			printAttack(mDC, rect);
+		}
 		brain1_img.Draw(mDC, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, 0, 0, brain1_img.GetWidth(), brain1_img.GetHeight());
 	}
 }
@@ -59,6 +67,10 @@ void Brain1::move(const StageManager& stageManager) {
 
 	if (CheckBlockCollision(rect, stageManager))
 		rect = temprect;
+
+	if (checkBlock(stageManager)) {
+		rect = temprect;
+	}
 
 	//이미지
 	if (status != DIE_ || imageNum != 25)
@@ -89,30 +101,70 @@ void Brain1::move(const StageManager& stageManager) {
 		insert();
 }
 
+bool Brain1::checkBlock(const StageManager& stageManager) {
+	RECT r;
+	for (auto& block : stageManager.blocks_stage1) {
+		if (IntersectRect(&r, &block.rect, &rect)) {
+			if (rect.bottom <= block.rect.top + 20) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 void Brain1::MonsterPlayerCollision(Player& p) {
 	RECT intersectRect;
 	if (IntersectRect(&intersectRect, &p.getRECT(), &rect)) {
 		Collisionplayer(p);
-		//player의 충돌했을 때 대처? 반응? 함수를 부르기
+		p.collisionMonster(this);
 	}
 	else {
-
 		status = MOVE_;
+		attacked = false;
+	}
+	intersectRect = {};
+	for (auto it = p.bullets.begin(); it != p.bullets.end(); ) {
+		if (IntersectRect(&intersectRect, &it->rect, &rect)) {
+			attacked = true;
+			if (p.direction == PlayerStatus::RIGHT)
+				OffsetRect(&rect, +20, -20);
+			else
+				OffsetRect(&rect, -20, -20);
+			it = p.bullets.erase(it); // 해당 총알, 화살 제거
+
+			hp -= p.power;
+			attacksize = p.power;
+			if (hp <= 0) {
+				status = DIE_;
+				imageNum = 0;
+			}
+		}
+		else {
+			++it;
+		}
 	}
 }
 
 void Brain1::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터의 대처
 	switch (p.status) {
 	case ATTACK:
+		attacked = true;
 		if (p.direction == PlayerStatus::RIGHT)
 			OffsetRect(&rect, +20, -20);
 		else
 			OffsetRect(&rect, -20, -20);
 
-		hp -= 10;
+		hp -= p.power;
+		attacksize = p.power;
+		if (hp <= 0) {
+			status = DIE_;
+			imageNum = 0;
+		}
 		break;
 	default:
 		status = ATTACK_;
+		attacked = false;
 		break;
 	}
 }

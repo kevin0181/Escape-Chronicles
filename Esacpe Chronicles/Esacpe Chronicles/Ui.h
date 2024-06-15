@@ -13,5 +13,6 @@ public:
 	Ui() : rect({ 0, 0, 0, 0 }) {
 		Hp_img.Load(hp_bar);
 	};
+
 	void print(const HDC& mDC, const Player& player);
 };
