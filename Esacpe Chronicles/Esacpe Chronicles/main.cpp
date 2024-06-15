@@ -320,11 +320,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		}
 
 		// ------------------------------------------------
+		//esc key 
+		if(Pause){
+			ui.escprint(mDC, stageManager);
+		}
 
 		//커서 이미지 그리기
 		cursorImage.Draw(mDC, cursorPos.x - 40, cursorPos.y - 40, 80, 80, 0, 0, cursorWidth, cursorHeight);
 
-		//boss.print(mDC);
 
 		BitBlt(hDC, 0, 0, rect.right, rect.bottom, mDC, 0, 0, SRCCOPY);
 
