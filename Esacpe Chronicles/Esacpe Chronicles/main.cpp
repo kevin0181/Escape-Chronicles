@@ -76,6 +76,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdPa
 
 vector<std::unique_ptr<Monster>> monsters;
 SoundManager* soundManager;
+SoundManager* backgoundSoundManager;
 StageManager stageManager;
 Ui ui;
 
