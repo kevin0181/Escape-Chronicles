@@ -1,6 +1,7 @@
 #include"Player.h"
 #include "GlobalVariables.h"
 #include "Monster.h"  // Monster 클래스의 헤더 파일 포함
+#include "SoundManager.h"
 
 int Player::getCimageSize() const{ 
 
@@ -397,6 +398,9 @@ void Player::setKeyDown(WPARAM wParam) {
 		break;
 	case 32: //spacebar
 	{
+		soundManager.PlaySoundW(L"sword", false);
+		soundManager.SetVolume(L"sword", -1000); // 배경음악 볼륨 조절 (50%)
+
 		img_num = 0;
 
 		if (weapon != 1)
