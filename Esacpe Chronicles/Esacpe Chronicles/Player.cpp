@@ -343,16 +343,34 @@ void Player::setKeyDown(WPARAM wParam) {
 				stageManager.setCurrent_stage(STAGE::STAGE_2);
 				stageManager.setBackground_img(stageManager.background_img_path[1]);
 
-				for (int i = 0; i < 5; ++i) { // 원하는 개수만큼 반복
-					auto eye = std::make_unique<Eye>();
-					eye->insert();
-					monsters.push_back(std::move(eye));
+				for (int i = 0; i < 5; ++i) { // 좀비들
+					auto zombie1 = std::make_unique<Zombie1>();
+					zombie1->insert();
+					monsters.push_back(std::move(zombie1));
+					auto zombie2 = std::make_unique<Zombie2>();
+					zombie2->insert();
+					monsters.push_back(std::move(zombie2));
+					auto zombie3 = std::make_unique<Zombie3>();
+					zombie3->insert();
+					monsters.push_back(std::move(zombie3));
 				}
 			}else if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_2) { //2->3
 				monsters.clear();
 				stageManager.rect = stageManager.viewRect;
 				stageManager.setCurrent_stage(STAGE::STAGE_3);
 				stageManager.setBackground_img(stageManager.background_img_path[2]);
+
+				for (int i = 0; i < 5; ++i) { // brain
+					auto brain1 = std::make_unique<Brain1>();
+					brain1->insert();
+					monsters.push_back(std::move(brain1));
+					auto brain2 = std::make_unique<Brain2>();
+					brain2->insert();
+					monsters.push_back(std::move(brain2));
+				}
+				auto boss = std::make_unique<Boss>(); // 보스
+				boss->insert();
+				monsters.push_back(std::move(boss));
 			}
 		}
 
