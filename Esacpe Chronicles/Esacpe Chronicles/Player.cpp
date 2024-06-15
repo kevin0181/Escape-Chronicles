@@ -372,17 +372,17 @@ void Player::setKeyDown(WPARAM wParam) {
 				stageManager.game_rect.bottom = stageManager.game_rect.bottom * 80 / 100;
 				rect = { 0,0,90,120 };
 
-				//for (int i = 0; i < 5; ++i) { // 좀비들
-				//	auto zombie1 = std::make_unique<Zombie1>();
-				//	zombie1->insert();
-				//	monsters.push_back(std::move(zombie1));
-				//	auto zombie2 = std::make_unique<Zombie2>();
-				//	zombie2->insert();
-				//	monsters.push_back(std::move(zombie2));
-				//	auto zombie3 = std::make_unique<Zombie3>();
-				//	zombie3->insert();
-				//	monsters.push_back(std::move(zombie3));
-				//}
+				for (int i = 0; i < 5; ++i) { // 좀비들
+					auto zombie1 = std::make_unique<Zombie1>();
+					zombie1->insert();
+					monsters.push_back(std::move(zombie1));
+					auto zombie2 = std::make_unique<Zombie2>();
+					zombie2->insert();
+					monsters.push_back(std::move(zombie2));
+					auto zombie3 = std::make_unique<Zombie3>();
+					zombie3->insert();
+					monsters.push_back(std::move(zombie3));
+				}
 
 			}else if (monster_status && stageManager.getCurrent_stage() == STAGE::STAGE_2) { //2->3
 				bullets.clear();
