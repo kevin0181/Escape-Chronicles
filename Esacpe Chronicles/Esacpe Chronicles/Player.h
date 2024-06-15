@@ -258,6 +258,7 @@ public:
 	int player_i = 0;
 	Gravity gravity;
 	int power = 10;
+	int default_power = 10;
 	int hp = 200;
 	bool press_m_l = false;
 	int press_cnt = 0;

@@ -159,6 +159,7 @@ void Slime::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터의 
 
 		hp -= p.power;
 		attacksize = p.power;
+
 		if (hp <= 0) {
 			status = DIE_;
 			imageNum = 0;

@@ -171,13 +171,13 @@ void Player::setImg(int img_num) {
 	}
 
 	if (press_m_l && weapon == 3) { // gun
+		
+		weapon_rect = rect;
+		InflateRect(&weapon_rect, 5, -30);
+
 		if (weapon_img) {
 			delete weapon_img;
 		}
-
-
-		weapon_rect = rect;
-		InflateRect(&weapon_rect, 5, -30);
 
 		if (mouse_p.x <= rect.right) { // left
 			weapon_img = new Gdiplus::Image(_gun_l[0]);
@@ -333,16 +333,19 @@ void Player::setKeyDown(WPARAM wParam) {
 		if (press_m_l)
 			break;
 		weapon = 1;
+		power = default_power + 5;
 		break;
 	case 50: // 2번 -> bow
 		if (press_m_l)
 			break;
 		weapon = 2;
+		power = default_power * 2;
 		break;
 	case 51: // 3번 -> gun
 		if (press_m_l)
 			break;
 		weapon = 3;
+		power = default_power;
 		break;
 	case 65: //a
 		status = PlayerStatus::LEFT;
@@ -717,6 +720,11 @@ void Player::shootArrow() {
 
 		// 속도 설정 (속도 값을 조정하여 화살의 속도를 변경할 수 있습니다)
 		float speed = 11.0f;
+		if (weapon == 2)
+			speed = 11.0f;
+		else if (weapon == 3)
+			speed = 16.0f;
+		
 		float vx = speed * std::cos(angle);
 		float vy = speed * std::sin(angle);
 
