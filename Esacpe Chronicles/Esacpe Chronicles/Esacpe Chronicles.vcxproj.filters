@@ -5,9 +5,6 @@
     <ClCompile Include="StageManager.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Block.cpp" />
-    <ClCompile Include="Zombie1.cpp" />
-    <ClCompile Include="Zombie2.cpp" />
-    <ClCompile Include="Zombie3.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Gravity.cpp" />
@@ -16,15 +13,13 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Ui.cpp" />
     <ClCompile Include="Eye.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StageManager.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="Block.h" />
-    <ClInclude Include="Zombie1.h" />
-    <ClInclude Include="Zombie2.h" />
-    <ClInclude Include="Zombie3.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerStatus.h" />
     <ClInclude Include="Collision.h" />
@@ -36,6 +31,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Ui.h" />
     <ClInclude Include="Eye.h" />
+    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Stage.h" />

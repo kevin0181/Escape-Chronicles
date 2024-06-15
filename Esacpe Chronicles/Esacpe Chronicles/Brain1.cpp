@@ -6,7 +6,7 @@ Brain1::Brain1() : Monster() {
 	hp = 100; // 나중에 확정되면 바꾸기
 	imageNum = 0;
 	rect.left = 200 * (rand() % 14);
-	rect = {rect.left, 300, rect.left+250, 550 };
+	rect = {rect.left, 200, rect.left+250, 450 };
 	left = true;
 	status = MOVE_;
 }
@@ -77,7 +77,7 @@ void Brain1::move(const StageManager& stageManager) {
 
 	switch (status) {
 	case MOVE_: {
-		int offset = left ? -4 : 4;
+		int offset = left ? -2 : 2;
 		OffsetRect(&rect, offset, 0);
 
 		if (imageNum == 40)
@@ -123,14 +123,15 @@ void Brain1::MonsterPlayerCollision(Player& p) {
 			status = MOVE_;
 			attacked = false;
 		}
+
 		intersectRect = {};
 		for (auto it = p.bullets.begin(); it != p.bullets.end(); ) {
 			if (IntersectRect(&intersectRect, &it->rect, &rect)) {
 				attacked = true;
 				if (p.direction == PlayerStatus::RIGHT)
-					OffsetRect(&rect, +20, -20);
+					OffsetRect(&rect, +30, -30);
 				else
-					OffsetRect(&rect, -20, -20);
+					OffsetRect(&rect, -30, -30);
 				it = p.bullets.erase(it); // 해당 총알, 화살 제거
 
 				hp -= p.power;
@@ -152,9 +153,9 @@ void Brain1::Collisionplayer(const Player& p) { //플레이어랑 충돌했을때 몬스터의
 	case ATTACK:
 		attacked = true;
 		if (p.direction == PlayerStatus::RIGHT)
-			OffsetRect(&rect, +20, -20);
+			OffsetRect(&rect, +30, -30);
 		else
-			OffsetRect(&rect, -20, -20);
+			OffsetRect(&rect, -30, -30);
 
 		hp -= p.power;
 		attacksize = p.power;
