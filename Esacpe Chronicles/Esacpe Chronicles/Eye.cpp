@@ -7,9 +7,12 @@ using namespace std;
 Eye::Eye() : Monster() {
 	hp = 60; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	rect.left = 1500 + 200 * (rand() % 14); //rand() % (stageManager.rect.right + 1);
+	rect.left = 200 * (rand() % 23); //rand() % (stageManager.rect.right + 1);
 	rect = { rect.left, 200, rect.left + 150, 360 };
-	left = true;
+	if (rect.left < 2500)
+		left = true;
+	else
+		left = false;
 	status = MOVE_;
 }
 

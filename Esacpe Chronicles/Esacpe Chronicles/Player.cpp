@@ -393,7 +393,7 @@ void Player::setKeyDown(WPARAM wParam) {
 				stageManager.setCurrent_stage(STAGE::STAGE_3);
 				stageManager.setBackground_img(stageManager.background_img_path[2]);
 
-				for (int i = 0; i < 7; ++i) { // brain
+				for (int i = 0; i < 5; ++i) { // brain
 					auto brain1 = std::make_unique<Brain1>();
 					brain1->insert();
 					monsters.push_back(std::move(brain1));

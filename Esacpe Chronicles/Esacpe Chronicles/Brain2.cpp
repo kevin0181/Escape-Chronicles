@@ -5,9 +5,12 @@ using namespace std;
 Brain2::Brain2() : Monster() {
 	hp = 120; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	rect.left = 200 * (rand() % 14);
+	rect.left = 200 * (rand() % 23);
 	rect = { rect.left, 200, rect.left+150, 350 };
-	left = true;
+	if (rect.left < 3000)
+		left = true;
+	else
+		left = false;
 	status = MOVE_;
 }
 
