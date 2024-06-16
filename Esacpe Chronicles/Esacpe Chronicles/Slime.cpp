@@ -7,9 +7,12 @@ using namespace std;
 Slime::Slime() : Monster() {
 	hp = 30; // 나중에 확정되면 바꾸기
 	imageNum = 0;
-	rect.left = 200 * (rand() % 14); //rand() % (stageManager.rect.right + 1);
+	rect.left = 200 * (rand() % 23); //rand() % (stageManager.rect.right + 1);
 	rect = { rect.left, 300, rect.left + 100, 420 };
-	left = true;
+	if (rect.left < 3000)
+		left = true;
+	else
+		left = false;
 	status = MOVE_;
 }
 
